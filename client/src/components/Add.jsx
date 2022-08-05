@@ -1,4 +1,4 @@
-
+import React, { className } from "react";
 
 export default function Add() {
   return (
@@ -12,5 +12,5 @@ export default function Add() {
       </form>
       <button>Add New receipt</button>
     </>
-  )
+  );
 }

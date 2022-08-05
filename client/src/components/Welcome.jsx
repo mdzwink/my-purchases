@@ -1,4 +1,4 @@
-
+import React, { className } from "react";
 
 export default function Welcome() {
   return (
