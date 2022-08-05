@@ -3,7 +3,7 @@ import React, { className } from "react";
 export default function Welcome() {
   return (
     <div className="welcome">
-      <h1>Welcome!</h1>
+      <img src="https://github.com/mdzwink/my-purchases/blob/initial-layout/client/public/docs/pexels-picjumbocom-196639.jpg?raw=true" width={'100%'} />
     </div>
   );
 }
