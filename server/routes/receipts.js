@@ -4,7 +4,10 @@ module.exports = (db) => {
   router.get('/', (req, res) => {
     db.query("SELECT * FROM receipts")
       .then(d => {
-        res.json(d.rows);
+        return res.json(d.rows);
+      })
+      .catch(e => {
+        console.log("Error from get'/receipts':", e)
       });
   });
   
