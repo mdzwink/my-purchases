@@ -14,12 +14,12 @@ export default function ReceiptItem(props) {
 
   const getItems = (id) => {
     axios.get(`/items/${id}`)
-      .then((d) => {
+      .then(d => {
         setItems(d.data);
+        console.log("items>>>", items)
       })
-      .then(console.log(items))
-      .catch(e => {
-        console.log("ERROR FROM getItems()", e)
+      .catch(err => {
+        console.log("ERROR FROM getItems()", err)
       })
   }
 
@@ -32,7 +32,7 @@ export default function ReceiptItem(props) {
       <h2>{store}</h2>
       <h4>Purchased on: {purchaseDate}</h4>
       {items.map((item) => {
-        <Item id={item.id} name={item.name} price={item.price} quantity={item.quantity} return_by={item.return_by}></Item>
+        return <Item id={item.id} name={item.name} price={item.price} quantity={item.quantity} return_by={item.return_by}></Item>
       })}
       <p>Total ${totalCost}</p>
       <p>Return expires {daysLeft}.</p>

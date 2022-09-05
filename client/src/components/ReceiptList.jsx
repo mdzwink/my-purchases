@@ -9,11 +9,11 @@ export default function ReceiptList () {
 
   const getReceipts = () => {
     axios.get('/receipts')
-    .then((data) => {
-      setReceipts(data.data);
+    .then(d => {
+      setReceipts(d.data);
     })
-    .catch(e => {
-      console.log("ERROR FROM getReceipts()", e);
+    .catch(err => {
+      console.log("ERROR FROM getReceipts()", err);
     });
   }
 
