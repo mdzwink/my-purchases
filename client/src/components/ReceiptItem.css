@@ -1,7 +1,16 @@
+
 .receipt-item {
-  box-shadow: 0 3px 9px 0 grey;
+  border: 5px;
   max-width: 20%;
   min-width: 20em;
   padding: 1em;
   margin: 1em;
+}
+
+.receipt-item img {
+  max-width: 100%;
+}
+
+.receipt-item:hover {
+  box-shadow: 0 3px 9px 0 grey;
 }

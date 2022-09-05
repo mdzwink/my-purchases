@@ -4,8 +4,11 @@ const users = ['Abdul', 'Sana', 'Jasmin', 'Autumn', 'Bilal'];
 
 module.exports = (db) => {
   router.get('/', (req, res) => {
-    res.json(users);
-  })
+    db.query("SELECT * FROM users")
+      .then(d => {
+        res.json(d.rows);
+      });
+  });
   
   return router;
-}
+};

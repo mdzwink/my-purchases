@@ -1,14 +1,42 @@
-import React, { className } from "react";
+import React, { className, useEffect, useState } from "react";
+import axios from "axios";
+import moment from "moment";
+import Item from "./Item.jsx"
 import "./ReceiptItem.css";
 
-export default function ReceiptItem() {
+
+export default function ReceiptItem(props) {
+  const {id, img, store, date, total, return_by} = props;
+  const purchaseDate = moment.utc(date.toLocaleString()).format("ddd, MMMM Do")
+  const daysLeft = moment(return_by).endOf('day').fromNow(); 
+  const totalCost = (total/100).toFixed(2)
+  const [items, setItems] = useState([])
+
+  const getItems = (id) => {
+    axios.get(`/items/${id}`)
+      .then(d => {
+        setItems(d.data);
+        console.log("items>>>", items)
+      })
+      .catch(err => {
+        console.log("ERROR FROM getItems()", err)
+      })
+  }
+
+  useEffect(() => {
+    getItems(id);
+  }, [])
+
   return (
     <div className="receipt-item">
-      <h2>Store name</h2>
-      <p>Item 1</p>
-      <p>Item 2</p>
-      <p>Total $0</p>
-      <p>9 days left to return</p>
+      <img src="https://github.com/mdzwink/my-purchases/blob/main/client/public/docs/pexels-picjumbocom-196639.jpg?raw=true" alt="image of receipt"></img>
+      <h2>{store}</h2>
+      <h4>Purchased on: {purchaseDate}</h4>
+      {items.map((item) => {
+        return <Item key={item.key} id={item.id} name={item.name} price={item.price} quantity={item.quantity} return_by={item.return_by}></Item>
+      })}
+      <p>Total ${totalCost}</p>
+      <p>Return expires {daysLeft}.</p>
     </div>
   );
 }
