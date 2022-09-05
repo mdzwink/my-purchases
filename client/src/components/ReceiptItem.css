@@ -1,9 +1,14 @@
+
 .receipt-item {
   border: 5px;
   max-width: 20%;
   min-width: 20em;
   padding: 1em;
   margin: 1em;
+}
+
+.receipt-item img {
+  max-width: 100%;
 }
 
 .receipt-item:hover {

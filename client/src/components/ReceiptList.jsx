@@ -27,6 +27,7 @@ export default function ReceiptList () {
         {receipts.map((receipt) => (
           <li>
             <ReceiptItem 
+              key={receipt.id}
               id={receipt.id}
               user_id={receipt.user_id}
               img={receipt.img}
