@@ -6,6 +6,7 @@ module.exports = (db) => {
     console.log(receiptID)
     db.query("SELECT * FROM items WHERE receipt_id = $1;", [receiptID])
       .then(d => {
+        console.log('d:>>>', d)
         return res.json(d.rows);
       })
       .catch(e => {

@@ -4,6 +4,7 @@ module.exports = (db) => {
   router.get('/', (req, res) => {
     db.query("SELECT * FROM receipts")
       .then(d => {
+        console.log('haha!!!!!!!!!!!')
         return res.json(d.rows);
       })
       .catch(e => {

@@ -14,10 +14,10 @@ export default function ReceiptItem(props) {
 
   const getItems = (id) => {
     axios.get(`/items/${id}`)
-      .then((data) => {
-        setItems(data.data);
-        console.log("Items:", items)
+      .then((d) => {
+        setItems(d.data);
       })
+      .then(console.log(items))
       .catch(e => {
         console.log("ERROR FROM getItems()", e)
       })
