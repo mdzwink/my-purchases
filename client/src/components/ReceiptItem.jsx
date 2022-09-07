@@ -15,8 +15,7 @@ export default function ReceiptItem(props) {
   const getItems = (id) => {
     axios.get(`/items/${id}`)
       .then(d => {
-        setItems(d.data);
-        console.log("items>>>", items)
+        return setItems(d.data);
       })
       .catch(err => {
         console.log("ERROR FROM getItems()", err)
