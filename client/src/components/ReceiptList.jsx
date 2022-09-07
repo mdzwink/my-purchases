@@ -4,8 +4,8 @@ import "./ReceiptList.css";
 import axios from "axios";
 
 
-export default function ReceiptList () {
-  const [receipts, setReceipts] = useState([]);
+export default function ReceiptList(props) {
+  const { receipts, setReceipts } = props
 
   const getReceipts = () => {
     axios.get('/receipts')

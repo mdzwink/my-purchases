@@ -14,10 +14,11 @@ module.exports = (db) => {
   router.post('/', (req, res) => {
     const { user_id, img, store, date, return_by, total } = req.body;
     db.query(
-      `INSERT INTO receipts(user_id, img, store, date, return_by, total) VALUES($1, $2, $3, $4, $5, $6);`, 
+      `INSERT INTO receipts(user_id, img, store, date, return_by, total) VALUES($1, $2, $3, $4, $5, $6) RETURNING *;`, 
       [user_id, img, store, date, return_by, total]
-    ).then((res) => {
-      console.log('POST SUCCESS', res);
+    ).then((data) => {
+      console.log('>>>RECEIPT POST SUCCESS<<<')
+      return res.json(data.rows);
     }).catch(err => {
       console.log("ERR from post'/receipt':", err)
     })
