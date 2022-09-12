@@ -9,6 +9,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const receiptsRouter = require('./routes/receipts');
 const itemsRouter = require('./routes/items');
+const login = require('./routes/login');
 
 const app = express();
 
@@ -22,5 +23,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter(db));
 app.use('/receipts', receiptsRouter(db));
 app.use('/items', itemsRouter(db));
+app.use('/login', login(db));
 
 module.exports = app;

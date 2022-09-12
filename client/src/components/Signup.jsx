@@ -4,42 +4,27 @@ import axios from 'axios';
 
 export default function Add(props) {
   const { setReceipts } = props;
-  const [user_id, setUser_id] = useState('');
-  const [img, setImg] = useState('');
-  const [store, setStore] = useState('');
-  const [date, setPurchase_date] = useState('');
-  const [return_by, setReturn_by] = useState('');
-  const [total, setTotal] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [formError, setFormError] = useState('')
 
   const handleForm = (e) => {
     e.preventDefault();
     //resetting formError
     setFormError('');
-    if (user_id && img && store && date && return_by && total) {
+    if (email && password) {
 
-      const newReceipt = {
-        user_id,
-        img,
-        store,
-        date,
-        return_by,
-        total
+      const newUser = {
+        email,
+        password
       }
   
-      const updateReceipts = (appendReceipt) => {
-        setReceipts(prev => [...prev, appendReceipt])
-      }
       const clearForm = () => {
-        setUser_id('');
-        setImg('');
-        setStore('');
-        setPurchase_date('');
-        setReturn_by('');
-        setTotal('');
+        setEmail,
+        setPassword
       }
   
-      axios.post('/receipts', newReceipt)
+      axios.post('/Signup', newUser)
            .then((res) => {
              updateReceipts(res.data[0])
              clearForm();

@@ -18,7 +18,7 @@ export default function ReceiptItem(props) {
         return setItems(d.data);
       })
       .catch(err => {
-        console.log("ERROR FROM getItems()", err)
+        return console.log("ERROR FROM getItems()", err)
       })
   }
 
