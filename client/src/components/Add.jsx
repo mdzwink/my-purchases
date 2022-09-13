@@ -3,7 +3,7 @@ import './Add.css';
 import axios from 'axios';
 
 export default function Add(props) {
-  const { setReceipts } = props;
+  const { cookies, setReceipts } = props;
   const [user_id, setUser_id] = useState('');
   const [img, setImg] = useState('');
   const [store, setStore] = useState('');
@@ -17,7 +17,7 @@ export default function Add(props) {
     //resetting formError
     setFormError('');
     if (user_id && img && store && date && return_by && total) {
-
+      // need to dynamically add user_id from cookies state <<<<
       const newReceipt = {
         user_id,
         img,

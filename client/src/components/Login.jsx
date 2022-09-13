@@ -3,23 +3,18 @@ import axios from 'axios';
 import bcrypt from 'bcryptjs';
 
 
-export default function Login() {
+export default function Login(props) {
+  const { setCookie } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState('');
-  const [signedIn, setSignedIn] = useState(false);
 
 
-  const handleForm = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     //resetting formError
     setFormError('');
     if (email && password) {
-      
-      const newSignin = {
-        email,
-        password
-      }
       
       const clearForm = () => {
         setEmail('');
@@ -33,18 +28,21 @@ export default function Login() {
           password: password
         }
       })
-        .then((res) => {
-          //set session
-          console.log(res.data)
-          if (!res.data) {
-            return console.log('wrong creds!')
-          }
-          clearForm();
-          return console.log('Login res from back:', res.data);
-        })
-        .catch(err => {
-          console.log("ERR from post'/signin'", err);
-        })
+      .then((res) => {
+        if (!res.data[0]) {
+          console.log('IF-NO-USER>>',res.data[0]);
+          return setFormError("Error, user credentials don't match");
+        }
+        // unpack response
+        const { id, email } = res.data[0];
+        // clearForm();
+        // set cookies
+        setCookie('email', email, { path: '/' });
+        return console.log('Login res from back:', res.data[0]);
+      })
+      .catch(err => {
+        console.log("ERR from post'/signin'", err);
+      })
       
       return 'ok';     
     }
@@ -73,7 +71,7 @@ export default function Login() {
           ></input>
       </form>
       {formError && <div className="form-error">{formError}</div>}
-      <button onClick={handleForm}>Custom Button</button>
+      <button onClick={handleLogin}>Custom Button</button>
     </>
   );
 }
