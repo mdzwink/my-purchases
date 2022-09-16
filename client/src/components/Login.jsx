@@ -10,6 +10,7 @@ export default function Login(props) {
   const [formError, setFormError] = useState('');
 
 
+
   const handleLogin = (e) => {
     e.preventDefault();
     //resetting formError
@@ -25,7 +26,7 @@ export default function Login(props) {
       axios.get('/login', {
         params: {
           email: email,
-          password: password
+          password: password // <hash
         }
       })
       .then((res) => {
@@ -34,17 +35,15 @@ export default function Login(props) {
           return setFormError("Error, user credentials don't match");
         }
         // unpack response
-        const { id, email } = res.data[0];
+        const { email } = res.data[0];
         // clearForm();
         // set cookies
         setCookie('email', email, { path: '/' });
         return console.log('Login res from back:', res.data[0]);
       })
       .catch(err => {
-        console.log("ERR from post'/signin'", err);
-      })
-      
-      return 'ok';     
+        return console.log("ERR from get'/login'", err);
+      })     
     }
     //setting form error if not all fields are filled upon submission
     if (!email || !password) {

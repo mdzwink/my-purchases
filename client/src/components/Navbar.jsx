@@ -3,12 +3,7 @@ import Button from "./Button";
 
 
 export default function Navbar(props) {
-  const { cookies, handleLogout } = props;
-  const { email } = cookies;
-
- 
-
-
+  const { user, cookies, handleLogout } = props;
 
   return (
       <ul className="navbar">
@@ -16,9 +11,12 @@ export default function Navbar(props) {
         <div className="menu-items">
           <li><Button>Add a Purchase</Button></li>
           <li><Button>About</Button></li>
-          <li>Logged in as: { email }</li>
-          <li><Button>Sign-up</Button></li>
-          <li><Button>Sign-in</Button></li>
+          {user.email?
+          <li>Logged in as: { user.email }</li>
+          :
+          <li><button>Login</button></li>
+          }
+          <li><button>Register</button></li>
           <li><button onClick={() => handleLogout()} >Sign-out</button></li>
         </div>
       </ul>

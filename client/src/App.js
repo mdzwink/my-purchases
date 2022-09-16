@@ -7,20 +7,27 @@ import View from './components/View';
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
-  const { email } = cookies;
-  const [user, setUser] = useState({ 'email': email });
+  const [user, setUser] = useState({ 'email': cookies.email });
   
   const handleLogout = () => {
     console.log('handleLogout click');
     removeCookie('email');
     setUser({});
+    console.log('>>>',cookies)
   }
+  const settingUser = (d) => {
+    console.log('d', user)
+    setUser(d)
+    console.log('d2', user)
+
+  }
+  
 
   return (
     <div className="App">
-      <Navbar cookies={cookies} handleLogout={handleLogout} />
+      <Navbar user={user} cookies={cookies} handleLogout={handleLogout} />
       <Welcome />
-      <View cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} />
+      <View handleLogout={handleLogout} setUser={settingUser} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} />
     </div>
   );
 }

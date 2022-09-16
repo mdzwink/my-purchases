@@ -10,6 +10,8 @@ const usersRouter = require('./routes/users');
 const receiptsRouter = require('./routes/receipts');
 const itemsRouter = require('./routes/items');
 const login = require('./routes/login');
+const register = require('./routes/register');
+const emailIsTaken = require('./routes/emailIsTaken');
 
 const app = express();
 
@@ -24,5 +26,7 @@ app.use('/users', usersRouter(db));
 app.use('/receipts', receiptsRouter(db));
 app.use('/items', itemsRouter(db));
 app.use('/login', login(db));
+app.use('/register', register(db));
+app.use('/emailIsTaken', emailIsTaken(db));
 
 module.exports = app;
