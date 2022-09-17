@@ -8,8 +8,8 @@ module.exports = (db) => {
       .then(d => {
         return res.json(d.rows);
       })
-      .catch(e => {
-        console.log("Error from get'/items':", e)
+      .catch(err => {
+        console.log("Error from get'/items':", err)
       });
   });
   

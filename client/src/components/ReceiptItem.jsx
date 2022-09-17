@@ -18,7 +18,7 @@ export default function ReceiptItem(props) {
         return setItems(d.data);
       })
       .catch(err => {
-        console.log("ERROR FROM getItems()", err)
+        return console.log("ERROR FROM getItems()", err)
       })
   }
 
@@ -31,9 +31,9 @@ export default function ReceiptItem(props) {
       <img src={img}></img>
       <h2>{store}</h2>
       <h4>Purchased on: {purchaseDate}</h4>
-      {items.map((item) => {
+      {/* {items.map((item) => {
         return <Item key={item.key} id={item.id} name={item.name} price={item.price} quantity={item.quantity} return_by={item.return_by} ></Item>
-      })}
+      })} */}
       <p>Total ${totalCost}</p>
       <p>Return expires {daysLeft}.</p>
     </div>

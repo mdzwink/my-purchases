@@ -1,18 +1,26 @@
-import Button from "./Button";
+import { useEffect } from "react";
 
 
-export default function Navbar() {
-  
+export default function Navbar(props) {
+  const { user, handleLogout, cookies} = props;
+
   return (
       <ul className="navbar">
         <li><h2>Purchases Hub</h2></li>
         <div className="menu-items">
-          <li><Button>Add a Purchase</Button></li>
-          <li><Button>About</Button></li>
-          <li><Button>Logged in as:</Button></li>
-          <li><Button>Sign-up</Button></li>
-          <li><Button>Sign-in</Button></li>
-          <li><Button>Sign-out</Button></li>
+          <li><button>Add a Purchase</button></li>
+          <li><button>About</button></li>
+          {user?
+            <div>
+              <li>Logged in as: { user }</li>
+              <li><button onClick={() => handleLogout()} >Sign-out</button></li>
+            </div>
+            :
+            <div>
+              <li><button>Login</button></li>
+              <li><button>Register</button></li>
+            </div>
+          }
         </div>
       </ul>
   )

@@ -20,7 +20,7 @@ module.exports = (db) => {
       console.log('>>>RECEIPT POST SUCCESS<<<')
       return res.json(data.rows);
     }).catch(err => {
-      console.log("ERR from post'/receipt':", err)
+      console.log("ERROR from post'/receipt':", err)
     })
   })
   
