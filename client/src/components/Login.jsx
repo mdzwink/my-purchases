@@ -4,57 +4,55 @@ import bcrypt from 'bcryptjs';
 
 
 export default function Login(props) {
-  const { cookies, setCookie } = props;
+  const { cookies, setCookie, setUser } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState('');
 
+  const clearForm = () => {
+    setEmail('');
+    setPassword('');
+  }
 
-
-
+  const wrongCreds = "Error, user credentials don't match"
+  
   const handleLogin = (e) => {
     e.preventDefault();
     //resetting formError
     setFormError('');
-    if (email && password) {
-      
-      const clearForm = () => {
-        setEmail('');
-        setPassword('');
-      }
-      
-      //send request to db to confirm that email and (hashed) password match stored user credentials
-      axios.get('/login', {
-        params: {
-          email: email,
-          password: password // <hash
-        }
-      })
-      .then((res) => {
-        if (!res.data[0]) {
-          return setFormError("Error, user credentials don't match");
-        }
-        // unpack response
-        const { email } = res.data[0];
-        // clearForm();
-        // set cookies
-        setCookie('email', email, { path: '/' });
-        // setUser(email);
-        console.log('COOKIE SET?:', cookies);
-        return console.log(`${email} logged in 0-0`);
-      })
-      .then(() => {
-      })
-      .catch(err => {
-        return console.log("ERR from get'/login'", err);
-      })     
-    }
     //setting form error if not all fields are filled upon submission
     if (!email || !password) {
-      return setFormError("Error, user credentials don't match");
+      return setFormError(wrongCreds);
     }
-
+    
+    //send request to db to confirm that email and (hashed) password match stored user credentials
+    axios.get('/login', {
+      params: {
+        email: email,
+        password: password // <hash
+      }
+    })
+    .then((res) => {
+      if (!res.data[0]) {
+        return setFormError(wrongCreds);
+      }
+      // unpack response
+      const { email } = res.data[0];
+      // clearForm();
+      // set cookies
+      setUser(email);
+      setCookie('email', email, { path: '/' });
+      console.log('COOKIE SET?:', cookies);
+    })
+    .then(() => {
+      console.log('COOKIE SET?:', cookies);
+      return console.log(`${email} logged in 0-0`);
+    })
+    .catch(err => {
+      return console.log("ERR from get'/login'", err);
+    })     
   }
+  //either I am reading the info the wrong way or updating at the wrong time
 
   return (
     <>

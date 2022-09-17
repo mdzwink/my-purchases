@@ -28,7 +28,7 @@ function App() {
     <div className="App">
       <Navbar user={user} handleLogout={handleLogout} />
       <Welcome />
-      <View handleLogout={handleLogout} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} />
+      <View handleLogout={handleLogout} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} setUser={setUser} />
     </div>
   );
 }
