@@ -3,11 +3,7 @@ import { useEffect } from "react";
 
 export default function Navbar(props) {
   const { user, handleLogout, cookies} = props;
-  
-  // let loggedIn = false;
-  // useEffect(() => {
-  //   loggedIn = true;
-  // }, [user])
+
   return (
       <ul className="navbar">
         <li><h2>Purchases Hub</h2></li>

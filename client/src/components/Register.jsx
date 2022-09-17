@@ -10,10 +10,11 @@ export default function Register(props) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [formError, setFormError] = useState('');
   
+  const submittedPassword = bcrypt.hashSync(password, 10);
   // package email and password for use in db queries
   const user = {
     email: email,
-    password: password // <hash
+    password: submittedPassword // <hash
   }
   // clears email and password state. used upon successful login or registration
   const clearForm = () => {
@@ -56,6 +57,9 @@ export default function Register(props) {
     if (password.length < 3) {
       return setFormError("Please enter a password");
     }
+    if (password !== confirmPassword) {
+      return setFormError("Passwords don't match!")
+    }
     // if (!varifyUserAvailable(user.email)) {
     //   return setFormError("Email already exists") // <<< add reroute to login page/form
     // }
@@ -67,6 +71,7 @@ export default function Register(props) {
     .then((res) => {
       console.log('emailIsTaken output>', res.data)
       if (res.data) {
+        setFormError("This email is already registered.")
         return console.log('Email is taken :(... but here is a heart, <3')
       }
       return registerNewUser();

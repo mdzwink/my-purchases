@@ -5,12 +5,12 @@ import Login from './Login';
 import Register from './Register';
 
 export default function View(props) {
-  const { cookies, setCookie, setUser} = props
+  const { user, cookies, setCookie, setUser} = props
   const [receipts, setReceipts] = useState([]);
 
   return (
     <div className='view'>
-      {cookies.email?
+      {user?
       <Add cookies={cookies} setReceipts={setReceipts}/>
       :
       <div>

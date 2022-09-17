@@ -12,15 +12,11 @@ function App() {
 
   useEffect(() => {
     setUser(cookies.email);
-    console.log('cookies:', cookies)
-    console.log('user:', user)
   }, [cookies])
 
   const handleLogout = () => {
-    console.log('handleLogout click');
     removeCookie('email');
     setUser('');
-    console.log('>>>',cookies)
   }
 
 
@@ -28,7 +24,7 @@ function App() {
     <div className="App">
       <Navbar user={user} handleLogout={handleLogout} />
       <Welcome />
-      <View handleLogout={handleLogout} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} setUser={setUser} />
+      <View user={user} handleLogout={handleLogout} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} setUser={setUser} />
     </div>
   );
 }
