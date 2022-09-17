@@ -4,10 +4,11 @@ import bcrypt from 'bcryptjs';
 
 
 export default function Login(props) {
-  const { setCookie } = props;
+  const { cookies, setCookie } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState('');
+
 
 
 
@@ -31,7 +32,6 @@ export default function Login(props) {
       })
       .then((res) => {
         if (!res.data[0]) {
-          console.log('IF-NO-USER>>',res.data[0]);
           return setFormError("Error, user credentials don't match");
         }
         // unpack response
@@ -39,7 +39,11 @@ export default function Login(props) {
         // clearForm();
         // set cookies
         setCookie('email', email, { path: '/' });
-        return console.log('Login res from back:', res.data[0]);
+        // setUser(email);
+        console.log('COOKIE SET?:', cookies);
+        return console.log(`${email} logged in 0-0`);
+      })
+      .then(() => {
       })
       .catch(err => {
         return console.log("ERR from get'/login'", err);

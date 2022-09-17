@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 
 
 export default function Register(props) {
-  const { setCookie } = props;
+  const { cookies, setCookie } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -28,10 +28,13 @@ export default function Register(props) {
         .then((res) => {
           clearForm();
           // set cookies
+          let test = cookies.email
+          console.log('TEST',test)
           setCookie('email', email, { path: '/' });
           return console.log(`${email}: has been registered!`);
         })
         .catch(err => {
+          alert('sorry, something went wrong')
           return console.log("ERR from FRONT post'/register'", err);
         })
   }
@@ -61,6 +64,7 @@ export default function Register(props) {
       }
     })
     .then((res) => {
+      console.log('emailIsTaken output>', res.data)
       if (res.data) {
         return console.log('Email is taken :(... but here is a heart, <3')
       }

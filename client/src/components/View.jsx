@@ -10,9 +10,14 @@ export default function View(props) {
 
   return (
     <div className='view'>
-      <Login setCookie={setCookie} />
-      <Register setCookie={setCookie} />
+      {cookies.email?
       <Add cookies={cookies} setReceipts={setReceipts}/>
+      :
+      <div>
+        <Login cookies={cookies} setCookie={setCookie} />
+        <Register cookies={cookies} setCookie={setCookie} />
+      </div>
+      }
       <ReceiptList  cookies={cookies} receipts={receipts} setReceipts={setReceipts}/>
     </div>
   )
