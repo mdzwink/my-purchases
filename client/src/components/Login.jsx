@@ -25,7 +25,6 @@ export default function Login(props) {
       return setFormError(wrongCreds);
     }
     const submittedPassword = bcrypt.hashSync(password, 10);
-    console.log(`${email}: ${submittedPassword}`)
     //send request to db to confirm that email and (hashed) password match stored user credentials
     axios.get('/login', {
       params: {
@@ -38,20 +37,18 @@ export default function Login(props) {
       }
       const hashedPwd = res.data[0].password
       const passwordCheck = bcrypt.compareSync(password, hashedPwd);
-      console.log('passwordCheck>>>', passwordCheck)
       if (!passwordCheck) {
         return setFormError(wrongCreds);
       }
       // unpack response
-      const { email } = res.data[0];
+      const { id, email } = res.data[0];
       clearForm();
       // set cookies
-      setUser(email);
+      setUser({ email: email, id: id});
+      setCookie('user_id', id, { path: '/'});
       setCookie('email', email, { path: '/' });
-      console.log('COOKIE SET?:', cookies);
     })
     .then(() => {
-      console.log('COOKIE SET?:', cookies);
       return console.log(`${email} logged in 0-0`);
     })
     .catch(err => {
@@ -78,7 +75,7 @@ export default function Login(props) {
           ></input>
       </form>
       {formError && <div className="form-error">{formError}</div>}
-      <button onClick={handleLogin}>Custom Button</button>
+      <button onClick={handleLogin}>Login</button>
     </>
   );
 }

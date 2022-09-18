@@ -7,15 +7,15 @@ import View from './components/View';
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
-  const [user, setUser] = useState(cookies.email);
-
+  const [user, setUser] = useState({ email: cookies.email, id: cookies.user_id });
 
   useEffect(() => {
-    setUser(cookies.email);
+    setUser({email: cookies.email, id: cookies.user_id });
   }, [cookies])
 
   const handleLogout = () => {
     removeCookie('email');
+    removeCookie('user_id');
     setUser('');
   }
 

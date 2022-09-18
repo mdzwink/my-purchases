@@ -2,7 +2,9 @@ const router = require('express').Router();
 
 module.exports = (db) => {
   router.get('/', (req, res) => {
-    db.query("SELECT * FROM receipts;")
+    // use user_id to select specific receipts
+    const user_id = req.query[0]
+    db.query("SELECT * FROM receipts WHERE user_id = $1;", [user_id])
       .then(d => {
         return res.json(d.rows);
       })
