@@ -3,8 +3,8 @@ import './Add.css';
 import axios from 'axios';
 
 export default function Add(props) {
-  const { cookies, setReceipts } = props;
-  const [user_id, setUser_id] = useState('');
+  const { user, setReceipts } = props;
+  const user_id = user.id;
   const [img, setImg] = useState('');
   const [store, setStore] = useState('');
   const [date, setPurchase_date] = useState('');
@@ -16,47 +16,7 @@ export default function Add(props) {
     e.preventDefault();
     //resetting formError
     setFormError('');
-    if (user_id && img && store && date && return_by && total) {
-      // need to dynamically add user_id from cookies state <<<<
-      const newReceipt = {
-        user_id,
-        img,
-        store,
-        date,
-        return_by,
-        total
-      }
-  
-      const updateReceipts = (appendReceipt) => {
-        setReceipts(prev => [...prev, appendReceipt])
-      }
-      const clearForm = () => {
-        setUser_id('');
-        setImg('');
-        setStore('');
-        setPurchase_date('');
-        setReturn_by('');
-        setTotal('');
-      }
-  
-      axios.post('/receipts', newReceipt)
-           .then((res) => {
-             updateReceipts(res.data[0])
-             clearForm();
-           })
-           .then(() => {
-           })
-           .catch(err => {
-            console.log("ERR from post'/receipt'", err)
-           })
-      
-      
-      return 'ok';     
-    }
     //setting form error if not all fields are filled upon submission
-    if (!user_id) {
-      return setFormError('Error, please include user_id.');
-    }
     if (!img) {
       return setFormError('Error, please include image url.');      
     }
@@ -72,18 +32,40 @@ export default function Add(props) {
     if (!total) {
       return setFormError('Error, please include receipt total.');      
     }
+    const newReceipt = {
+      user_id,
+      img,
+      store,
+      date,
+      return_by,
+      total
+    }
+
+    const updateReceipts = (appendReceipt) => {
+      setReceipts(prev => [...prev, appendReceipt])
+    }
+    const clearForm = () => {
+      setImg('');
+      setStore('');
+      setPurchase_date('');
+      setReturn_by('');
+      setTotal('');
+    }
+
+    axios.post('/receipts', newReceipt)
+          .then((res) => {
+            updateReceipts(res.data[0])
+            return clearForm();
+          })
+          .catch(err => {
+            console.log("ERR from post'/receipt'", err)
+          })
   }
 
   return (
     <>
       <form>
         <label>Add Receipt:</label>
-        <input 
-          type="text" 
-          placeholder="user_id"
-          onChange={e => setUser_id(e.target.value)}
-          value={user_id}
-          ></input>
         <input 
           type="text" 
           placeholder="receipt image"

@@ -5,10 +5,12 @@ import axios from "axios";
 
 
 export default function ReceiptList(props) {
-  const { receipts, setReceipts } = props
+  const { user_id, receipts, setReceipts } = props
 
   const getReceipts = () => {
-    axios.get('/receipts')
+    axios.get('/receipts', {
+      params: user_id
+    })
     .then(d => {
       setReceipts(d.data);
     })
@@ -19,7 +21,7 @@ export default function ReceiptList(props) {
 
   useEffect(() => {
     getReceipts();
-  }, [])
+  }, [user_id])
 
   return (
     <section className="receipt-list">
