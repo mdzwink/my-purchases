@@ -12,6 +12,13 @@ export default function Add(props) {
   const [total, setTotal] = useState('');
   const [formError, setFormError] = useState('')
 
+  // to make into receiptForm
+    // two queries
+    // different handle"Button" functions
+
+
+    //want form to show conditionally upon boolean state value set by edit button
+    //replaces receipt info and engages box-shadow
   const handleForm = (e) => {
     e.preventDefault();
     //resetting formError
@@ -53,13 +60,13 @@ export default function Add(props) {
     }
 
     axios.post('/receipts', newReceipt)
-          .then((res) => {
-            updateReceipts(res.data[0])
-            return clearForm();
-          })
-          .catch(err => {
-            console.log("ERR from post'/receipt'", err)
-          })
+    .then((res) => {
+      updateReceipts(res.data[0])
+      return clearForm();
+    })
+    .catch(err => {
+      console.log("ERR from post'/receipt'", err)
+    })
   }
 
   return (
@@ -98,7 +105,7 @@ export default function Add(props) {
           ></input>
       </form>
       {formError && <div className="form-error">{formError}</div>}
-      <button onClick={handleForm}>Custom Button</button>
+      <button onClick={handleForm}>Add receipt</button>
     </>
   );
 }
