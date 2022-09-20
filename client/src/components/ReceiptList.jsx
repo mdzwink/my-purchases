@@ -1,27 +1,15 @@
 import React, { useState, useEffect } from "react";
 import ReceiptItem from "./ReceiptItem";
 import "./ReceiptList.css";
-import axios from "axios";
+import { getReceipts } from './helpers'
 
 
 export default function ReceiptList(props) {
-  const { user_id, receipts, setReceipts } = props
-
-  const getReceipts = () => {
-    axios.get('/receipts', {
-      params: user_id
-    })
-    .then(d => {
-      setReceipts(d.data);
-    })
-    .catch(err => {
-      console.log("ERROR FROM getReceipts()", err);
-    });
-  }
+  const { user, receipts, setReceipts } = props;
 
   useEffect(() => {
-    getReceipts();
-  }, [user_id])
+    getReceipts(user, setReceipts);
+  }, [])
 
   return (
     <section className="receipt-list">
@@ -37,6 +25,10 @@ export default function ReceiptList(props) {
               date={receipt.date}
               return_by={receipt.return_by}
               total={receipt.total}
+              user={user}
+              receipts={receipts}
+              setReceipts={setReceipts}
+              getReceipts={getReceipts}
             />
           </li>
         ))}

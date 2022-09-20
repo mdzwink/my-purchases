@@ -1,16 +1,79 @@
 
 .receipt-item {
-  border: 5px;
-  max-width: 20%;
-  min-width: 20em;
-  padding: 1em;
+  border: #f7ebeb;
+  border-style: solid;
+  border-radius: 7px;
+  border-width: 1.6px;
+  max-width: 25vw;
+  min-width: 17em;
+  padding: 0.5em;
   margin: 1em;
 }
 
 .receipt-item img {
+  padding: 0;
   max-width: 100%;
+  max-height: 300px;
+  overflow: hidden;
 }
 
 .receipt-item:hover {
+  border: none;
   box-shadow: 0 3px 9px 0 grey;
+}
+
+.manage-receipt-options {
+  display: flex;
+  flex-direction: row;
+}
+.edit-button {
+  width: 75%;
+  background-color: rgb(100, 13, 214);
+  color: white;
+}
+
+.delete-button {
+  width: 25%;
+  background-color: rgb(112, 8, 8);
+  color: white;
+}
+
+.edit-button:hover {
+  box-shadow: 0 3px 9px 0 grey;
+  background-color: purple;
+  cursor: pointer;
+  color: white;
+}
+
+.delete-button:hover {
+  box-shadow: 0 3px 9px 0 grey;
+  background-color: red;
+  cursor: pointer;
+  color: white;
+}
+
+.confirm-button {
+  width: 60%;
+  background-color: rgb(100, 13, 214);
+  color: white;
+}
+
+.cancel-button {
+  width: 40%;
+  background-color: rgb(112, 8, 8);
+  color: white;
+}
+
+.confirm-button:hover {
+  box-shadow: 0 3px 9px 0 grey;
+  background-color: purple;
+  color: white;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  box-shadow: 0 3px 9px 0 grey;
+  background-color: red;
+  color: white;
+  cursor: pointer;
 }

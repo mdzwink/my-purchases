@@ -1,22 +1,26 @@
 import axios from "axios";
 
-export function getReceipts() {
-  axios.get('/receipts')
-  .then((data) => {
-    return(data.data);
+ // export function getItems(id) {
+  //   axios.get(`/items/${id}`)
+  //   .then(d => {
+  //     return setItems(d.data);
+  //   })
+  //   .catch(err => {
+  //     return console.log("ERROR FROM getItems()", err)
+  //   })
+  // }
+  // useEffect(() => {
+  //   getItems(id);
+  // }, [])
+
+export function getReceipts(user, setReceipts) {
+  axios.get('/receipts', {
+    params: user.id
   })
-  .catch(e => {
-    console.log("ERROR FROM getReceipts()", e);
+  .then(d => {
+    setReceipts(d.data);
+  })
+  .catch(err => {
+    console.log("ERROR FROM getReceipts()", err);
   });
 }
-
-export function getItems(id) {
-  axios.get(`/items/${id}`)
-    .then((d) => {
-      return(d.data);
-    })
-    .catch(e => {
-      console.log("ERROR FROM getItems()", e)
-    })
-}
-
