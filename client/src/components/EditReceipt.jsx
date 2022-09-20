@@ -97,7 +97,7 @@ export default function EditReceipt(props) {
       </form>
       {formError && <div className="form-error">{formError}</div>}
       <div className="manage-receipt-options">
-        <div onClick={() => handleUpdate()} className="submit-button">Save updated receipt</div>
+        <div onClick={() => handleUpdate()} className="confirm-button">Save updated receipt</div>
         <div onClick={() => handleCancel()} className="cancel-button">Discard Changes</div>
       </div>
     </>

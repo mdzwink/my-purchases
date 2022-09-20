@@ -5,6 +5,7 @@ import moment from "moment";
 // import Item from "./Item.jsx";
 import "./ReceiptItem.css";
 import EditReceipt from "./EditReceipt.jsx";
+import { getReceipts } from "./helpers";
 
 
 export default function ReceiptItem(props) {
@@ -35,9 +36,10 @@ export default function ReceiptItem(props) {
     setConfirmDelete(true);
   }
   const deleteReceipt = (receipt_id) => {
-    axios.post('/receipts/delete', receipt_id)
-    .then((res) => {
-      return console.log('res from delete, handleDelete', res.data);
+    console.log('id for delete:', receipt_id)
+    axios.post('/receipts/delete', { receipt_id: receipt_id } )
+    .then(() => {
+      return getReceipts(user, setReceipts);
     })
   }
 
@@ -49,9 +51,9 @@ export default function ReceiptItem(props) {
       {confirmDelete?
         <div className="receipt-item">
           <h1>Confirm Delete?</h1>
-          <div>
-            <div onClick={() => { deleteReceipt(id); setConfirmDelete(false); }}>Yes</div>
-            <div onClick={() => setConfirmDelete(false)}>No</div>
+          <div className="manage-receipt-options">
+            <div onClick={() => { deleteReceipt(id); setConfirmDelete(false); } } className="confirm-button">Yes</div>
+            <div onClick={() => setConfirmDelete(false)} className="cancel-button">No</div>
           </div>
         </div>
       :

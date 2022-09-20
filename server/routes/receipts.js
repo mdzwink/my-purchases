@@ -33,22 +33,19 @@ module.exports = (db) => {
       `UPDATE receipts SET user_id = $1, img = $2, store = $3, date = $4, return_by = $5, total = $6 WHERE id = $7 RETURNING *;`, 
       [user_id, updatedImg, updatedStore, updatedDate, updatedReturn_by, updatedTotal, id]
     ).then((data) => {
-      console.log('>>>RECEIPT UPDATE SUCCESS<<<:', data.rows)
       return res.json(data.rows);
     }).catch(err => {
-      console.log("ERROR from post'/receipts/update':", err)
+      console.log("ERROR from POST-/receipts/update:", err)
     })
   })
 
   router.post('/delete', (req, res) => {
-    const { receipt_id } = req.body;
-    console.log('/delete',req.body)
+    const receipt_id = req.body.receipt_id;
     db.query(
       'DELETE FROM receipts WHERE id = $1;',
       [ receipt_id ]
-    ).then((data) => {
-      console.log('/delete data:', data)
-      return res.send('Receipt Deleted')
+    ).then(() => {
+      return res.send(`Receipt #${receipt_id} Deleted`)
     })
   })
 

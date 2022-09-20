@@ -5,7 +5,7 @@ import Login from './Login';
 import Register from './Register';
 
 export default function View(props) {
-  const { user, cookies, setCookie, setUser} = props
+  const { user, cookies, setCookie, setUser } = props
   const [receipts, setReceipts] = useState([]);
   let email = '';
   if (user.email) {
