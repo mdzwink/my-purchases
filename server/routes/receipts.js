@@ -8,8 +8,8 @@ module.exports = (db) => {
       .then(d => {
         return res.json(d.rows);
       })
-      .catch(e => {
-        console.log("Error from get'/receipts':", e)
+      .catch(err => {
+        console.log("Error from get'/receipts':", err)
       });
   });
 
@@ -46,6 +46,9 @@ module.exports = (db) => {
       [ receipt_id ]
     ).then(() => {
       return res.send(`Receipt #${receipt_id} Deleted`)
+    })
+    .catch(err => {
+      console.log("ERROR from POST'/receipts/delete':", err)
     })
   })
 

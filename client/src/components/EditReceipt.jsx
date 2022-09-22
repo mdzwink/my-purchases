@@ -62,7 +62,7 @@ export default function EditReceipt(props) {
 
   return (
     <>
-      <form>
+      <form className="edit-form" >
         <label>Edit Receipt:</label>
         <input
           type="text" 
@@ -94,12 +94,10 @@ export default function EditReceipt(props) {
           onChange={e => setTotal(e.target.value)}
           value={updatedTotal}
           ></input>
+        {formError && <div className="form-error">{formError}</div>}
+        <div onClick={() => handleUpdate()} className="button">Save</div>
+        <div onClick={() => handleCancel()} className="caution-button">Discard</div>
       </form>
-      {formError && <div className="form-error">{formError}</div>}
-      <div className="manage-receipt-options">
-        <div onClick={() => handleUpdate()} className="confirm-button">Save updated receipt</div>
-        <div onClick={() => handleCancel()} className="cancel-button">Discard Changes</div>
-      </div>
     </>
   );
 }

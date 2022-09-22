@@ -5,7 +5,10 @@ module.exports = (db) => {
     db.query("SELECT * FROM users")
       .then(d => {
         res.json(d.rows);
-      });
+      })
+      .catch(err => {
+        throw new Error(err)
+      })
   });
   
   return router;

@@ -1,4 +1,4 @@
-
+import './Navbar.css'
 
 export default function Navbar(props) {
   const { user, handleLogout} = props;
@@ -8,14 +8,12 @@ export default function Navbar(props) {
   }
   return (
       <ul className="navbar">
-        <li><h2>Purchases Hub</h2></li>
+        <li><div className='logo'>Purchase Hub</div></li>
         <div className="menu-items">
-          <li><button>About</button></li>
+          <li><button className="nav-button"  >About</button></li>
           {email?
             <div className="menu-items">
-              <li><button>Add a Purchase</button></li>
-              <li>Logged in as: { email }</li>
-              <li><button onClick={() => handleLogout()} >Sign-out</button></li>
+              <li className='logged-in-as'>Logged in as: { email } <button className="nav-button" onClick={() => handleLogout()} >Sign-out</button></li>
             </div>
             :
             <div className="menu-items">

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import './Add.css';
+import { setDefaultReminders } from "./helpers";
 import axios from 'axios';
 
 export default function Add(props) {
@@ -12,13 +13,8 @@ export default function Add(props) {
   const [total, setTotal] = useState('');
   const [formError, setFormError] = useState('')
 
-  // to make into receiptForm
-    // two queries
-    // different handle"Button" functions
 
-
-    //want form to show conditionally upon boolean state value set by edit button
-    //replaces receipt info and engages box-shadow
+  //replaces receipt info and engages box-shadow
   const handleForm = (e) => {
     e.preventDefault();
     //resetting formError
@@ -61,8 +57,15 @@ export default function Add(props) {
 
     axios.post('/receipts', newReceipt)
     .then((res) => {
-      updateReceipts(res.data[0])
+      const receipt_id = res.data[0].id;
+      const return_by = res.data[0].return_by;
+      updateReceipts(res.data[0]);
+      console.log('return_by/Add.js-1:', return_by)
+      setDefaultReminders(receipt_id, return_by);
       return clearForm();
+    })
+    .then(d => {
+
     })
     .catch(err => {
       console.log("ERR from post'/receipt'", err)
@@ -71,41 +74,50 @@ export default function Add(props) {
 
   return (
     <>
-      <form>
-        <label>Add Receipt:</label>
+      <form className="add-form" >
+        <label className="form-label" >Add Receipt:</label>
         <input 
           type="text" 
           placeholder="receipt image"
           onChange={e => setImg(e.target.value)}
           value={img}
+          className="add-input"
           ></input>
+        <label>Store:</label>
         <input 
           type="text" 
           placeholder="store"
           onChange={e => setStore(e.target.value)}
           value={store}
+          className="add-input"
           ></input>
+        <label>Purchase date:</label>
         <input 
           type="date" 
           placeholder="purchase date"
           onChange={e => setPurchase_date(e.target.value)}
           value={date}
+          className="add-input"
           ></input>
+        <label>Return period ends</label>
         <input 
           type="date" 
           placeholder="return by"
           onChange={e => setReturn_by(e.target.value)}
           value={return_by}
+          className="add-input"
           ></input>
+        <label>Total $</label>
         <input 
           type="text" 
           placeholder="recipt total $"
           onChange={e => setTotal(e.target.value)}
           value={total}
+          className="add-input"
           ></input>
+        {formError && <div className="form-error">{formError}</div>}
+        <button className="add-form-button" onClick={handleForm}>Add receipt</button>
       </form>
-      {formError && <div className="form-error">{formError}</div>}
-      <button onClick={handleForm}>Add receipt</button>
     </>
   );
 }
