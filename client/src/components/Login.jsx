@@ -60,22 +60,22 @@ export default function Login(props) {
   return (
     <>
       <form>
-        <label>Login</label>
+        <label className="form-label" >Login</label>
         <input 
           type="text"
           placeholder="email"
           onChange={e => setEmail(e.target.value)}
           value={email}
-          ></input>
+        ></input>
         <input 
           type="password"
           placeholder="password"
           onChange={e => setPassword(e.target.value)}
           value={password}
-          ></input>
+        ></input>
+        {formError && <div className="form-error">{formError}</div>}
+        <button className="form-button" onClick={handleLogin}>Login</button>
       </form>
-      {formError && <div className="form-error">{formError}</div>}
-      <button onClick={handleLogin}>Login</button>
     </>
   );
 }

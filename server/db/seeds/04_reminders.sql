@@ -1,0 +1,1 @@
+INSERT INTO reminders (receipt_id, date, alert_code) VALUES(1, '09-20-2022', 1);

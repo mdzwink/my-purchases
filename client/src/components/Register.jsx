@@ -84,7 +84,7 @@ export default function Register(props) {
   return (
     <>
       <form>
-        <label>Register</label>
+        <label className="form-label" >Register</label>
         <input 
           type="text"
           placeholder="email"
@@ -103,9 +103,9 @@ export default function Register(props) {
           onChange={e => setConfirmPassword(e.target.value)}
           value={confirmPassword}
           ></input>
+          {formError && <div className="form-error">{formError}</div>}
+          <button className="form-button" onClick={handleRegister}>Register</button>
       </form>
-      {formError && <div className="form-error">{formError}</div>}
-      <button onClick={handleRegister}>Register</button>
     </>
   );
 }

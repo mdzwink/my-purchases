@@ -11,6 +11,8 @@ export default function ReceiptList(props) {
     getReceipts(user, setReceipts);
   }, [])
 
+  //need to trigger with specific receipt but also not on every receipt reload fixed with alert deleted?
+
   return (
     <section className="receipt-list">
       <ul>
