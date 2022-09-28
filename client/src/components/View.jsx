@@ -14,30 +14,23 @@ export default function View(props) {
   const handleSearchButton = (e) => {
     e.preventDefault();
     console.log(`Searching for ${searchQuery}`)
-    //setQueryReciepts with receipts that have .include('search_term') in either receipt.store, receipt.date(plus or minus a couple days), or receipt.return_by
-    // setQueryReceipts(receiptsCopy.map((receipt) => {
-    //   if (receipt.store.includes(searchQuery)) {
-    //     setQueryReceipts([...queryReceipts, receipt])
-    //   }
-    // }))
+    setSearchQuery('');
   }
   
   const receiptsCopy = [...receipts]
 
+  // Array to hold receipt objects that match search input
   let searchResults = [];
-  
   const searchFor = () => {
     receiptsCopy.map(receipt => (
-      receipt.store.includes(searchQuery)? searchResults.push(receipt) : receipt.date.includes(searchQuery)? searchResults.push(receipt) : false
+      receipt.store.toLowerCase().includes(searchQuery)? searchResults.push(receipt) : receipt.date.includes(searchQuery)? searchResults.push(receipt) : false
     ))
-    console.log('searchResults:', searchResults)
     if (searchResults !== []) {
       setReceipts(searchResults);
     }
   }
 
   useEffect(() => {
-    console.log(searchQuery)
     searchResults = [];
     searchFor();
   }, [searchQuery])

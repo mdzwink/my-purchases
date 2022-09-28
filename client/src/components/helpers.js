@@ -96,7 +96,6 @@ export function triggerAlerts(receipt_id, reminders, store) {
       
       const reminderDay = `${compareDay1}-${compareMonth1}-${compareYear1}`;
       const today = `${compareDay2}-${compareMonth2}-${compareYear2}`;
-      console.log('this:',this) // < < < < <
       if (reminderDay === today) {
         switch(reminder.alert_code) {
           case 0:

@@ -1,19 +1,24 @@
-import React, { useEffect, useState } from "react";
+
 
 export function Searchbar(props) {
-  const { setSearchQuery, handleSearchButton } = props;
+  const { searchQuery, setSearchQuery, handleSearchButton } = props;
+
+  const handleSearchInput = (searchInput) => {
+    const loweredInput = searchInput.toLowerCase();
+    setSearchQuery(loweredInput);
+  }
 
   return (
     <>
-      <form>
-        <label>🔍</label>
+      <form className="searchbar" >
+        <button className="searchbar-button" onClick={handleSearchButton}>Show All</button>
         <input
           type="text"
-          placeholder="... search by store name or date"
-          onChange={e => setSearchQuery(e.target.value)}
-          className="searchbar"
+          placeholder="or... search by store name or date yyyy/mm/dd"
+          onChange={e => handleSearchInput(e.target.value)}
+          className="searchbar-input"
+          value={searchQuery}
         ></input>
-        <button className="button" onClick={handleSearchButton}>Search</button>
       </form>
     </>
   )
