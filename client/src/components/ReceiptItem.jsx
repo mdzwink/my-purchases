@@ -18,7 +18,6 @@ export default function ReceiptItem(props) {
   }
   const [editMode, setEditMode] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const [alertMode, setAlertMode] = useState('');
   
   const purchaseDate = moment.utc(date.toLocaleString()).format("ddd, MMMM Do");
   const daysLeft = moment(return_by).endOf('day').fromNow(); 
