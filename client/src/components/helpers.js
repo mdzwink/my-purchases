@@ -1,17 +1,24 @@
 import axios from "axios";
 
- // export function getItems(id) {
-  //   axios.get(`/items/${id}`)
-  //   .then(d => {
-  //     return setItems(d.data);
-  //   })
-  //   .catch(err => {
-  //     return console.log("ERROR FROM getItems()", err)
-  //   })
-  // }
-  // useEffect(() => {
-  //   getItems(id);
-  // }, [])
+// Takes date and returns it in yyyy/mm/dd format.
+// export function getNumDate(date) {
+//   let dd = date.getDate();
+//   if(dd < 10) {
+//     dd = Number(0 + dd);
+//   }
+//   console.log('dd',dd)
+//   let mm = date.getMonth() + 1;
+//   if(mm < 10) {
+//     mm = Number(0 + mm);
+//   }
+//   console.log('mm',mm)
+//   const yyyy = date.getFullYear();
+//   console.log('yyyy',yyyy)
+//   return `${yyyy}-${mm}-${dd}`;
+// }
+// GET all receipts then send them to sort function to be filtered
+
+
 
 export function getReceipts(user, setReceipts) {
   axios.get('/receipts', {
@@ -34,7 +41,7 @@ export function getDateBefore(day, sub) {
   const d = date.getDate();
   let month = date.getMonth() + 1;
   if (month < 10) {
-    month = '0' + month
+    month = '0' + month;
   }
   const year = date.getFullYear();
   const reminder = `${month}-${d}-${year}`;

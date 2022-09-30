@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './Add.css';
+import './AddForm.css';
 import axios from 'axios';
 import { getReceipts } from "./helpers";
 
