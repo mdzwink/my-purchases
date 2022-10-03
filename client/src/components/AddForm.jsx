@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './Add.css';
+import './AddForm.css';
 import { setDefaultReminders } from "./helpers";
 import axios from 'axios';
 
@@ -64,9 +64,6 @@ export default function Add(props) {
       setDefaultReminders(receipt_id, return_by);
       return clearForm();
     })
-    .then(d => {
-
-    })
     .catch(err => {
       console.log("ERR from post'/receipt'", err)
     })
@@ -82,7 +79,7 @@ export default function Add(props) {
           onChange={e => setImg(e.target.value)}
           value={img}
           className="add-input"
-          ></input>
+        ></input>
         <label>Store:</label>
         <input 
           type="text" 
@@ -90,7 +87,7 @@ export default function Add(props) {
           onChange={e => setStore(e.target.value)}
           value={store}
           className="add-input"
-          ></input>
+        ></input>
         <label>Purchase date:</label>
         <input 
           type="date" 
@@ -98,7 +95,7 @@ export default function Add(props) {
           onChange={e => setPurchase_date(e.target.value)}
           value={date}
           className="add-input"
-          ></input>
+        ></input>
         <label>Return period ends</label>
         <input 
           type="date" 
@@ -106,7 +103,7 @@ export default function Add(props) {
           onChange={e => setReturn_by(e.target.value)}
           value={return_by}
           className="add-input"
-          ></input>
+        ></input>
         <label>Total $</label>
         <input 
           type="text" 
@@ -114,7 +111,7 @@ export default function Add(props) {
           onChange={e => setTotal(e.target.value)}
           value={total}
           className="add-input"
-          ></input>
+        ></input>
         {formError && <div className="form-error">{formError}</div>}
         <button className="add-form-button" onClick={handleForm}>Add receipt</button>
       </form>

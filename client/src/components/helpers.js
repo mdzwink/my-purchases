@@ -1,17 +1,5 @@
 import axios from "axios";
 
- // export function getItems(id) {
-  //   axios.get(`/items/${id}`)
-  //   .then(d => {
-  //     return setItems(d.data);
-  //   })
-  //   .catch(err => {
-  //     return console.log("ERROR FROM getItems()", err)
-  //   })
-  // }
-  // useEffect(() => {
-  //   getItems(id);
-  // }, [])
 
 export function getReceipts(user, setReceipts) {
   axios.get('/receipts', {
@@ -34,14 +22,12 @@ export function getDateBefore(day, sub) {
   const d = date.getDate();
   let month = date.getMonth() + 1;
   if (month < 10) {
-    month = '0' + month
+    month = '0' + month;
   }
   const year = date.getFullYear();
   const reminder = `${month}-${d}-${year}`;
   return reminder;
 }
-
-// console.log('getDateBefore',getDateBefore('09-20-2022', 3))
 
 // sets reminder 'sub' days before 'return_by' date. Sets alert(reminder mssg) code to 'code'
 export function setReminder(receipt_id, return_by, sub, alert_code) {
@@ -96,7 +82,6 @@ export function triggerAlerts(receipt_id, reminders, store) {
       
       const reminderDay = `${compareDay1}-${compareMonth1}-${compareYear1}`;
       const today = `${compareDay2}-${compareMonth2}-${compareYear2}`;
-      console.log('this:',this) // < < < < <
       if (reminderDay === today) {
         switch(reminder.alert_code) {
           case 0:
