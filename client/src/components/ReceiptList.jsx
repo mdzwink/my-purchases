@@ -5,14 +5,11 @@ import { getReceipts } from './helpers'
 
 
 export default function ReceiptList(props) {
-  const { user, receipts, setReceipts, filteredReceipts } = props;
-  // const { filteredReceipts, setFilteredReciepts } = useState([...receipts]);
+  const { user, receipts, setReceipts } = props;
 
   useEffect(() => {
     getReceipts(user, setReceipts);
   }, [])
-
-  //need to trigger with specific receipt but also not on every receipt reload fixed with alert deleted?
 
   return (
     <section className="receipt-list">

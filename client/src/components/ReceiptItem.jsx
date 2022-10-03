@@ -24,7 +24,6 @@ export default function ReceiptItem(props) {
   const totalCost = (total/100).toFixed(2);
 
 
-  
   const handleEditButton = () => {
     setEditMode(true)
   }

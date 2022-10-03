@@ -8,12 +8,6 @@ import { Searchbar } from './Searchbar';
 export default function View(props) {
   // extract props for ease of refference
   const { user, addingReceipt, setAddingReceipt, cookies, setCookie, setUser } = props;
-
-  // set state for:
-   // all of the users assosiated receipts
-   // receipts with a future return_by date
-   // receipts with a past return_by date ...
-   // can i assossiate buttons with a function that filters receipts and setReceipts instead of managing three seperate states?  Lets try...
    
   const [receipts, setReceipts] = useState([]);
   const [allReceipts, setAllReceipts] = useState([]);
@@ -22,7 +16,6 @@ export default function View(props) {
 
   const handleSearchButton = (e) => {
     e.preventDefault();
-    console.log(`Searching for ${searchQuery}`)
     setSearchQuery('');
   }
   
@@ -65,22 +58,23 @@ export default function View(props) {
     addingReceipt? setAddingReceipt(false) : setAddingReceipt(true);
     console.log('allReceipts',allReceipts)
   }
+  //return array of only the receipts that meet filter conditions
   const handleFilter = (filter) => {
     const filteredReceipts = allReceipts.map(receipt => {
+      const today = Number(new Date());
+      const return_byMS = Number(new Date(receipt.return_by));
       if(filter === "all") {
         return receipt;
       }
-      if(filter === "archive" && Number(new Date(receipt.return_by)) < Number(new Date())) {
+      if(filter === "archive" && return_byMS < today) {
         return receipt;
       }
-      if(filter === "current" && Number(new Date(receipt.return_by)) > Number(new Date())) {
+      if(filter === "current" && return_byMS > today) {
         return receipt;
       }
       return false;
     })
-    // return console.log('filteredReceipts', filteredReceipts.filter(receipt => receipt !== false))
     
-    //return array of only the receipts that meet filter conditions
     return setReceipts(filteredReceipts.filter(receipt => receipt !== false)); 
   }
 
@@ -108,7 +102,7 @@ export default function View(props) {
             <ReceiptList  user={user} cookies={cookies} receipts={receipts} setReceipts={setReceipts} />
           </section>
         :
-        <ReceiptList  user={user} cookies={cookies} receipts={receipts} setReceipts={setReceipts}/>
+        <ReceiptList  user={user} receipts={receipts} setReceipts={setReceipts}/>
         }
       </div>
       :

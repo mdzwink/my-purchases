@@ -1,24 +1,5 @@
 import axios from "axios";
 
-// Takes date and returns it in yyyy/mm/dd format.
-// export function getNumDate(date) {
-//   let dd = date.getDate();
-//   if(dd < 10) {
-//     dd = Number(0 + dd);
-//   }
-//   console.log('dd',dd)
-//   let mm = date.getMonth() + 1;
-//   if(mm < 10) {
-//     mm = Number(0 + mm);
-//   }
-//   console.log('mm',mm)
-//   const yyyy = date.getFullYear();
-//   console.log('yyyy',yyyy)
-//   return `${yyyy}-${mm}-${dd}`;
-// }
-// GET all receipts then send them to sort function to be filtered
-
-
 
 export function getReceipts(user, setReceipts) {
   axios.get('/receipts', {
@@ -47,8 +28,6 @@ export function getDateBefore(day, sub) {
   const reminder = `${month}-${d}-${year}`;
   return reminder;
 }
-
-// console.log('getDateBefore',getDateBefore('09-20-2022', 3))
 
 // sets reminder 'sub' days before 'return_by' date. Sets alert(reminder mssg) code to 'code'
 export function setReminder(receipt_id, return_by, sub, alert_code) {
