@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import ReceiptItem from "./ReceiptItem";
 import "./ReceiptList.css";
 import { getReceipts } from './helpers'
 
 
 export default function ReceiptList(props) {
-  const { user, receipts, setReceipts } = props;
+  const { user, receipts, setReceipts, setAllReceipts } = props;
 
   useEffect(() => {
-    getReceipts(user, setReceipts);
+    getReceipts(user, setReceipts, setAllReceipts);
   }, [])
 
   return (

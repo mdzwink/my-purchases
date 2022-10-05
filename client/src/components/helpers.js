@@ -1,12 +1,17 @@
 import axios from "axios";
 
 
-export function getReceipts(user, setReceipts) {
+export function getReceipts(user, setReceipts, setAllReceipts) {
   axios.get('/receipts', {
     params: user.id
   })
   .then(d => {
-    return setReceipts(d.data);
+    console.log('d', d)
+    setReceipts(d.data);
+    return d;
+  })
+  .then(d => {
+    return setAllReceipts(d.data);
   })
   .catch(err => {
     console.log("ERROR FROM getReceipts()", err);

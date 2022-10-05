@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 
 
 export default function Login(props) {
-  const { cookies, setCookie, setUser } = props;
+  const { setCookie, setUser } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState('');
@@ -24,7 +24,6 @@ export default function Login(props) {
     if (!email || !password) {
       return setFormError(wrongCreds);
     }
-    const submittedPassword = bcrypt.hashSync(password, 10);
     //send request to db to confirm that email and (hashed) password match stored user credentials
     axios.get('/login', {
       params: {

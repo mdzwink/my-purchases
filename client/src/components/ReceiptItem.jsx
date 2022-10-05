@@ -1,9 +1,9 @@
-import React, { className, useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import moment from "moment";
 import "./ReceiptItem.css";
 import EditReceipt from "./EditReceipt.jsx";
-import { getReceipts, setReminder, checkForReminders, triggerAlerts } from "./helpers";
+import { getReceipts, checkForReminders, triggerAlerts } from "./helpers";
 
 
 export default function ReceiptItem(props) {
@@ -60,7 +60,7 @@ export default function ReceiptItem(props) {
         </div>
       :
         <div className="receipt-item">
-          <img src={img || "http://source.unsplash.com/400x400?sunrise"}></img>
+          <img src={img || "http://source.unsplash.com/400x400?sunrise"} alt="receipt" ></img>
           {editMode?
             <div>
               <EditReceipt currentInfo={currentInfo} setEditMode={setEditMode} user={user} receipts={receipts} setReceipts={setReceipts} />

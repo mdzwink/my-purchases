@@ -42,13 +42,12 @@ export default function View(props) {
 
 
   useEffect(() => {
-    searchResults = [];
     searchFor();
   }, [searchQuery])
 
-  useEffect(() => {
-    setAllReceipts([...receipts])
-  }, [])
+  // useEffect(() => {
+  //   setAllReceipts([...receipts])
+  // }, [])
 
   let email = '';
   if (user.email) {
@@ -75,9 +74,10 @@ export default function View(props) {
       return false;
     })
     
+    console.log('filteredReceipts', filteredReceipts)
     return setReceipts(filteredReceipts.filter(receipt => receipt !== false)); 
   }
-
+  
   return (
     <>
       {user.email?
@@ -102,7 +102,7 @@ export default function View(props) {
             <ReceiptList  user={user} cookies={cookies} receipts={receipts} setReceipts={setReceipts} />
           </section>
         :
-        <ReceiptList  user={user} receipts={receipts} setReceipts={setReceipts}/>
+        <ReceiptList  user={user} receipts={receipts} setReceipts={setReceipts} setAllReceipts={setAllReceipts}/>
         }
       </div>
       :
