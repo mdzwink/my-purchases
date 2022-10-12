@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
+import Navbar from "./Navbar";
+import Welcome from "./Welcome";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Register(props) {
@@ -9,6 +12,7 @@ export default function Register(props) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [formError, setFormError] = useState('');
+  const navigate = useNavigate();
   
   const submittedPassword = bcrypt.hashSync(password, 10);
   // package email and password for use in db queries
@@ -27,12 +31,14 @@ export default function Register(props) {
         //send request to db to confirm that email and (hashed) password don't already exist
         axios.post('/register', user)
         .then((res) => {
+          const id = res.data.id;
+          const email = res.data.email;
           clearForm();
           // set cookies
-          let test = cookies.email
-          console.log('TEST',test)
+          setUser({ email: email, id: id });
+          setCookie('user_id', id, { path: '/'});
           setCookie('email', email, { path: '/' });
-          setUser(email)
+          navigate('/');
           return console.log(`${email}: has been registered!`);
         })
         .catch(err => {
@@ -82,30 +88,33 @@ export default function Register(props) {
   }
   
   return (
-    <>
-      <form>
-        <label className="form-label" >Register</label>
-        <input 
-          type="text"
-          placeholder="email"
-          onChange={e => setEmail(e.target.value)}
-          value={email}
-          ></input>
-        <input 
-          type="password"
-          placeholder="password"
-          onChange={e => setPassword(e.target.value)}
-          value={password}
-          ></input>
+    <main>
+      <Welcome />
+      <section className="logged-out-view" >
+        <form>
+          <label className="form-label" >Register</label>
           <input 
-          type="password"
-          placeholder="confirm password"
-          onChange={e => setConfirmPassword(e.target.value)}
-          value={confirmPassword}
-          ></input>
-          {formError && <div className="form-error">{formError}</div>}
-          <button className="form-button" onClick={handleRegister}>Register</button>
-      </form>
-    </>
+            type="text"
+            placeholder="email"
+            onChange={e => setEmail(e.target.value)}
+            value={email}
+            ></input>
+          <input 
+            type="password"
+            placeholder="password"
+            onChange={e => setPassword(e.target.value)}
+            value={password}
+            ></input>
+            <input 
+            type="password"
+            placeholder="confirm password"
+            onChange={e => setConfirmPassword(e.target.value)}
+            value={confirmPassword}
+            ></input>
+            {formError && <div className="form-error">{formError}</div>}
+            <button className="form-button" onClick={handleRegister}>Register</button>
+        </form>
+      </section>
+    </main>
   );
 }
