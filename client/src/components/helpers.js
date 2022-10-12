@@ -6,7 +6,6 @@ export function getReceipts(user, setReceipts, setAllReceipts) {
     params: user.id
   })
   .then(d => {
-    console.log('d', d)
     setReceipts(d.data);
     return d;
   })

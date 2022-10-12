@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import Welcome from "./Welcome";
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
+import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 
 
 export default function Login(props) {
@@ -8,7 +11,8 @@ export default function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState('');
-
+  const navigate = useNavigate();
+  
   const clearForm = () => {
     setEmail('');
     setPassword('');
@@ -42,22 +46,25 @@ export default function Login(props) {
       // unpack response
       const { id, email } = res.data[0];
       clearForm();
-      // set cookies
-      setUser({ email: email, id: id});
+      // set cookies and user
+      setUser({ email: email, id: id });
       setCookie('user_id', id, { path: '/'});
       setCookie('email', email, { path: '/' });
+      navigate('/');
     })
     .then(() => {
       return console.log(`${email} logged in 0-0`);
     })
     .catch(err => {
-      return console.log("ERR from get'/login'", err);
+      return console.log("ERROR from get'/login'", err);
     })     
   }
   //either I am reading the info the wrong way or updating at the wrong time
 
   return (
-    <>
+    <main className='logged-out-view' >
+      <Navbar />
+      <Welcome />
       <form>
         <label className="form-label" >Login</label>
         <input 
@@ -75,6 +82,6 @@ export default function Login(props) {
         {formError && <div className="form-error">{formError}</div>}
         <button className="form-button" onClick={handleLogin}>Login</button>
       </form>
-    </>
+    </main>
   );
 }

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import Navbar from './Navbar';
+import Welcome from './Welcome';
 import ReceiptList from './ReceiptList';
 import Add from './AddForm';
 import Login from './Login';
 import Register from './Register';
 import { Searchbar } from './Searchbar';
 
-export default function View(props) {
+export default function Home(props) {
   // extract props for ease of refference
-  const { user, addingReceipt, setAddingReceipt, cookies, setCookie, setUser } = props;
+  const { user, addingReceipt, setAddingReceipt, cookies, setCookie, setUser, handleLogout } = props;
    
   const [receipts, setReceipts] = useState([]);
   const [allReceipts, setAllReceipts] = useState([]);
@@ -80,7 +82,9 @@ export default function View(props) {
   
   return (
     <>
-      {user.email?
+      <Navbar user={user} handleLogout={handleLogout} />
+      <Welcome />
+      {/* {user.email? */}
       <div className='view'>
         <Searchbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleSearchButton={handleSearchButton} />
         <button onClick={() => handleFilter('all')} >all</button>
@@ -105,16 +109,16 @@ export default function View(props) {
         <ReceiptList  user={user} receipts={receipts} setReceipts={setReceipts} setAllReceipts={setAllReceipts}/>
         }
       </div>
-      :
-      <div className='logged-out-view'>
-        <div>
-        <Login cookies={cookies} setCookie={setCookie} setUser={setUser} />
-        </div>
-        <div>
-        <Register cookies={cookies} setCookie={setCookie} setUser={setUser} />
-        </div>
-      </div>
-      }
+       {/* :
+       <div className='logged-out-view'>
+         <div>
+         <Login cookies={cookies} setCookie={setCookie} setUser={setUser} />
+         </div>
+         <div>
+         <Register cookies={cookies} setCookie={setCookie} setUser={setUser} />
+         </div>
+       </div>
+       } */}
     </>
   )
 }
