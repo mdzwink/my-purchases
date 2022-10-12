@@ -13,30 +13,27 @@ export default function Navbar(props) {
     navigate('/login');
     handleLogout();
   }
-  const handleAboutButton = () => {
-    navigate('/about');
-  }
-  const handleLoginNav = () => {
-    navigate('/login'); 
-  }
-  const handleRegisterNav = () => {
-    navigate('/register'); 
+
+  const handleLogoClick = () => {
+    user.email? navigate('/dashboard') : navigate('/');
   }
   
 
   return (
       <ul className="navbar" >
-        <li><div className='logo' >Purchase Hub</div></li>
+        <li><div className='logo' onClick={() => handleLogoClick()} >Purchase Hub</div></li>
         <div className="menu-items" >
-          <li><button className="nav-button" onClick={() => handleAboutButton()} >About</button></li>
+          <li><button className="nav-button" onClick={() => navigate('/')} >Home</button></li>
+          <li><button className="nav-button" onClick={() => navigate('/about')} >About</button></li>
           {email?
             <div className="menu-items" >
-              <li className="logged-in-as" >Logged in as: { email } <button className="nav-button" onClick={() => handleLogoutButton()} >Sign-out</button></li>
+              <li><button className='nav-button' onClick={() => navigate('/dashboard')} >Dashboard</button></li>
+              <li className="logged-in-as" >{ email } <button className="nav-button" onClick={() => handleLogoutButton()} >Sign-out</button></li>
             </div>
             :
             <div className="menu-items" >
-              <li><button onClick={() => handleLoginNav()} >Login</button></li>
-              <li><button onClick={() => handleRegisterNav()}>Register</button></li>
+              <li><button className='nav-button' onClick={() => navigate('/login')} >Login</button></li>
+              <li><button className='nav-button' onClick={() => navigate('/register')}>Register</button></li>
             </div>
           }
         </div>

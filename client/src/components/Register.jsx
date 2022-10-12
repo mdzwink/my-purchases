@@ -88,32 +88,33 @@ export default function Register(props) {
   }
   
   return (
-    <main className='logged-out-view' >
-      <Navbar />
+    <main>
       <Welcome />
-      <form>
-        <label className="form-label" >Register</label>
-        <input 
-          type="text"
-          placeholder="email"
-          onChange={e => setEmail(e.target.value)}
-          value={email}
-          ></input>
-        <input 
-          type="password"
-          placeholder="password"
-          onChange={e => setPassword(e.target.value)}
-          value={password}
-          ></input>
+      <section className="logged-out-view" >
+        <form>
+          <label className="form-label" >Register</label>
           <input 
-          type="password"
-          placeholder="confirm password"
-          onChange={e => setConfirmPassword(e.target.value)}
-          value={confirmPassword}
-          ></input>
-          {formError && <div className="form-error">{formError}</div>}
-          <button className="form-button" onClick={handleRegister}>Register</button>
-      </form>
+            type="text"
+            placeholder="email"
+            onChange={e => setEmail(e.target.value)}
+            value={email}
+            ></input>
+          <input 
+            type="password"
+            placeholder="password"
+            onChange={e => setPassword(e.target.value)}
+            value={password}
+            ></input>
+            <input 
+            type="password"
+            placeholder="confirm password"
+            onChange={e => setConfirmPassword(e.target.value)}
+            value={confirmPassword}
+            ></input>
+            {formError && <div className="form-error">{formError}</div>}
+            <button className="form-button" onClick={handleRegister}>Register</button>
+        </form>
+      </section>
     </main>
   );
 }

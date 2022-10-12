@@ -12,7 +12,7 @@ export default function Login(props) {
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState('');
   const navigate = useNavigate();
-  
+
   const clearForm = () => {
     setEmail('');
     setPassword('');
@@ -50,7 +50,7 @@ export default function Login(props) {
       setUser({ email: email, id: id });
       setCookie('user_id', id, { path: '/'});
       setCookie('email', email, { path: '/' });
-      navigate('/');
+      navigate('/dashboard');
     })
     .then(() => {
       return console.log(`${email} logged in 0-0`);
@@ -62,26 +62,27 @@ export default function Login(props) {
   //either I am reading the info the wrong way or updating at the wrong time
 
   return (
-    <main className='logged-out-view' >
-      <Navbar />
+    <main >
       <Welcome />
-      <form>
-        <label className="form-label" >Login</label>
-        <input 
-          type="text"
-          placeholder="email"
-          onChange={e => setEmail(e.target.value)}
-          value={email}
-        ></input>
-        <input 
-          type="password"
-          placeholder="password"
-          onChange={e => setPassword(e.target.value)}
-          value={password}
-        ></input>
-        {formError && <div className="form-error">{formError}</div>}
-        <button className="form-button" onClick={handleLogin}>Login</button>
-      </form>
+      <section className='logged-out-view' >
+        <form>
+          <label className="form-label" >Login</label>
+          <input 
+            type="text"
+            placeholder="email"
+            onChange={e => setEmail(e.target.value)}
+            value={email}
+          ></input>
+          <input 
+            type="password"
+            placeholder="password"
+            onChange={e => setPassword(e.target.value)}
+            value={password}
+          ></input>
+          {formError && <div className="form-error">{formError}</div>}
+          <button className="form-button" onClick={handleLogin}>Login</button>
+        </form>
+      </section>
     </main>
   );
 }
