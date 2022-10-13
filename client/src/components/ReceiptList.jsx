@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import ReceiptItem from "./ReceiptItem";
 import "./ReceiptList.css";
 import { getReceipts } from './helpers'
+import { connect } from 'react-redux';
 
 
 export default function ReceiptList(props) {

@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import About from './components/About';
+import { useSelector } from 'react-redux';
 
 import {
   BrowserRouter,
@@ -31,6 +32,8 @@ function App() {
     setUser('');
   }
 
+  const reduxReceipts = useSelector(state => state.receipts)
+  console.log('receipts from redux:', reduxReceipts)
 
   return (
     <BrowserRouter>
