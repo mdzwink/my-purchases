@@ -34,7 +34,8 @@ export default function ReceiptItem(props) {
   const deleteReceipt = (receipt_id) => {
     axios.post('/receipts/delete', { receipt_id: receipt_id } )
     .then(() => {
-      return getReceipts(user, setReceipts);
+      // return getReceipts(user, setReceipts)
+      console.log('>>refactor getReceipts in ReceiptItem.jsx')
     })
     .catch(err => { 
       console.log('ERROR from deleteReceipt():', err);
@@ -44,7 +45,7 @@ export default function ReceiptItem(props) {
   const alertsThem = (gold) => {
     return triggerAlerts(id, gold, store);
   }
-  checkForReminders(id, store, alertsThem)
+  // checkForReminders(id, store, alertsThem)
 
   
 

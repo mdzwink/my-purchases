@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import './AddForm.css';
 import { setDefaultReminders } from "./helpers";
 import axios from 'axios';
+import { useDispatch } from "react-redux";
+import { addReceipt } from "../features/receipts/receiptSlice";
 
 export default function Add(props) {
   const { user, setReceipts } = props;
@@ -12,6 +14,8 @@ export default function Add(props) {
   const [return_by, setReturn_by] = useState('');
   const [total, setTotal] = useState('');
   const [formError, setFormError] = useState('')
+
+  const dispatch = useDispatch();
 
 
   //replaces receipt info and engages box-shadow
@@ -46,6 +50,7 @@ export default function Add(props) {
 
     const updateReceipts = (appendReceipt) => {
       setReceipts(prev => [...prev, appendReceipt])
+      // dispatch(addReceipt(newReceipt))
     }
     const clearForm = () => {
       setImg('');
@@ -61,7 +66,7 @@ export default function Add(props) {
       const return_by = res.data[0].return_by;
       updateReceipts(res.data[0]);
       console.log('return_by/Add.js-1:', return_by)
-      setDefaultReminders(receipt_id, return_by);
+      // setDefaultReminders(receipt_id, return_by);
       return clearForm();
     })
     .catch(err => {

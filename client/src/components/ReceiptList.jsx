@@ -2,15 +2,30 @@ import React, { useEffect } from "react";
 import ReceiptItem from "./ReceiptItem";
 import "./ReceiptList.css";
 import { getReceipts } from './helpers'
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setReceiptState, addReceipt, removeReceipt } from "../features/receipts/receiptSlice";
 
 
 export default function ReceiptList(props) {
-  const { user, receipts, setReceipts, setAllReceipts } = props;
+  const { user, setReceipts, setAllReceipts } = props;
+  const receiptState = useSelector(state => state.receipt);
+  const dispatch = useDispatch();
+  const receipts = receiptState.receipts; 
 
   useEffect(() => {
-    getReceipts(user, setReceipts, setAllReceipts);
+    getReceipts(user)
+      .then(d => {
+        if(d) {
+          dispatch(setReceiptState(d));
+          return d;
+        }
+        return console.log('receipts loaded')
+      })
+      .catch(err => {
+        console.log('Err from Receiptlist',err)
+      })
   }, [])
+
 
   return (
     <section className="receipt-list">

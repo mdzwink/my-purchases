@@ -1,22 +1,37 @@
 import axios from "axios";
+import { addReceipt } from "../features/receipts/receiptSlice";
 
+// export function getReceipts(user, setReceipts, setAllReceipts, dispatch) {
+//   return axios.get('/receipts', {
+//     params: user.id
+//   })
+//   .then(d => {
+//     setReceipts(d.data);
+//     return d;
+//   })
+//   .then(d => {
+//     setAllReceipts(d.data);
+//     return d.data;
+//   })
+//   .then(d => {
+//     response.json(d.data);
+//   })
+//   .catch(err => {
+//     console.log("ERROR FROM getReceipts()", err);
+//   });
+// }
 
-export function getReceipts(user, setReceipts, setAllReceipts) {
-  axios.get('/receipts', {
+export async function getReceipts(user) {
+  return axios.get('/receipts', {
     params: user.id
   })
-  .then(d => {
-    setReceipts(d.data);
-    return d;
-  })
-  .then(d => {
-    return setAllReceipts(d.data);
+  .then(data => {
+    return data.data
   })
   .catch(err => {
     console.log("ERROR FROM getReceipts()", err);
   });
 }
-
 
 // Subtracts 'sub' days from date('day') given and returns date in mm-dd-yyyy format. Zero(0) 'sub' returns inputted date and negative 'sub' gives date ahead of given 'day'
 export function getDateBefore(day, sub) {

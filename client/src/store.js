@@ -1,9 +1,11 @@
 
 import { configureStore } from '@reduxjs/toolkit';
-import receiptSlice from './receiptSlice';
+import receiptReducer from './features/receipts/receiptSlice';
 
 const store = configureStore({
-  reducer: receiptSlice.reducer
+  reducer: {
+    receipt: receiptReducer,
+  }
 });
 
 export default store;

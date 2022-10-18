@@ -9,7 +9,7 @@ import { Searchbar } from './Searchbar';
 
 export default function Home(props) {
   // extract props for ease of refference
-  const { user, addingReceipt, setAddingReceipt, cookies, setCookie, setUser, handleLogout } = props;
+  const { user, addFormActive, setAddingReceipt, cookies, setCookie, setUser, handleLogout } = props;
 
   const [receipts, setReceipts] = useState([]);
   const [allReceipts, setAllReceipts] = useState([]);
@@ -55,7 +55,7 @@ export default function Home(props) {
     email = user.email;
   }
   const showAddForm = () => {
-    addingReceipt? setAddingReceipt(false) : setAddingReceipt(true);
+    addFormActive? setAddingReceipt(false) : setAddingReceipt(true);
     console.log('allReceipts',allReceipts)
   }
   //return array of only the receipts that meet filter conditions
@@ -88,7 +88,7 @@ export default function Home(props) {
         <button onClick={() => handleFilter('all')} >all</button>
         <button onClick={() => handleFilter('archive')} >archive</button>
         <button onClick={() => handleFilter('current')} >current</button>
-        {addingReceipt?
+        {addFormActive?
           <div className='add-form' >
             <div className='button' onClick={() => showAddForm()}>Hide form</div>
             <Add user={user} cookies={cookies} setReceipts={setReceipts}/>
