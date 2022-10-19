@@ -3,7 +3,7 @@ import './AddForm.css';
 import { setDefaultReminders } from "./helpers";
 import axios from 'axios';
 import { useDispatch } from "react-redux";
-import { addReceipt } from "../features/receipts/receiptSlice";
+import { addStateReceipt } from "../features/receipts/receiptSlice";
 
 export default function Add(props) {
   const { user, setReceipts } = props;
@@ -49,8 +49,7 @@ export default function Add(props) {
     }
 
     const updateReceipts = (appendReceipt) => {
-      setReceipts(prev => [...prev, appendReceipt])
-      // dispatch(addReceipt(newReceipt))
+      dispatch(addStateReceipt(appendReceipt));
     }
     const clearForm = () => {
       setImg('');

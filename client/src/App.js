@@ -23,8 +23,7 @@ import { getReceipts } from './components/helpers';
 function App() {
   const [addFormActive, setAddingReceipt] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
-
-  const receiptState = useSelector(state => state.receipt);
+  
   const [user, setUser] = useState({ email: cookies.email, id: cookies.user_id });
   // const userState = useSelector(state => state.user);
 

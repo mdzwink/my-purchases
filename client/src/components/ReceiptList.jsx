@@ -12,7 +12,7 @@ export default function ReceiptList(props) {
   const dispatch = useDispatch();
   const receipts = receiptState.receipts; 
 
-  useEffect(() => {
+  const reloadReceipts = () => {
     getReceipts(user)
       .then(d => {
         if(d) {
@@ -24,6 +24,10 @@ export default function ReceiptList(props) {
       .catch(err => {
         console.log('Err from Receiptlist',err)
       })
+  }
+
+  useEffect(() => {
+    reloadReceipts();
   }, [])
 
 

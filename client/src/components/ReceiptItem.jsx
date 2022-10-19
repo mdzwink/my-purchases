@@ -4,10 +4,13 @@ import moment from "moment";
 import "./ReceiptItem.css";
 import EditReceipt from "./EditReceipt.jsx";
 import { getReceipts, checkForReminders, triggerAlerts } from "./helpers";
+import { useDispatch } from "react-redux";
+import { setReceiptState, deleteStateReceipt } from "../features/receipts/receiptSlice";
 
 
 export default function ReceiptItem(props) {
   const { user, receipts, setReceipts, id, img, store, date, total, return_by } = props;
+  const dispatch = useDispatch()
   const currentInfo = {
     id,
     img,
@@ -28,14 +31,32 @@ export default function ReceiptItem(props) {
     setEditMode(true)
   }
   
+  const reloadReceipts = () => {
+    getReceipts(user)
+      .then(d => {
+        if(d) {
+          dispatch(setReceiptState(d));
+          return d;
+        }
+        return console.log('receipts loaded')
+      })
+      .catch(err => {
+        console.log('Err from Receiptlist',err)
+      })
+  }
+  
+  const removeReceipt = (receipt_id) => {
+    dispatch(deleteStateReceipt(receipt_id));
+  }
+  
   const handleDeleteButton = (receipt_id) => {
     setConfirmDelete(true);
   }
   const deleteReceipt = (receipt_id) => {
     axios.post('/receipts/delete', { receipt_id: receipt_id } )
     .then(() => {
-      // return getReceipts(user, setReceipts)
-      console.log('>>refactor getReceipts in ReceiptItem.jsx')
+      removeReceipt(receipt_id);
+      // reloadReceipts();
     })
     .catch(err => { 
       console.log('ERROR from deleteReceipt():', err);

@@ -1,6 +1,4 @@
 import axios from "axios";
-import { addReceipt } from "../features/receipts/receiptSlice";
-
 // export function getReceipts(user, setReceipts, setAllReceipts, dispatch) {
 //   return axios.get('/receipts', {
 //     params: user.id

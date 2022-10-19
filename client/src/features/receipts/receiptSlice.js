@@ -20,20 +20,25 @@ export const receiptSlice = createSlice({
     setReceiptState: (state, action) => {
       state.receipts = [...action.payload];
     },
-    addReceipt: (state, action) => {
-      state.receipts = [...action.payload];
+    addStateReceipt: (state, action) => {
+      state.receipts.push(action.payload);
     },
-    deleteReceipt: (state, action) => {
-      state.receipts = state.receipts.filter(receipt => {
-        if(receipt !== action.payload) {
+    deleteStateReceipt: (state, action) => {
+      const filteredReceipts = state.receipts.filter(receipt => {
+        if(receipt.id !== action.payload) {
           return receipt;
         }
+        return;
       })
+      state.receipts = filteredReceipts;
+      // state.receipts = filteredReceipts.filter(receipt => {
+      //   receipt !== false
+      // })
     },
   },
 })
 
 
-export const { setReceiptState, addReceipt, deleteReceipt } = receiptSlice.actions
+export const { setReceiptState, addStateReceipt, deleteStateReceipt } = receiptSlice.actions
 
 export default receiptSlice.reducer
