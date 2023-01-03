@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import bcrypt from 'bcryptjs';
 import Welcome from "./Welcome";
 import axios from 'axios';
-import bcrypt from 'bcryptjs';
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 

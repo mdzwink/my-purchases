@@ -1,26 +1,34 @@
 import React, { useState } from "react";
 import './AddForm.css';
 import axios from 'axios';
+import moment from 'moment';
 import { getReceipts } from "./helpers";
+import { useDispatch, useSelector } from "react-redux";
+import { editStateReceipt } from "../features/receipts/receiptSlice";
 
 export default function EditReceipt(props) {
+  const dispatch = useDispatch();
+  const receiptState = useSelector(state => state.receipt.userReceipts);
   const { user, currentInfo, setReceipts, setEditMode } = props;
   const user_id = user.id;
   const { id, img, store, date, total, return_by } = currentInfo
-
+  const formattedDate = moment.utc(date.toLocaleString()).format("YYYY-MM-DD");
   const [updatedImg, setImage] = useState(img || 'http://source.unsplash.com/400x400?sunrise');
   const [updatedStore, setStore] = useState(store);
-  const [updatedDate, setPurchase_date] = useState(date);
+  console.log('date test:',formattedDate)
+  const [updatedDate, setPurchase_date] = useState(formattedDate);
   const [updatedReturn_by, setReturn_by] = useState(return_by);
   const [updatedTotal, setTotal] = useState(total);
   const [formError, setFormError] = useState('')
+  console.log('date test:',updatedDate)
   
   
   const handleCancel = () => {
     setEditMode(false)
   }
 
-  const handleUpdate = () => {
+  const handleUpdate = (e) => {
+    e.preventDefault()
     //resetting formError
     setFormError('');
     setEditMode(false);
@@ -53,7 +61,8 @@ export default function EditReceipt(props) {
     
     axios.post('/receipts/update', updatedReceipt)
     .then(() => {
-      return getReceipts(user, setReceipts)
+      console.log('receipt updated')
+      return dispatch(editStateReceipt(updatedReceipt))
     })
     .catch(err => {
       console.log("ERR from post'/receipt'", err)
@@ -95,8 +104,8 @@ export default function EditReceipt(props) {
           value={updatedTotal}
           ></input>
         {formError && <div className="form-error">{formError}</div>}
-        <div onClick={() => handleUpdate()} className="button">Save</div>
-        <div onClick={() => handleCancel()} className="caution-button">Discard</div>
+        <button onClick={(e) => handleUpdate(e)} className="button">Save</button>
+        <button onClick={() => handleCancel()} className="caution-button">Discard</button>
       </form>
     </>
   );

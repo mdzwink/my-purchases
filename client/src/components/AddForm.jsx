@@ -49,7 +49,7 @@ export default function Add(props) {
     }
 
     const updateReceipts = (appendReceipt) => {
-      dispatch(addStateReceipt(appendReceipt));
+      dispatch(addStateReceipt(appendReceipt));//<<<<< use function to set state?
     }
     const clearForm = () => {
       setImg('');

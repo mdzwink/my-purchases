@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from './Navbar';
 import Welcome from './Welcome';
 import ReceiptList from './ReceiptList';
 import Add from './AddForm';
-import Login from './Login';
-import Register from './Register';
 import { Searchbar } from './Searchbar';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilteredReceipts, setReceiptState } from '../features/receipts/receiptSlice';
 
-export default function Home(props) {
+export default function Dashboard(props) {
   // extract props for ease of refference
-  const { user, addFormActive, setAddingReceipt, cookies, setCookie, setUser, handleLogout } = props;
+  const { user, addFormActive, setAddingReceipt, cookies } = props
+  const userReceipts = useSelector(state => state.receipt.userReceipts);
+  const filteredReceipts = useSelector(state => state.receipt.filteredReceipts);
+  const dispatch = useDispatch();
+  //define filter boolian
+  //define additional receipt state that can be affected by filter
 
-  const [receipts, setReceipts] = useState([]);
-  const [allReceipts, setAllReceipts] = useState([]);
+  //filter button activates
+  //active filter vs multiple states pre-filtered and ready to display
+
   const [searchQuery, setSearchQuery] = useState(''); 
 
   const handleSearchButton = (e) => {
@@ -23,32 +28,23 @@ export default function Home(props) {
   // Live search current receipt state
   let searchResults = [];
   const searchFor = () => {
-    if(receipts) {
+    if(userReceipts) {
     searchResults = [];
-    const receiptsCopy = [...receipts]
+    const receiptsCopy = [...userReceipts]
     receiptsCopy.map(receipt => (
       receipt.store.toLowerCase().includes(searchQuery)? searchResults.push(receipt) : receipt.date.includes(searchQuery)? searchResults.push(receipt) : false
     ))
     if (searchResults !== []) {
-      setReceipts(searchResults);
+      dispatch(setFilteredReceipts(searchResults));
     }}
     return false
   }
-
-  // always filter out receipts with past return_by
-  // button and function to show just "archive"
-  // button and function to show all receipts
-
-  // receipts state holds all the users receipts -->
 
 
   useEffect(() => {
     searchFor();
   }, [searchQuery])
 
-  // useEffect(() => {
-  //   setAllReceipts([...receipts])
-  // }, [])
 
   let email = '';
   if (user.email) {
@@ -56,11 +52,10 @@ export default function Home(props) {
   }
   const showAddForm = () => {
     addFormActive? setAddingReceipt(false) : setAddingReceipt(true);
-    console.log('allReceipts',allReceipts)
   }
   //return array of only the receipts that meet filter conditions
   const handleFilter = (filter) => {
-    const filteredReceipts = allReceipts.map(receipt => {
+    const filteredReceipts = userReceipts.map(receipt => {
       const today = Number(new Date());
       const return_byMS = Number(new Date(receipt.return_by));
       if(filter === "all") {
@@ -76,7 +71,7 @@ export default function Home(props) {
     })
     
     console.log('filteredReceipts', filteredReceipts)
-    return setReceipts(filteredReceipts.filter(receipt => receipt !== false)); 
+    return dispatch(setFilteredReceipts(filteredReceipts.filter(receipt => receipt !== false))); 
   }
   
   return (
@@ -91,7 +86,7 @@ export default function Home(props) {
         {addFormActive?
           <div className='add-form' >
             <div className='button' onClick={() => showAddForm()}>Hide form</div>
-            <Add user={user} cookies={cookies} setReceipts={setReceipts}/>
+            <Add user={user} cookies={cookies} />
           </div>
         :
           <div className='view'>
@@ -101,22 +96,12 @@ export default function Home(props) {
         {searchQuery?
           <section>
             <div>Searching for {searchQuery}</div>
-            <ReceiptList  user={user} cookies={cookies} receipts={receipts} setReceipts={setReceipts} />
+            <ReceiptList  user={user} searchQuery={searchQuery} filteredReceipts={filteredReceipts} />
           </section>
         :
-        <ReceiptList  user={user} receipts={receipts} setReceipts={setReceipts} setAllReceipts={setAllReceipts}/>
+        <ReceiptList  user={user} searchQuery={searchQuery} filteredReceipts={filteredReceipts} />
         }
       </div>
-       {/* :
-       <div className='logged-out-view'>
-         <div>
-         <Login cookies={cookies} setCookie={setCookie} setUser={setUser} />
-         </div>
-         <div>
-         <Register cookies={cookies} setCookie={setCookie} setUser={setUser} />
-         </div>
-       </div>
-       } */}
     </>
   )
 }

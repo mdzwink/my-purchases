@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from 'axios';
-import bcrypt from 'bcryptjs';
-import Navbar from "./Navbar";
+import bcrypt from "bcryptjs";
 import Welcome from "./Welcome";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 
 export default function Register(props) {
-  const { cookies, setCookie, setUser} = props;
+  const { setUser } = props;
+  const [cookies, setCookie, removeCookie] = useCookies(['user-id', 'email'])
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -31,6 +32,7 @@ export default function Register(props) {
         //send request to db to confirm that email and (hashed) password don't already exist
         axios.post('/register', user)
         .then((res) => {
+          console.log('hello there')
           const id = res.data.id;
           const email = res.data.email;
           clearForm();
@@ -39,6 +41,7 @@ export default function Register(props) {
           setCookie('user_id', id, { path: '/'});
           setCookie('email', email, { path: '/' });
           navigate('/');
+          setUser(email)
           return console.log(`${email}: has been registered!`);
         })
         .catch(err => {
@@ -83,6 +86,7 @@ export default function Register(props) {
       return registerNewUser();
     })
     .catch(err => {
+      setFormError("Sorry, an error occered!")
       return console.log("ERR from verifyUserExists()'", err);
     })    
   }

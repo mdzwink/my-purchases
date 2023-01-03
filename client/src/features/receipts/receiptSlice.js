@@ -1,36 +1,43 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  receipts: [
-    {
-    user_id: 4,
-    img: 'https://github.com/mdzwink/my-purchases/blob/main/client/public/docs/pexels-picjumbocom-196639.jpg?raw=true',
-    store: 'Dillans Dough',
-    date: '08-25-2022',
-    return_by: '09-24-2022', 
-    total: 2250
-    },
-  ]
+  filterSwitch: false,
+  userReceipts: [
+  ],
+  filteredReceipts: [
+  ],
 }
 
 export const receiptSlice = createSlice({
   name: 'receipt',
   initialState,
   reducers: {
-    setReceiptState: (state, action) => {
-      state.receipts = [...action.payload];
+    filterToggle: (state) => {
+      state.filterSwitch? state.filterSwitch = false : state.filterSwitch = true;
+    },
+    setUserReceipts: (state, action) => {
+      state.userReceipts = [...action.payload];
+    },
+    setFilteredReceipts: (state, action) => {
+      state.filteredReceipts = [...action.payload];
     },
     addStateReceipt: (state, action) => {
-      state.receipts.push(action.payload);
+      state.userReceipts.push(action.payload)
+    },
+    editStateReceipt: (state, action) => {
+      const receiptIndex = state.userReceipts.findIndex(receipt => receipt.id === action.payload.id)
+      if (receiptIndex >= 0) {
+        state.userReceipts.splice(receiptIndex, 1, action.payload);
+      }
     },
     deleteStateReceipt: (state, action) => {
-      const filteredReceipts = state.receipts.filter(receipt => {
+      const filteredReceipts = state.userReceipts.filter(receipt => {
         if(receipt.id !== action.payload) {
           return receipt;
         }
         return;
       })
-      state.receipts = filteredReceipts;
+      state.userReceipts = filteredReceipts;
       // state.receipts = filteredReceipts.filter(receipt => {
       //   receipt !== false
       // })
@@ -39,6 +46,6 @@ export const receiptSlice = createSlice({
 })
 
 
-export const { setReceiptState, addStateReceipt, deleteStateReceipt } = receiptSlice.actions
+export const { filterToggle, setUserReceipts, setFilteredReceipts, addStateReceipt, editStateReceipt, deleteStateReceipt } = receiptSlice.actions
 
 export default receiptSlice.reducer

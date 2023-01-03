@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
-import moment from "moment";
+import moment, { utc } from "moment";
 import "./ReceiptItem.css";
 import EditReceipt from "./EditReceipt.jsx";
-import { getReceipts, checkForReminders, triggerAlerts } from "./helpers";
+import { getReceipts, triggerAlerts } from "./helpers";
 import { useDispatch } from "react-redux";
-import { setReceiptState, deleteStateReceipt } from "../features/receipts/receiptSlice";
+import { setUserReceipts, deleteStateReceipt } from "../features/receipts/receiptSlice";
 
 
 export default function ReceiptItem(props) {
-  const { user, receipts, setReceipts, id, img, store, date, total, return_by } = props;
+  const { user, id, img, store, date, total, return_by } = props;
   const dispatch = useDispatch()
   const currentInfo = {
     id,
@@ -35,10 +35,10 @@ export default function ReceiptItem(props) {
     getReceipts(user)
       .then(d => {
         if(d) {
-          dispatch(setReceiptState(d));
+          dispatch(setUserReceipts(d));
           return d;
         }
-        return console.log('receipts loaded')
+        return console.log('receipts re-loaded')
       })
       .catch(err => {
         console.log('Err from Receiptlist',err)
@@ -49,14 +49,13 @@ export default function ReceiptItem(props) {
     dispatch(deleteStateReceipt(receipt_id));
   }
   
-  const handleDeleteButton = (receipt_id) => {
+  const handleDeleteButton = () => {
     setConfirmDelete(true);
   }
   const deleteReceipt = (receipt_id) => {
     axios.post('/receipts/delete', { receipt_id: receipt_id } )
     .then(() => {
-      removeReceipt(receipt_id);
-      // reloadReceipts();
+      return removeReceipt(receipt_id);
     })
     .catch(err => { 
       console.log('ERROR from deleteReceipt():', err);
@@ -68,8 +67,9 @@ export default function ReceiptItem(props) {
   }
   // checkForReminders(id, store, alertsThem)
 
-  
+  const formattedDate = moment.utc(date.toLocaleString()).format("YYYY-MM-DD");
 
+  
   return (
     <>
       {confirmDelete?
@@ -85,15 +85,14 @@ export default function ReceiptItem(props) {
           <img src={img || "http://source.unsplash.com/400x400?sunrise"} alt="receipt" ></img>
           {editMode?
             <div>
-              <EditReceipt currentInfo={currentInfo} setEditMode={setEditMode} user={user} receipts={receipts} setReceipts={setReceipts} />
+              <EditReceipt currentInfo={currentInfo} setEditMode={setEditMode} user={user}/>
             </div>
           :
           <div>
+              <h3>{formattedDate}</h3>
+              <h3>{date}</h3>
               <h2>{store}</h2>
               <h4>Purchased on: {purchaseDate}</h4>
-              {/* {items.map((item) => {
-                return <Item key={item.key} id={item.id} name={item.name} price={item.price} quantity={item.quantity} return_by={item.return_by} ></Item>
-              })} */}
               <p>Total ${totalCost}</p>
               <p>Return expires {daysLeft}.</p>
               <section className="manage-receipt-options">
