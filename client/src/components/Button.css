@@ -1,5 +1,24 @@
+button.nav-button {
+  width: auto;
+  min-width: 7em;
+  height: 100%;
+  background-color: var(--btn-bg);
+  color: var(--btn-c);
+  border: none;
+  font-size: 100%;
+  font-weight: bold;
+}
+button.nav-button.dm {
+  background-color: var(--dm-btn-bg);
+  color: var(--dm-btn-c);
+}
 
-.button {
-  background-color: tomato;
-  
+button.nav-button:hover {
+  background-color: var(--btn-bg-hv);
+  cursor: pointer;
+  color: var(--btn-c-hv);
+}
+button.nav-button.dm:hover {
+  background-color: var(--dm-btn-bg-hv);
+  color: var(--dm-btn-c-hv);
 }

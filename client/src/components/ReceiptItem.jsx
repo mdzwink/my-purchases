@@ -44,7 +44,7 @@ export default function ReceiptItem(props) {
   const alertsThem = (gold) => {
     return triggerAlerts(id, gold, store);
   }
-  checkForReminders(id, store, alertsThem)
+  // checkForReminders(id, store, alertsThem)
 
   
 
@@ -69,9 +69,6 @@ export default function ReceiptItem(props) {
           <div>
               <h2>{store}</h2>
               <h4>Purchased on: {purchaseDate}</h4>
-              {/* {items.map((item) => {
-                return <Item key={item.key} id={item.id} name={item.name} price={item.price} quantity={item.quantity} return_by={item.return_by} ></Item>
-              })} */}
               <p>Total ${totalCost}</p>
               <p>Return expires {daysLeft}.</p>
               <section className="manage-receipt-options">
