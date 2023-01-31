@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
-import Navbar from "./Navbar";
 import Welcome from "./Welcome";
 import { useNavigate } from "react-router-dom";
 
 
 export default function Register(props) {
-  const { cookies, setCookie, setUser} = props;
+  const { setCookie, setUser} = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');

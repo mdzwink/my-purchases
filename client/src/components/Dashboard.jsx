@@ -107,16 +107,6 @@ export default function Home(props) {
         <ReceiptList  user={user} receipts={receipts} setReceipts={setReceipts} setAllReceipts={setAllReceipts}/>
         }
       </div>
-       {/* :
-       <div className='logged-out-view'>
-         <div>
-         <Login cookies={cookies} setCookie={setCookie} setUser={setUser} />
-         </div>
-         <div>
-         <Register cookies={cookies} setCookie={setCookie} setUser={setUser} />
-         </div>
-       </div>
-       } */}
     </>
   )
 }

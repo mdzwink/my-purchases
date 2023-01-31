@@ -1,4 +1,5 @@
 import React, { className } from "react";
+import '../App.css'
 
 export default function Button(props) {
   return (

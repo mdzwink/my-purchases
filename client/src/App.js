@@ -11,8 +11,6 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Link,
-  Outlet,
 } from "react-router-dom";
 import Navbar from './components/Navbar';
 
@@ -20,6 +18,7 @@ function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const [user, setUser] = useState({ email: cookies.email, id: cookies.user_id });
   const [addingReceipt, setAddingReceipt] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   console.log('cookies.email:', cookies.email)
   useEffect(() => {
     setUser({email: cookies.email, id: cookies.user_id });
@@ -34,33 +33,16 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar user={user} handleLogout={handleLogout} />
+      <Navbar darkMode={darkMode} user={user} handleLogout={handleLogout} />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login setCookie={setCookie} setUser={setUser} />} />
-        <Route path="/register" element={<Register cookies={cookies} setCookie={setCookie} setUser={setUser} />} />
-        <Route path="/dashboard" element={<Dashboard user={user} addingReceipt={addingReceipt} setAddingReceipt={setAddingReceipt} handleLogout={handleLogout} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} setUser={setUser} />} />
-        <Route path="/about" element={<About />} />
-
-        {/* <Route path="users" element={<Users />}>
-          <Route path="me" element={<OwnUserProfile />} />
-          <Route path=":id" element={<UserProfile />} />
-        </Route> */}
+        <Route path="/" element={<Home darkMode />} />
+        <Route path="/login" element={<Login darkMode={darkMode} setCookie={setCookie} setUser={setUser} />} />
+        <Route path="/register" element={<Register darkMode={darkMode} cookies={cookies} setCookie={setCookie} setUser={setUser} />} />
+        <Route path="/dashboard" element={<Dashboard darkMode={darkMode} user={user} addingReceipt={addingReceipt} setAddingReceipt={setAddingReceipt} handleLogout={handleLogout} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} setUser={setUser} />} />
+        <Route path="/about" element={<About darkMode={darkMode} />} />
       </Routes>
     </BrowserRouter>
   );
-
-
-  // return (
-  //   <div className="App">
-  //     <Navbar user={user} handleLogout={handleLogout} />
-  //     <main>
-  //       <div className='welcome-text'>Welcome to your purchase hub</div>
-  //       <Welcome />
-  //       <Home user={user} addingReceipt={addingReceipt} setAddingReceipt={setAddingReceipt} handleLogout={handleLogout} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} setUser={setUser} />
-  //     </main>
-  //   </div>
-  // );
 }
 
 export default App;

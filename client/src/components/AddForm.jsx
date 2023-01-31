@@ -7,6 +7,7 @@ export default function Add(props) {
   const { user, setReceipts } = props;
   const user_id = user.id;
   const [img, setImg] = useState('');
+  console.log('img>mz>', img)
   const [store, setStore] = useState('');
   const [date, setPurchase_date] = useState('');
   const [return_by, setReturn_by] = useState('');
