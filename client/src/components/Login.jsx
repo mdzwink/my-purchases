@@ -63,7 +63,6 @@ export default function Login(props) {
 
   return (
     <main >
-      <Welcome />
       <section className='logged-out-view' >
         <form>
           <label className="form-label" >Login</label>

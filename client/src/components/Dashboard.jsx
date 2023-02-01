@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from './Navbar';
-import Welcome from './Welcome';
 import ReceiptList from './ReceiptList';
 import Add from './AddForm';
 import Login from './Login';
@@ -9,7 +7,7 @@ import { Searchbar } from './Searchbar';
 
 export default function Home(props) {
   // extract props for ease of refference
-  const { user, addingReceipt, setAddingReceipt, cookies, setCookie, setUser, handleLogout } = props;
+  const { user, addingReceipt, setAddReceipt, cookies, setCookie, setUser, handleLogout } = props;
 
   const [receipts, setReceipts] = useState([]);
   const [allReceipts, setAllReceipts] = useState([]);
@@ -55,7 +53,7 @@ export default function Home(props) {
     email = user.email;
   }
   const showAddForm = () => {
-    addingReceipt? setAddingReceipt(false) : setAddingReceipt(true);
+    addingReceipt? setAddReceipt(false) : setAddReceipt(true);
     console.log('allReceipts',allReceipts)
   }
   //return array of only the receipts that meet filter conditions
@@ -81,7 +79,6 @@ export default function Home(props) {
   
   return (
     <>
-      <Welcome />
       {/* {user.email? */}
       <div className='view'>
         <Searchbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleSearchButton={handleSearchButton} />

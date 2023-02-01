@@ -88,7 +88,6 @@ export default function Register(props) {
   
   return (
     <main>
-      <Welcome />
       <section className="logged-out-view" >
         <form>
           <label className="form-label" >Register</label>

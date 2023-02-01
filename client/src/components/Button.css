@@ -1,4 +1,4 @@
-button.nav-button {
+button.nav-btn {
   width: auto;
   min-width: 7em;
   height: 100%;
@@ -7,18 +7,19 @@ button.nav-button {
   border: none;
   font-size: 100%;
   font-weight: bold;
+  transition: all 300ms;
 }
-button.nav-button.dm {
+button.nav-btn.dm {
   background-color: var(--dm-btn-bg);
   color: var(--dm-btn-c);
 }
 
-button.nav-button:hover {
+button.nav-btn:hover {
   background-color: var(--btn-bg-hv);
   cursor: pointer;
   color: var(--btn-c-hv);
 }
-button.nav-button.dm:hover {
+button.nav-btn.dm:hover {
   background-color: var(--dm-btn-bg-hv);
   color: var(--dm-btn-c-hv);
 }

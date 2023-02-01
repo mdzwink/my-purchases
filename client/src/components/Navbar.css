@@ -3,7 +3,8 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  height: 10vh;  
+  height: 10vh;
+  z-index: 1000;
 }
 header .navbar {
   width: 100%;
@@ -13,16 +14,14 @@ header .navbar {
   justify-content: space-between;
   align-items: center;
   list-style: none;
-  background-color: white;
-  box-shadow: 0px 1px 9px 0px grey;
   padding: 0.3em 20px 0 0;
   margin: 0px;
   font-size: 120%;
   font-weight: 500;
+  transition: all 300ms;
 }
-header .navbar.dm {
-  background-color: black;
-  box-shadow: 0px 1px 9px 0px rgb(24, 93, 133);
+header .navbar.dm:hover {
+  box-shadow: 0px 1px 9px 0px var(--nav-bs);
 }
 
 .logo {
@@ -32,17 +31,173 @@ header .navbar.dm {
   font-size: 3em;
   font-weight: bold;
   color: var(--logo-c);
+  text-shadow: 4px 4px 0 gray,
+               3.5px 3.5px 0 gray,
+               3px 3px 0 gray,
+               2.5px 2.5px 0 gray,
+               2px 2px 0 gray,
+               1.5px 1.5px 0 gray,
+               1px 1px 0 gray,
+               0.5px 0.5px gray;
 }
 .logo:hover {
   cursor: pointer;
-}
-.logo.dm {
-
 }
 
 .menu-items {
   height: 100%;
   display: flex;
   flex-direction: row;
-  padding-right: 40px;
+}
+
+.logged-in-as {
+  position: relative;
+  width: fit-content;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--btn-c);
+  padding: 0 1em;
+}
+
+.logged-in-as .avatar img {
+  width: 6vh;
+  height: 6vh;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  cursor: pointer;
+  opacity: .8;
+  user-select: none;
+}
+.logged-in-as .avatar img:hover {
+  box-shadow: 2px 2px 5px var(--logo-c);
+  opacity: .9;
+}
+
+div.avatar-dropdown {
+  position: absolute;
+  top: 104%;
+  right: 30%;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--dropdown-bg);
+  color: var(--nav);
+  box-shadow: 3px 3px 3px var(--nav-bs),
+  -3px -3px 3px var(--nav-bs),
+  3px -3px 3px var(--nav-bs),
+  -3px 3px 3px var(--nav-bs);
+  border-radius: 7px;
+  user-select: none;
+}
+div.avatar-dropdown ul {
+  width: 100%;
+}
+div.avatar-dropdown ul li > button {
+  width: 100%;
+  padding: 1em 1em;
+}
+
+div.avatar-dropdown.active {
+  display: block;
+}
+div.close-dropdown {
+  visibility: hidden;
+  position: absolute;
+  top: 10vh;
+  left: 0;
+  width: 100vw;
+  max-width: 100%;
+  height: 90vh;
+  z-index: -1;
+}
+div.close-dropdown.active {
+  visibility: visible;
+}
+
+.connect {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: .3em;
+}
+.connect section {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-bottom: .5em;
+}
+.connect .dev {
+  position: absolute;
+  bottom: 1.2em;
+  left: 0;
+  width: 100%;
+  height: 2.2em;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  font-size: .7em;
+  background-color: rgb(23, 69, 53);
+  border-radius: 0 0 7px 7px;
+  padding: .3em 0;
+  z-index: -1;
+  transition: all 500ms;
+}
+.connect:hover {
+  background-color: rgb(23, 69, 53);
+}
+.connect:hover .dev {
+  bottom: -1.7em;
+}
+
+#dragon-breath {
+  visibility: collapse;
+  position: absolute;
+  bottom: 41.5%;
+  left: 24%;
+  transform: rotate(120deg);
+  color: orange;
+  font-size: 40%;
+}
+.dragon-dungon:hover {
+  color: firebrick;
+  transition: color 200ms;
+}
+.dragon-dungon:hover #dragon-breath {
+  visibility: visible;
+}
+@keyframes firebreath {
+  from {
+    visibility: hidden;
+    opacity: 0;
+  }
+  50% {
+    visibility: visible;
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.dragon-msg {
+
+}
+.git:hover {
+  width: auto;
+  color: gray;
+}
+.li:hover {
+  width: auto;
+  color: blue;
+}
+.ig:hover {
+  width: auto;
+  color: rebeccapurple;
 }

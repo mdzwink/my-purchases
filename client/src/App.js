@@ -17,7 +17,7 @@ import Navbar from './components/Navbar';
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const [user, setUser] = useState({ email: cookies.email, id: cookies.user_id });
-  const [addingReceipt, setAddingReceipt] = useState(false);
+  const [addingReceipt, setAddReceipt] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
   console.log('cookies.email:', cookies.email)
   useEffect(() => {
@@ -33,12 +33,12 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar darkMode={darkMode} user={user} handleLogout={handleLogout} />
+      <Navbar darkMode={darkMode} user={user} handleLogout={handleLogout} setAddReceipt={setAddReceipt} />
       <Routes>
-        <Route path="/" element={<Home darkMode />} />
+        <Route path="/" element={<Home darkMode={darkMode} />} />
         <Route path="/login" element={<Login darkMode={darkMode} setCookie={setCookie} setUser={setUser} />} />
         <Route path="/register" element={<Register darkMode={darkMode} cookies={cookies} setCookie={setCookie} setUser={setUser} />} />
-        <Route path="/dashboard" element={<Dashboard darkMode={darkMode} user={user} addingReceipt={addingReceipt} setAddingReceipt={setAddingReceipt} handleLogout={handleLogout} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} setUser={setUser} />} />
+        <Route path="/dashboard" element={<Dashboard darkMode={darkMode} user={user} addingReceipt={addingReceipt} setAddReceipt={setAddReceipt} handleLogout={handleLogout} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} setUser={setUser} />} />
         <Route path="/about" element={<About darkMode={darkMode} />} />
       </Routes>
     </BrowserRouter>

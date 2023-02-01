@@ -1,11 +1,8 @@
 import React, { className } from "react";
-import Navbar from "./Navbar";
-import Welcome from "./Welcome";
 
 export default function About(props) {
   return (
     <main>
-      <Welcome />
       <section className='logged-out-view' >
         <div>
           <div>

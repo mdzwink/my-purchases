@@ -13,7 +13,7 @@
   box-shadow: 0 3px 9px 0 grey;
 } */
 
-ul {
+.receipt-list ul {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
