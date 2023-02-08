@@ -11,6 +11,9 @@ export function Searchbar(props) {
   return (
     <>
       <form className="searchbar" >
+        <button onClick={() => handleFilter('all')} >all</button>
+        <button onClick={() => handleFilter('archive')} >archive</button>
+        <button onClick={() => handleFilter('current')} >current</button>
         <button className="searchbar-button" onClick={handleSearchButton}>Show All</button>
         <input
           type="text"

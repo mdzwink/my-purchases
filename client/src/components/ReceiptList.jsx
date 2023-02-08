@@ -12,10 +12,10 @@ export default function ReceiptList(props) {
   }, [])
 
   return (
-    <section className="receipt-list">
-      <ul>
+    <section className="receipt-list-container">
+      <ul className="receipt-list">
         {receipts? receipts.map(receipt => (
-            <li>
+            <li className="receipt">
               <ReceiptItem 
                 key={receipt.id}
                 id={receipt.id}

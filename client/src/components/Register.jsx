@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
-import Welcome from "./Welcome";
 import { useNavigate } from "react-router-dom";
+import './LoginRegister.css';
+import { useCookies } from "react-cookie";
+
 
 
 export default function Register(props) {
-  const { setCookie, setUser} = props;
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const { setUser, setLoginRegister} = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -85,34 +88,37 @@ export default function Register(props) {
       return console.log("ERR from verifyUserExists()'", err);
     })    
   }
+
+  const handleLoginClick = (e) => {
+    e.preventDefault()
+    setLoginRegister('login');
+    console.log('click')
+  }
   
   return (
-    <main>
-      <section className="logged-out-view" >
-        <form>
+        <form className='register'>
           <label className="form-label" >Register</label>
+          <label>*username</label>
           <input 
             type="text"
-            placeholder="email"
             onChange={e => setEmail(e.target.value)}
             value={email}
             ></input>
+          <label>*password</label>
           <input 
             type="password"
-            placeholder="password"
             onChange={e => setPassword(e.target.value)}
             value={password}
             ></input>
+          <label>*confirm password</label>
             <input 
             type="password"
-            placeholder="confirm password"
             onChange={e => setConfirmPassword(e.target.value)}
             value={confirmPassword}
             ></input>
             {formError && <div className="form-error">{formError}</div>}
             <button className="form-button" onClick={handleRegister}>Register</button>
+            <p>Already have an account? Click <button className="go-to-login" onClick={(e) => handleLoginClick(e)}>here</button> to login!</p>
         </form>
-      </section>
-    </main>
   );
 }

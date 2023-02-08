@@ -7,5 +7,5 @@ CREATE TABLE receipts (
   store VARCHAR(255) NOT NULL,
   date DATE NOT NULL,
   return_by DATE NOT NULL,
-  total INTEGER NOT NULL
+  total MONEY NOT NULL
 );

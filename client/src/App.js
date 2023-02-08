@@ -3,8 +3,6 @@ import './App.css';
 import { useCookies } from 'react-cookie';
 import Dashboard from './components/Dashboard'
 import Home from './components/Home';
-import Login from './components/Login';
-import Register from './components/Register';
 import About from './components/About';
 
 import {
@@ -17,9 +15,11 @@ import Navbar from './components/Navbar';
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const [user, setUser] = useState({ email: cookies.email, id: cookies.user_id });
-  const [addingReceipt, setAddReceipt] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
-  console.log('cookies.email:', cookies.email)
+  const [loginRegister, setLoginRegister] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(''); 
+  const [receipts, setReceipts] = useState([]);
+
   useEffect(() => {
     setUser({email: cookies.email, id: cookies.user_id });
   }, [cookies])
@@ -33,12 +33,10 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar darkMode={darkMode} user={user} handleLogout={handleLogout} setAddReceipt={setAddReceipt} />
+      <Navbar darkMode={darkMode} setLoginRegister={setLoginRegister} user={user} handleLogout={handleLogout} setReceipts={setReceipts} />
       <Routes>
-        <Route path="/" element={<Home darkMode={darkMode} />} />
-        <Route path="/login" element={<Login darkMode={darkMode} setCookie={setCookie} setUser={setUser} />} />
-        <Route path="/register" element={<Register darkMode={darkMode} cookies={cookies} setCookie={setCookie} setUser={setUser} />} />
-        <Route path="/dashboard" element={<Dashboard darkMode={darkMode} user={user} addingReceipt={addingReceipt} setAddReceipt={setAddReceipt} handleLogout={handleLogout} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} setUser={setUser} />} />
+        <Route path="/" element={<Home darkMode={darkMode} user={user} loginRegister={loginRegister} setLoginRegister={setLoginRegister} />} />
+        <Route path="/dashboard" element={<Dashboard darkMode={darkMode} user={user} handleLogout={handleLogout} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} setUser={setUser} searchQuery={searchQuery} setSearchQuery={setSearchQuery} receipts={receipts} setReceipts={setReceipts} />} />
         <Route path="/about" element={<About darkMode={darkMode} />} />
       </Routes>
     </BrowserRouter>

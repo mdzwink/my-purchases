@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import ReceiptList from './ReceiptList';
 import Add from './AddForm';
-import Login from './Login';
-import Register from './Register';
-import { Searchbar } from './Searchbar';
 
 export default function Home(props) {
   // extract props for ease of refference
-  const { user, addingReceipt, setAddReceipt, cookies, setCookie, setUser, handleLogout } = props;
+  const { darkMode, user, cookies, setCookie, setUser, handleLogout, receipts, setReceipts } = props;
 
-  const [receipts, setReceipts] = useState([]);
+  // const [receipts, setReceipts] = useState([]);
   const [allReceipts, setAllReceipts] = useState([]);
   const [searchQuery, setSearchQuery] = useState(''); 
 
@@ -44,18 +41,12 @@ export default function Home(props) {
     searchFor();
   }, [searchQuery])
 
-  // useEffect(() => {
-  //   setAllReceipts([...receipts])
-  // }, [])
 
   let email = '';
   if (user.email) {
     email = user.email;
   }
-  const showAddForm = () => {
-    addingReceipt? setAddReceipt(false) : setAddReceipt(true);
-    console.log('allReceipts',allReceipts)
-  }
+
   //return array of only the receipts that meet filter conditions
   const handleFilter = (filter) => {
     const filteredReceipts = allReceipts.map(receipt => {
@@ -72,29 +63,14 @@ export default function Home(props) {
       }
       return false;
     })
-    
-    console.log('filteredReceipts', filteredReceipts)
     return setReceipts(filteredReceipts.filter(receipt => receipt !== false)); 
   }
   
   return (
-    <>
+    <main>
       {/* {user.email? */}
-      <div className='view'>
-        <Searchbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleSearchButton={handleSearchButton} />
-        <button onClick={() => handleFilter('all')} >all</button>
-        <button onClick={() => handleFilter('archive')} >archive</button>
-        <button onClick={() => handleFilter('current')} >current</button>
-        {addingReceipt?
-          <div className='add-form' >
-            <div className='button' onClick={() => showAddForm()}>Hide form</div>
-            <Add user={user} cookies={cookies} setReceipts={setReceipts}/>
-          </div>
-        :
-          <div className='view'>
-            <div className='lrg-button' onClick={() => showAddForm()}>New Receipt</div>
-          </div>
-        }
+      <div className={darkMode ? 'view dm' : 'view'}>
+        {/* <Searchbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleSearchButton={handleSearchButton} /> */}
         {searchQuery?
           <section>
             <div>Searching for {searchQuery}</div>
@@ -104,6 +80,6 @@ export default function Home(props) {
         <ReceiptList  user={user} receipts={receipts} setReceipts={setReceipts} setAllReceipts={setAllReceipts}/>
         }
       </div>
-    </>
+    </main>
   )
 }

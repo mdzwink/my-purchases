@@ -7,7 +7,6 @@ export default function Add(props) {
   const { user, setReceipts } = props;
   const user_id = user.id;
   const [img, setImg] = useState('');
-  console.log('img>mz>', img)
   const [store, setStore] = useState('');
   const [date, setPurchase_date] = useState('');
   const [return_by, setReturn_by] = useState('');
@@ -46,7 +45,7 @@ export default function Add(props) {
     }
 
     const updateReceipts = (appendReceipt) => {
-      setReceipts(prev => [...prev, appendReceipt])
+      setReceipts(prev => [...prev, appendReceipt])// prevReceipts or just prev??
     }
     const clearForm = () => {
       setImg('');
@@ -55,14 +54,14 @@ export default function Add(props) {
       setReturn_by('');
       setTotal('');
     }
-
     axios.post('/receipts', newReceipt)
-    .then((res) => {
+    .then(res => {
       const receipt_id = res.data[0].id;
       const return_by = res.data[0].return_by;
       updateReceipts(res.data[0]);
-      console.log('return_by/Add.js-1:', return_by)
       setDefaultReminders(receipt_id, return_by);
+    })
+    .then(res => {
       return clearForm();
     })
     .catch(err => {
@@ -73,48 +72,50 @@ export default function Add(props) {
   return (
     <>
       <form className="add-form" >
-        <label className="form-label" >Add Receipt:</label>
+        <label className="form-label" >Add Receipt</label>
+        <label>receipt image</label>
         <input 
-          type="text" 
-          placeholder="receipt image"
+          type="file"
+          accept="image/png, image/jpeg"
           onChange={e => setImg(e.target.value)}
           value={img}
           className="add-input"
         ></input>
-        <label>Store:</label>
+        <label>store</label>
         <input 
           type="text" 
-          placeholder="store"
           onChange={e => setStore(e.target.value)}
           value={store}
           className="add-input"
         ></input>
-        <label>Purchase date:</label>
+        <label>purchase date</label>
         <input 
           type="date" 
-          placeholder="purchase date"
           onChange={e => setPurchase_date(e.target.value)}
           value={date}
           className="add-input"
         ></input>
-        <label>Return period ends</label>
+        <label>return period ends</label>
         <input 
           type="date" 
-          placeholder="return by"
           onChange={e => setReturn_by(e.target.value)}
           value={return_by}
           className="add-input"
         ></input>
-        <label>Total $</label>
+        <label>receipt total</label>
         <input 
-          type="text" 
-          placeholder="recipt total $"
+          type="number"
+          min="0"
+          step="0.01"
           onChange={e => setTotal(e.target.value)}
           value={total}
           className="add-input"
         ></input>
         {formError && <div className="form-error">{formError}</div>}
-        <button className="add-form-button" onClick={handleForm}>Add receipt</button>
+        <section className="buttons">
+          <button className="confirm" onClick={(e) => handleForm(e)}>Add receipt</button>
+          <button className="discard" onClick={(e) => handleForm(e)}>Discard</button>
+        </section>
       </form>
     </>
   );

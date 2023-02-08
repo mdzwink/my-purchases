@@ -63,40 +63,42 @@ export default function EditReceipt(props) {
   return (
     <>
       <form className="edit-form" >
-        <label>Edit Receipt:</label>
+        <label className="form-label" >Edit Receipt</label>
+        <label>receipt image</label>
         <input
-          type="text" 
-          placeholder="receipt image"
+          type="text"
           onChange={e => setImage(e.target.value)}
           value={updatedImg}
           ></input>
+        <label>store</label>
         <input
-          type="text" 
-          placeholder="store"
+          type="text"
           onChange={e => setStore(e.target.value)}
           value={updatedStore}
           ></input>
+        <label>purchase date</label>
         <input
-          type="date" 
-          placeholder="purchase date"
+          type="date"
           onChange={e => setPurchase_date(e.target.value)}
           value={updatedDate}
           ></input>
+        <label>return period ends</label>
         <input
-          type="date" 
-          placeholder="return by"
+          type="date"
           onChange={e => setReturn_by(e.target.value)}
           value={updatedReturn_by}
           ></input>
+        <label>receipt total</label>
         <input
-          type="text" 
-          placeholder="recipt total $"
+          type="text"
           onChange={e => setTotal(e.target.value)}
           value={updatedTotal}
           ></input>
         {formError && <div className="form-error">{formError}</div>}
-        <div onClick={() => handleUpdate()} className="button">Save</div>
-        <div onClick={() => handleCancel()} className="caution-button">Discard</div>
+        <section className="buttons">
+          <button className="confirm" onClick={() => handleUpdate()} >Save</button>
+          <button className="discard" onClick={() => handleCancel()} >Discard</button>
+        </section>
       </form>
     </>
   );

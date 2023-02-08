@@ -1,0 +1,11 @@
+
+form.add-form {
+  position: absolute;
+  top: 115%;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 200px;
+  width: 30vw;
+  max-height: 70vh;
+  max-width: 300px;
+}

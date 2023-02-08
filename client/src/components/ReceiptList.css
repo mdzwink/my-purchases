@@ -1,22 +1,257 @@
-.receipt-list {
+section.receipt-list-container {
   margin-top: 10px;
   width: 100%;
+  min-height: 89vh;
   gap: 1em;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  list-style-type: none;
 }
 
 /* .receipt-list:hover {
   box-shadow: 0 3px 9px 0 grey;
 } */
 
-.receipt-list ul {
+section.receipt-list-container ul.receipt-list {
   display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  padding-right: 3em;
   list-style-type: none;
+  padding: 0 2em;
+}
+
+section.receipt-list-container ul.receipt-list li.receipt {
+  position: relative;
+  width: 280px;
+  border-radius: 7px;
+  background-color: var(--mr-blue);
+  margin: 0.5em;
+  transition: all 300ms;
+  border: 2px solid transparent;
+}
+section.receipt-list-container ul.receipt-list li.receipt:hover {
+  border: 2px solid var(--mr-orange);
+}
+
+/* receipt item styling */
+
+div.receipt-item {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+.receipt-item h2 {
+  position: relative;
+  width: 100%;
+  height: 25%;
+  margin: 0;
+  padding: 1em 0;
+  border-bottom: 2px solid #ffffffaa;
+}
+.receipt-item .menu-button {
+  position: absolute;
+  top: .5em;
+  right: .5em;
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: .7em;
+}
+.receipt-item .menu-button:hover {
+  cursor: pointer;
+}
+
+.receipt-item ul.item-menu {
+  position: absolute;
+  top: 2em;
+  right: .5em;
+  width: 30%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--menu-bg);
+  border-radius: 3px;
+  border: 2px solid var(--mr-orange);
+  padding: 0;
+  z-index: 100;
+}
+.receipt-item ul.item-menu.active {
+  display: block;
+}
+
+.receipt-item h2 ul.item-menu li,
+.receipt-item h2 ul.item-menu li button {
+  width: 100%;
+  margin: 0;
+  background-color: transparent;
+  border: none;
+  color: white;
+  padding-bottom: .2em;
+  transition: all 400ms;
+}
+.receipt-item ul.item-menu li:hover {
+  background-color: var(--dm-btn-bg-hv);
+}
+
+section.item-content {
+  position: relative;
+  width: 100%;
+}
+
+div.info-container {
+  width: 100%;
+  height: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+div.info-container > div {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5em;
+  margin: .5em;
+  border: 2px solid transparent;
+  border-radius: 7px;
+  transition: all 300ms;
+}
+div.info-container > div:hover {
+  border: 2px solid white;
+}
+
+.subtext {
+  position: absolute;
+  top: 0;
+  right: 1em;
+  display: none;
+  margin: 0;
+  font-size: .7em;
+  cursor: pointer;
+  user-select: none;
+}
+.subtext.active {
+  display: block;
+}
+.subtext.total {
+  display: block;
+}
+
+div.thumbnail-container {
+  width: 100%;
+  height: 45%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+div.thumbnail-container.plus,
+div.thumbnail-container > img {
+  width: 4em;
+  height: 4em;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 15px;
+  padding: .5em;
+  transition: all 300ms;
+}
+div.plus {
+  width: 3em;
+  height: 3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #00000099;
+  color: #ffffffaa;
+  border-radius: 10px;
+  transition: all 300ms;
+}
+div.thumbnail-container > img:hover,
+div.thumbnail-container > .plus:hover {
+  transform: scale(1.1);
+  font-weight: bold;
+  color: #ffffffff;
+  cursor: pointer;
+}
+
+div.receipt-item:hover {
+  border: none;
+}
+
+.manage-receipt-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+/* edit and delete dialog styling */
+
+.edit-form {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+}
+
+
+.confirm-delete {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  background-color: var(--menu-bg);
+}
+.confirm-delete section.buttons {
+  width: 80%;
+}
+.confirm-delete section.buttons button:hover {
+  box-shadow: 1px 1px 3px #ffffff99;
+}
+
+.add-image form {
+  position: absolute;
+  top: -1px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.add-image h3 {
+  width: 100%;
+  border-bottom: 2px solid #ffffffaa;
+  padding-bottom: 1em;
+}
+.add-image.active form {
+  display: flex;
+}
+.close {
+  position: absolute;
+  top: .5em;
+  right: .7em;
+  display: none;
+  z-index: 1001;
+  cursor: pointer;
+}
+.close:hover {
+  color: var(--mr-red);
+}
+.add-image.active .close {
+  display: block;
 }

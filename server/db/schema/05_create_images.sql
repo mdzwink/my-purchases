@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS images CASCADE;
+
+CREATE TABLE images (
+  id SERIAL PRIMARY KEY,
+  receipt_id INTEGER REFERENCES receipts(id) ON DELETE CASCADE NOT NULL,
+  name VARCHAR(50),
+  image_url VARCHAR(255)
+);

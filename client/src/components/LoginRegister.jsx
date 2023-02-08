@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import Welcome from "./Welcome";
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
 import { useNavigate } from "react-router-dom";
-import Navbar from "./Navbar";
+import './LoginRegister.css';
+import { useCookies } from "react-cookie";
 
 
-export default function Login(props) {
-  const { setCookie, setUser } = props;
+export default function LoginRegister(props) {
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const { setUser, setLoginRegister } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState('');
@@ -60,28 +61,29 @@ export default function Login(props) {
     })     
   }
   //either I am reading the info the wrong way or updating at the wrong time
+  const handleRegisterClick = (e) => {
+    e.preventDefault()
+    setLoginRegister('register');
+  }
 
   return (
-    <main >
-      <section className='logged-out-view' >
-        <form>
+        <form className='login'>
           <label className="form-label" >Login</label>
+          <label>*username</label>
           <input 
             type="text"
-            placeholder="email"
             onChange={e => setEmail(e.target.value)}
             value={email}
           ></input>
+          <label>*password</label>
           <input 
             type="password"
-            placeholder="password"
             onChange={e => setPassword(e.target.value)}
             value={password}
           ></input>
           {formError && <div className="form-error">{formError}</div>}
-          <button className="form-button" onClick={handleLogin}>Login</button>
+          <button className="form-button" onClick={(e) => handleLogin(e)}>LoginRegister</button>
+          <p>Don't have an account? Click <button className="go-to-register" onClick={(e) => handleRegisterClick(e)}>here</button> to register!</p>
         </form>
-      </section>
-    </main>
   );
 }
