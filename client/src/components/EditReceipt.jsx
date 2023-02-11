@@ -4,7 +4,7 @@ import axios from 'axios';
 import { getReceipts } from "./helpers";
 
 export default function EditReceipt(props) {
-  const { user, currentInfo, setReceipts, setEditMode } = props;
+  const { user, currentInfo, setReceipts, setEditReceiptMode } = props;
   const user_id = user.id;
   const { id, img, store, date, total, return_by } = currentInfo
 
@@ -17,13 +17,13 @@ export default function EditReceipt(props) {
   
   
   const handleCancel = () => {
-    setEditMode(false)
+    setEditReceiptMode(false)
   }
 
   const handleUpdate = () => {
     //resetting formError
     setFormError('');
-    setEditMode(false);
+    setEditReceiptMode(false);
     //setting form error if not all fields are filled upon submission
     if (!id) {
       axios.status(500).send('sorry, something went wrong :( \n Please try agian later...')

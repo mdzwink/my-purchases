@@ -20,7 +20,6 @@ export function getReceipts(user, setReceipts, setAllReceipts) {
 
 // Subtracts 'sub' days from date('day') given and returns date in mm-dd-yyyy format. Zero(0) 'sub' returns inputted date and negative 'sub' gives date ahead of given 'day'
 export function getDateBefore(day, sub) {
-  console.log('TRACKING getDateBefor> > >:', day)
   const date = new Date(day);
   date.setDate(date.getDate() - sub);
   const d = date.getDate();
@@ -33,14 +32,13 @@ export function getDateBefore(day, sub) {
   return reminder;
 }
 
-// sets reminder 'sub' days before 'return_by' date. Sets alert(reminder mssg) code to 'code'
-export function setReminder(receipt_id, return_by, sub, alert_code) {
+// sets reminder 'sub' days before 'return_by' date.
+export function setReminder(receipt_id, reminder_date) {
 
-  const date = getDateBefore(return_by, sub)
+  // const date = getDateBefore(return_by, sub)
   const reminder = {
     receipt_id,
-    date,
-    alert_code
+    reminder_date
   }
 
   axios.post('/reminders', reminder)
@@ -71,10 +69,11 @@ export function deleteReminder(reminder_id) {
   })
 }
 
-export function triggerAlerts(receipt_id, reminders, store) {
+export function triggerAlerts(reminders, store) {
   const thisDay = new Date()
   if (reminders) {
     reminders.forEach(reminder => {
+      console.log('received reminder dates',reminder)
       const reminderDate = new Date(reminder.date);
       const compareDay1 = reminderDate.getDate();
       const compareMonth1 = reminderDate.getMonth() + 1;
@@ -87,25 +86,13 @@ export function triggerAlerts(receipt_id, reminders, store) {
       const reminderDay = `${compareDay1}-${compareMonth1}-${compareYear1}`;
       const today = `${compareDay2}-${compareMonth2}-${compareYear2}`;
       if (reminderDay === today) {
-        switch(reminder.alert_code) {
-          case 0:
-            alert(`You have less than 24 hours to return items from your ${store} purchase.`);
-            break;
-          case 1:
-            alert(`There are three(3) days to return items from your ${store} purchase.`);
-            break;
-          case 3:
-            alert(`There is one week to return items from your ${store} purchase.`);
-            break;
-          default:
-            alert(`The return period for your purchase from ${store} is coming up.`);
-        }
+        alert('ha!')
       }
     })
   }
 }
 
-export function checkForReminders(receipt_id, store, cb) {
+export function checkForReminders(receipt_id, cb) {
   // const receipt_id = id;
   axios.get('/reminders', {
     params: receipt_id

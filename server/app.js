@@ -13,6 +13,7 @@ const remindersRouter = require('./routes/reminders');
 const login = require('./routes/login');
 const register = require('./routes/register');
 const emailIsTaken = require('./routes/emailIsTaken');
+const testThree = require('./routes/testThree');
 
 const app = express();
 
@@ -30,5 +31,6 @@ app.use('/reminders', remindersRouter(db));
 app.use('/login', login(db));
 app.use('/register', register(db));
 app.use('/emailIsTaken', emailIsTaken(db));
+app.use('/testThree', testThree(db));
 
 module.exports = app;

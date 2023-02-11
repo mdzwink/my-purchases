@@ -223,6 +223,11 @@ div.receipt-item:hover {
   box-shadow: 1px 1px 3px #ffffff99;
 }
 
+/* edit-reminders form */
+
+/* add-image form */
+
+.edit-reminders form,
 .add-image form {
   position: absolute;
   top: -1px;
@@ -232,12 +237,24 @@ div.receipt-item:hover {
   display: none;
   justify-content: space-evenly;
   align-items: center;
+  padding-bottom: 0;
 }
-.add-image h3 {
+.edit-reminders form > div,
+.add-image form > div {
+  width: 100%;
+}
+.add-image label {
   width: 100%;
   border-bottom: 2px solid #ffffffaa;
-  padding-bottom: 1em;
 }
+.add-image label:hover {
+  border-bottom: 2px solid #ffffff;
+  cursor: pointer;
+}
+.add-image input {
+  display: none;
+}
+.edit-reminders.active form,
 .add-image.active form {
   display: flex;
 }
@@ -250,8 +267,75 @@ div.receipt-item:hover {
   cursor: pointer;
 }
 .close:hover {
-  color: var(--mr-red);
+  color: black;
 }
+.edit-reminders.active .close,
 .add-image.active .close {
   display: block;
+}
+.new-reminder-preview,
+.new-images-preview {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1em;
+}
+.new-images-preview img {
+  width: 20%;
+}
+.new-reminder-preview {
+  justify-content: center  
+}
+.new-reminder-preview.reminder-chip {
+  width: 3em;
+  height: 1.1em;
+  border-radius: 50%;
+  background-color: goldenrod;
+  font-size: .9em;
+}
+
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000000aa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.lightbox img {
+  max-height: 70vh;
+  z-index: 1001;
+}
+.back {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  font-size: 2em;
+  text-align: center;
+  transition: background-color 400ms;
+}
+.back:hover {
+  background-color: #cccccc55;
+}
+.forward {
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  font-size: 2em;
+  text-align: center;
+  transition: background-color 400ms;
+}
+.forward:hover {
+  background-color: #cccccc55;
 }

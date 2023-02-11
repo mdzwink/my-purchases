@@ -15,9 +15,9 @@ module.exports = (db) => {
     })
   })
   router.post('/', (req, res) => {
-    const { receipt_id, date, alert_code } = req.body;
-    db.query("INSERT INTO reminders(receipt_id, date, alert_code) VALUES($1, $2, $3) RETURNING *;", 
-    [receipt_id, date, alert_code]
+    const { receipt_id, date } = req.body;
+    db.query("INSERT INTO reminders(receipt_id, date) VALUES($1, $2) RETURNING *;", 
+    [receipt_id, date]
     ).then(d => {
       return console.log('TRACK reminders/POST:', d.rows);
     })

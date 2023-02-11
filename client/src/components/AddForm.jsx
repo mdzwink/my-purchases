@@ -75,8 +75,7 @@ export default function Add(props) {
         <label className="form-label" >Add Receipt</label>
         <label>receipt image</label>
         <input 
-          type="file"
-          accept="image/png, image/jpeg"
+          type="text"
           onChange={e => setImg(e.target.value)}
           value={img}
           className="add-input"
@@ -106,7 +105,7 @@ export default function Add(props) {
         <input 
           type="number"
           min="0"
-          step="0.01"
+          step="any"
           onChange={e => setTotal(e.target.value)}
           value={total}
           className="add-input"
