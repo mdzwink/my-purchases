@@ -27,11 +27,11 @@ module.exports = (db) => {
   })
 
   router.post('/delete', (req, res) => {
-    const { receipt_id } = req.body;
+    const { reminder_id } = req.body;
     db.query("DELETE FROM reminders WHERE id = $1;", 
-    [receipt_id]
+    [reminder_id]
     ).then(d => {
-      return console.log('d from reminders/delete/POST:', d);
+      return console.log('data from reminders/delete/POST:', d);
     })
     .catch(err => {
       console.log('ERROR from POST/reminders/delete:', err)

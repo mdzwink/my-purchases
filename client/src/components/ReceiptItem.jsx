@@ -3,9 +3,10 @@ import axios from "axios";
 import moment from "moment";
 import "./ReceiptItem.css";
 import EditReceipt from "./EditReceipt.jsx";
-import { getReceipts, setReminder, triggerAlerts } from "./helpers";
+import { deleteReminder, getReceipts, getReminders, setReminder, triggerAlerts } from "./helpers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faBars, faX, faClose, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import ReminderChip from "./ReminderChip";
 
 
 
@@ -28,10 +29,10 @@ export default function ReceiptItem(props) {
   const [itemMenuState, setItemMenuState] = useState(false);
   const [lightboxActive, setLightboxActive] = useState(false);
   const [newImgName, setNewImgName] = useState('');
-  const [newImgArr, setNewImgArr] = useState('');
+  const [newImgArr, setNewImgArr] = useState([]);
   const [newReminderArr, setNewReminderArr] = useState('');
 
-  let image;
+  const [reminderArr, setReminderArr] = useState([]);
   
   const purchaseDate = moment.utc(date.toLocaleString()).format("ddd, MMMM Do");
   const returnBy = moment.utc(return_by.toLocaleString()).format("ddd, MMM Do");
@@ -62,15 +63,8 @@ export default function ReceiptItem(props) {
     })
   }
 
-  const alertsThem = (gold) => {
-    return triggerAlerts(id, gold, store);
-  }
-  // checkForReminders(id, store, alertsThem)
 
   const subtextClassesToggle = (input) => {
-    // if enter total set subtextClass to 'total
-    // if enter info set subtextClass to 'info'
-    // 
     if (input === 'total') {
       return setSubtextClasses('total');
     }
@@ -87,7 +81,7 @@ export default function ReceiptItem(props) {
   const handleAddImgClick = (command) => {
     if(command === 'close') {
       setNewImgName('');
-      setNewImgArr('');
+      setNewImgArr([]);
     }
     addImageMode ? setAddImage(false) : setAddImage(true);
   }
@@ -97,6 +91,7 @@ export default function ReceiptItem(props) {
     }
     editReminderMode ? setEditReminderMode(false) : setEditReminderMode(true);
   }
+  // updates db and reminderArr (to avoid complete rerender with with) with a new date
   const handleReminderSubmit = (e, receipt_id, newReminder) => {
     e.preventDefault();
     const date = newReminder
@@ -106,6 +101,7 @@ export default function ReceiptItem(props) {
     }
     axios.post('/reminders', reminder)
     .then(d => {
+      setReminderArr(prevReminderArr => [...prevReminderArr, date])
       return console.log('reminder set:', d);
     })
     .catch(err => {
@@ -117,32 +113,21 @@ export default function ReceiptItem(props) {
     lightboxActive ? setLightboxActive(false) : setLightboxActive(img);
   }
 
-  const handleSubmit = (e) => {
+  const handleImageFormSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    console.log('image:',image)
-    formData.append("file", newImgArr, newImgName);
+    console.log(newImgName, '\n', newImgArr[0].name)
 
-    axios.post('/testThree', { formData })
-    .then((res) => {
-      console.log('res from testThree',res);
-    })
-    .catch(error =>{
-      throw new Error(error);
-    })
+    // axios.post('/testThree', { formData })
+    // .then((res) => {
+    //   console.log('res from testThree',res);
+    // })
+    // .catch(error =>{
+    //   throw new Error(error);
+    // })
   }
   
   const checkTodayReminders = (reminderArr)=>{
     triggerAlerts(reminderArr, store)
-    // reminderArr.forEach(reminder => {
-      
-    //   const rem = new Date(reminder.date);
-    //   const today = new Date();
-    //   console.log('reminder>>',rem)
-    //   console.log('today', today)
-
-    //   if (rem == today) alert('this is a reminder 🥳')
-    // })
   }
 
   const handleAlertTriggerClick = (e) => {
@@ -153,9 +138,31 @@ export default function ReceiptItem(props) {
     })
   }
 
+  let reminderDates;
+
+  useEffect(()=>{
+    getReminders(id, setReminderArr)
+    .then(d=>{
+      console.log(d)
+      setReminderArr(d)
+      return reminderDates
+    })
+    .then(d=>{
+      console.log('reminderArr',reminderArr)
+    })
+    .catch(err=>{
+      throw new Error(err);
+    })
+  },[])
+
+
+
+  
+
   return (
     <>
       <div className="receipt-item">
+          {/* conditionally displayed lightbox for images in the thumbnail-container below, component is here to position absolutely in relation to receipt-item div/ReceiptItem [**extract into seperate component**] */}
           {lightboxActive ?
             <div className="lightbox" onClick={() => handleImageClick(false)}>
               <div className="back"><FontAwesomeIcon icon={faArrowLeft} /></div>
@@ -165,6 +172,7 @@ export default function ReceiptItem(props) {
           :
             <></>
           }
+          {/* conditionally displayed EditReceipt component */}
           {editMode?
             <div>
               <EditReceipt currentInfo={currentInfo} setEditMode={setEditMode} user={user} receipts={receipts} setReceipts={setReceipts} />
@@ -172,6 +180,7 @@ export default function ReceiptItem(props) {
           :
             <></>
           }
+          {/* Store name and ReceiptItem dropdown menu */}
           <h2>
             {store}
             <div className="menu-button" onClick={(e) => handleItemMenuClick(e)}>
@@ -184,8 +193,9 @@ export default function ReceiptItem(props) {
               <li><button onClick={(e) => {handleDeleteClick(e); handleItemMenuClick(e)}} >delete</button></li>
             </ul>
           </h2>
-          <section className="item-content">
-            <div className="info-container">
+          <div className="item-content">
+            {/* receipt information */}
+            <section className="info-container">
               <div onMouseEnter={() => subtextClassesToggle('info')} onMouseLeave={() => subtextClassesToggle(false)}>
                 {subtextClasses === 'info' ?
                     infoSwitch? 
@@ -205,11 +215,27 @@ export default function ReceiptItem(props) {
                 }
                 <div>{totalCost}</div>
               </div>
-            </div>
-            <div className="thumbnail-container">
+            </section>
+            {/* thumbnail images */}
+            <section className="thumbnail-container">
               <img onClick={() => handleImageClick(img)} src={img || "http://source.unsplash.com/400x400?error"} alt="receipt" ></img>
-              <div className="plus" onClick={() => handleAddImgClick('open')}><FontAwesomeIcon icon={faPlus} /></div>
-            </div>
+              <div className="add" onClick={() => handleAddImgClick('open')}><FontAwesomeIcon icon={faPlus} /></div>
+            </section>
+            {/* reminder chips */}
+            <section className="reminder-chips">
+              {reminderArr.length > 1 ?
+                <>
+                  {reminderArr.map(reminder => {
+                    return <div onClick={() => deleteReminder(reminder.id)}>{reminder.date}</div>
+                    // <ReminderChip date={reminder} receiptDate={date} />
+                  })}
+                  <div className="add" onClick={() => handleAddReminderClick('')} ><FontAwesomeIcon icon={faPlus} /></div>
+                </>
+              :
+              <div className="add" onClick={() => handleAddReminderClick('')} ><FontAwesomeIcon icon={faPlus} />&nbsp;Add Reminder</div>
+              }
+            </section>
+            {/* conditionally displayed AddReminder form [**extract into seperate component**] */}
             <div className={editReminderMode ? "edit-reminders active" : "edit-reminders"}>
               <div className="close" onClick={() => handleAddReminderClick('close')}><FontAwesomeIcon icon={faClose} /></div>
               <form>
@@ -228,6 +254,10 @@ export default function ReceiptItem(props) {
                 <button onClick={(e)=> handleReminderSubmit(e, id, newReminderArr)}>Add reminder</button>
               </form>
             </div>
+
+
+{/* >>>>>>>>>>>>>>>>>> */}
+            {/* conditionally displayed AddImages form [**extract into seperate component**] */}
             <div className={addImageMode ? "add-image active" : "add-image"}>
               <div className="close" onClick={() => handleAddImgClick('close')}><FontAwesomeIcon icon={faClose} /></div>
               <form>
@@ -237,18 +267,24 @@ export default function ReceiptItem(props) {
                     type="file"
                     id="new-image"
                     accept="image/png, image/jpeg"
-                    onChange={e => {setNewImgName(e.target.value); setNewImgArr(e.target.files[0])}}
+                    onChange={e => {setNewImgName(e.target.value); setNewImgArr([...e.target.files])}}
                     className="add-input"
                     multiple
                     />
                 </div>
                 <div className="new-images-preview">
                   <img src={img} alt="receipt" />
-                  <p>{newImgName}</p>
+                  {newImgArr.forEach(image=>{
+                    <p>{image}</p>
+                  })}
                 </div>
-                <button onClick={(e)=> handleSubmit(e, newImgName, newImgArr)}>Add images</button>
+                <button onClick={(e)=> handleImageFormSubmit(e, newImgName, newImgArr)}>Add images</button>
               </form>
             </div>
+
+{/* >>>>>>>>>>>>>>>>>>>>>> */}
+
+            {/* conditionally displayed confirmation interface [**extract into seperate component**] */}
             {confirmDelete?
               <div className="confirm-delete">
                 <h1>Confirm Delete?</h1>
@@ -260,7 +296,7 @@ export default function ReceiptItem(props) {
             :
               <></>
             }
-          </section>      
+          </div>      
       </div>
     </>
   );

@@ -21,7 +21,7 @@ section.receipt-list-container ul.receipt-list {
 
 section.receipt-list-container ul.receipt-list li.receipt {
   position: relative;
-  width: 280px;
+  width: 300px;
   border-radius: 7px;
   background-color: var(--mr-blue);
   margin: 0.5em;
@@ -98,22 +98,22 @@ div.receipt-item {
   background-color: var(--dm-btn-bg-hv);
 }
 
-section.item-content {
+div.item-content {
   position: relative;
   width: 100%;
 }
 
-div.info-container {
+section.info-container {
   width: 100%;
-  height: 30%;
+  height: 45%;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
-div.info-container > div {
+section.info-container > div {
   position: relative;
-  width: 50%;
+  width: 47%;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -124,7 +124,7 @@ div.info-container > div {
   border-radius: 7px;
   transition: all 300ms;
 }
-div.info-container > div:hover {
+section.info-container > div:hover {
   border: 2px solid white;
 }
 
@@ -145,7 +145,7 @@ div.info-container > div:hover {
   display: block;
 }
 
-div.thumbnail-container {
+section.thumbnail-container {
   width: 100%;
   height: 45%;
   display: flex;
@@ -154,8 +154,8 @@ div.thumbnail-container {
   align-items: center;
 }
 
-div.thumbnail-container.plus,
-div.thumbnail-container > img {
+section.thumbnail-container.add,
+section.thumbnail-container > img {
   width: 4em;
   height: 4em;
   object-fit: cover;
@@ -164,7 +164,7 @@ div.thumbnail-container > img {
   padding: .5em;
   transition: all 300ms;
 }
-div.plus {
+div.add {
   width: 3em;
   height: 3em;
   display: flex;
@@ -175,8 +175,9 @@ div.plus {
   border-radius: 10px;
   transition: all 300ms;
 }
-div.thumbnail-container > img:hover,
-div.thumbnail-container > .plus:hover {
+
+section.thumbnail-container > img:hover,
+section.thumbnail-container > .add:hover {
   transform: scale(1.1);
   font-weight: bold;
   color: #ffffffff;
@@ -295,6 +296,26 @@ div.receipt-item:hover {
   font-size: .9em;
 }
 
+section.reminder-chips {
+  width: 100%;
+  height: 10%;
+  padding-bottom: .5em;
+}
+section.reminder-chips > div.add {
+  width: max-content;
+  height: 100%;
+  border-radius: 9px;
+  background-color: var(--menu-bg);
+  color: #ffffffaa;
+  margin: 0 .5em;
+  padding: .2em .3em;
+}
+section.reminder-chips > div:hover {
+  transform: scale(1.07);
+  font-weight: bold;
+  color: #ffffffff;
+  cursor: pointer;
+}
 .lightbox {
   position: fixed;
   top: 0;

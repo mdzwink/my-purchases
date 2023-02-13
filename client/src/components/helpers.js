@@ -60,9 +60,9 @@ export function setDefaultReminders(receipt_id, return_by) {
 }
 
 export function deleteReminder(reminder_id) {
-  axios.post('/reminders/delete', reminder_id)
+  axios.post('/reminders/delete', {'reminder_id': reminder_id})
   .then(d => {
-    return console.log('d from deleteReminder', d)
+    return console.log('success from deleteReminder', d)
   })
   .catch(err => {
     console.log('ERROR from deleteReminder():', err);
@@ -92,14 +92,14 @@ export function triggerAlerts(reminders, store) {
   }
 }
 
-export function checkForReminders(receipt_id, cb) {
+export async function getReminders(receipt_id, setReminders) {
   // const receipt_id = id;
-  axios.get('/reminders', {
+  return axios.get('/reminders', {
     params: receipt_id
   })
   .then(d => {
     let reminders = d.data;
-    return cb(reminders);
+    return reminders;
   })
   .catch(err => {
     console.log('ERROR from checkReminders:', err);
