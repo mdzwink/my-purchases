@@ -22,7 +22,7 @@ export default function ReceiptItem(props) {
   }
   const [editReminderMode, setEditReminderMode] = useState(false);
   const [addImageMode, setAddImage] = useState(false);
-  const [editMode, setEditMode] = useState(false);
+  const [editReceiptMode, setEditReceiptMode] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [infoSwitch, setInfoSwitch] = useState(false);
   const [subtextClasses, setSubtextClasses] = useState(false);
@@ -33,51 +33,32 @@ export default function ReceiptItem(props) {
   const [newReminderArr, setNewReminderArr] = useState('');
 
   const [reminderArr, setReminderArr] = useState([]);
+
+  const localReminders = reminderArr.filter(reminder=>reminder.receipt_id === id)
+  console.log(localReminders)
   
   const purchaseDate = moment.utc(date.toLocaleString()).format("ddd, MMMM Do");
   const returnBy = moment.utc(return_by.toLocaleString()).format("ddd, MMM Do");
   const daysLeft = moment(return_by).endOf('day').fromNow(); 
   const totalCost = total;
 
+  // Click handlers
   const handleReminderClick = (e) => {
     e.preventDefault();
     setEditReminderMode(true)
   }
-
   const handleEditClick = (e) => {
     e.preventDefault();
-    setEditMode(true)
+    setEditReceiptMode(true)
   }
-  
   const handleDeleteClick = (e) => {
     e.preventDefault();
     setConfirmDelete(true);
-  }
-  const deleteReceipt = (receipt_id) => {
-    axios.post('/receipts/delete', { receipt_id: receipt_id } )
-    .then(() => {
-      return getReceipts(user, setReceipts);
-    })
-    .catch(err => { 
-      console.log('ERROR from deleteReceipt():', err);
-    })
-  }
-
-
-  const subtextClassesToggle = (input) => {
-    if (input === 'total') {
-      return setSubtextClasses('total');
-    }
-    if (input === 'info') {
-      return setSubtextClasses('info');
-    }
-    setSubtextClasses(false);
   }
   const handleItemMenuClick = (e) => {
     e.preventDefault();
     itemMenuState ? setItemMenuState(false) : setItemMenuState(true);
   }
-
   const handleAddImgClick = (command) => {
     if(command === 'close') {
       setNewImgName('');
@@ -91,23 +72,61 @@ export default function ReceiptItem(props) {
     }
     editReminderMode ? setEditReminderMode(false) : setEditReminderMode(true);
   }
+  // Hover handlers
+  const subtextClassesToggle = (input) => {
+    if (input === 'total') {
+      return setSubtextClasses('total');
+    }
+    if (input === 'info') {
+      return setSubtextClasses('info');
+    }
+    setSubtextClasses(false);
+  }
+
+
   // updates db and reminderArr (to avoid complete rerender with with) with a new date
-  const handleReminderSubmit = (e, receipt_id, newReminder) => {
+  const handleReminderSubmit = (e) => {
     e.preventDefault();
-    const date = newReminder
+    setEditReminderMode(false);
+    const receipt_id = id;
+    const date = newReminderArr;
     const reminder = {
       receipt_id,
       date
     }
     axios.post('/reminders', reminder)
     .then(d => {
-      setReminderArr(prevReminderArr => [...prevReminderArr, date])
-      return console.log('reminder set:', d);
+      getReminders(id, setReminderArr)
+      .then(d => setReminderArr(d))   
     })
     .catch(err => {
       console.log('ERROR from setReminder', err);
     });
   }
+  const deleteReceipt = (receipt_id) => {
+    axios.post('/receipts/delete', { receipt_id: receipt_id } )
+    .then(() => {
+      return getReceipts(user, setReceipts);
+    })
+    .catch(err => { 
+      console.log('ERROR from deleteReceipt():', err);
+    })
+  }
+
+  // temp reminder alert check
+  const checkTodayReminders = (reminderArr)=>{
+    triggerAlerts(reminderArr, store)
+  }
+  const handleAlertTriggerClick = (e) => {
+    e.preventDefault();
+    axios.get('/reminders', {params: id})
+    .then(res => {
+      checkTodayReminders(res.data)
+    })
+  }
+
+
+  // Image related
   
   const handleImageClick = (img) => {
     lightboxActive ? setLightboxActive(false) : setLightboxActive(img);
@@ -125,37 +144,11 @@ export default function ReceiptItem(props) {
     //   throw new Error(error);
     // })
   }
-  
-  const checkTodayReminders = (reminderArr)=>{
-    triggerAlerts(reminderArr, store)
-  }
-
-  const handleAlertTriggerClick = (e) => {
-    e.preventDefault();
-    axios.get('/reminders', {params: id})
-    .then(res => {
-      checkTodayReminders(res.data)
-    })
-  }
-
-  let reminderDates;
-
-  useEffect(()=>{
-    getReminders(id, setReminderArr)
-    .then(d=>{
-      console.log(d)
-      setReminderArr(d)
-      return reminderDates
-    })
-    .then(d=>{
-      console.log('reminderArr',reminderArr)
-    })
-    .catch(err=>{
-      throw new Error(err);
-    })
-  },[])
 
 
+  // useEffect(()=>{
+  //   getReminders(id, setReminderArr)    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  // },[])
 
   
 
@@ -173,9 +166,9 @@ export default function ReceiptItem(props) {
             <></>
           }
           {/* conditionally displayed EditReceipt component */}
-          {editMode?
+          {editReceiptMode?
             <div>
-              <EditReceipt currentInfo={currentInfo} setEditMode={setEditMode} user={user} receipts={receipts} setReceipts={setReceipts} />
+              <EditReceipt currentInfo={currentInfo} setEditReceiptMode={setEditReceiptMode} user={user} receipts={receipts} setReceipts={setReceipts} />
             </div>
           :
             <></>
@@ -223,12 +216,12 @@ export default function ReceiptItem(props) {
             </section>
             {/* reminder chips */}
             <section className="reminder-chips">
-              {reminderArr.length > 1 ?
+              {reminderArr.length > 0 ?
                 <>
-                  {reminderArr.map(reminder => {
-                    return <div onClick={() => deleteReminder(reminder.id)}>{reminder.date}</div>
+                  {reminderArr.map(reminder => (
+                    <div key={reminder.id} onClick={() => deleteReminder(reminder.id)}>{reminder.date}</div>
                     // <ReminderChip date={reminder} receiptDate={date} />
-                  })}
+                  ))}
                   <div className="add" onClick={() => handleAddReminderClick('')} ><FontAwesomeIcon icon={faPlus} /></div>
                 </>
               :
@@ -251,7 +244,7 @@ export default function ReceiptItem(props) {
                 <div className="new-reminder-preview">
                   <div className="reminder-chip">{newReminderArr}</div>
                 </div>
-                <button onClick={(e)=> handleReminderSubmit(e, id, newReminderArr)}>Add reminder</button>
+                <button onClick={(e)=> handleReminderSubmit(e)}>Add reminder</button>
               </form>
             </div>
 

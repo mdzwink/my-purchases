@@ -19,7 +19,7 @@ module.exports = (db) => {
     db.query("INSERT INTO reminders(receipt_id, date) VALUES($1, $2) RETURNING *;", 
     [receipt_id, date]
     ).then(d => {
-      return console.log('TRACK reminders/POST:', d.rows);
+      res.json(req.body)
     })
     .catch(err => {
       console.log('ERROR from POST/reminders:', err)
@@ -31,7 +31,7 @@ module.exports = (db) => {
     db.query("DELETE FROM reminders WHERE id = $1;", 
     [reminder_id]
     ).then(d => {
-      return console.log('data from reminders/delete/POST:', d);
+      return console.log('RECEIPT DELETED!:', d);
     })
     .catch(err => {
       console.log('ERROR from POST/reminders/delete:', err)

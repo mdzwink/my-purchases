@@ -5,14 +5,13 @@ import './Button.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faDragon, faFire, faMoon, faPlus, faSun } from '@fortawesome/free-solid-svg-icons';
 import { faGit, faLinkedin, faInstagram } from '@fortawesome/free-brands-svg-icons';
-import Add from './AddForm';
 import { useCookies } from 'react-cookie';
+import AddReceiptForm from './AddReceiptForm';
 
 
 export default function Navbar(props) {
-  const { darkMode, user, handleLogout, setLoginRegister, setReceipts} = props;
-  const [cookies, setCookie, removeCookie] = useCookies(['user']);
-  const [addReceiptActive, setAddReceiptActive] = useState(false);
+  const { darkMode, user, handleLogout, setLoginRegister, setReceipts, addReceiptActive, setAddReceiptActive} = props;
+  const [cookies] = useCookies(['user']);
 
   const [avatarDropdown, setAvatarDropdown] = useState(false)
   const navigate = useNavigate();
@@ -22,7 +21,7 @@ export default function Navbar(props) {
   }
 
   const handleLogoutButton = () => {
-    navigate('/login');
+    navigate('/');
     handleLogout();
   }
   const handleLogoClick = () => {
@@ -52,7 +51,7 @@ export default function Navbar(props) {
               <li className={darkMode ? 'nav-btn dm' : 'nav-btn'}>Welcome&nbsp;{ email } </li>
               <li>
                 {addReceiptActive?
-                  <Add user={user} cookies={cookies} setReceipts={setReceipts}/>
+                  <AddReceiptForm user={user} cookies={cookies} setReceipts={setReceipts} setAddReceiptActive={setAddReceiptActive} />
                 :
                   <></>
                 }
