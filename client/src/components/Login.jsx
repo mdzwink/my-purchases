@@ -23,26 +23,26 @@ export default function Login(props) {
     setPassword('');
   }
 
-  const verifyCreds = (data) => {
+  const verifyCreds = async (user) => {
     const wrongCreds = "Error, user credentials don't match"
-    if (!data[0]) {
+    if (!user.email) {
       return setFormError(wrongCreds);
     }
-    const hashedPwd = data[0].password
+    const hashedPwd = user.password;
     const passwordCheck = bcrypt.compareSync(password, hashedPwd);
     if (!passwordCheck) {
       return setFormError(wrongCreds);
     }
-    return loginEvents(data);
+    return console.log('user varified!');
   }
-  const loginEvents = async (apiData) => {
-    const { id, email } = apiData;
+  const loginEvents = async (user) => {
+    const { id, email } = user;
     clearForm();
     // set cookies and user
-    await setUser({ email: email, id: id });
+    setUser({ email: email, id: id });
     setCookie('user_id', id, { path: '/'});
     setCookie('email', email, { path: '/' });
-    // 
+    return 'login events complete';
   }
   
   const handleLoginClick = (e) => {
@@ -61,26 +61,24 @@ export default function Login(props) {
       }
     })
     .then(res => {
-      setLoading(true)
-      verifyCreds(res.data)
-      // .then((d) =>{
-      //   console.log('promise return?', d)
-      // })
-      // unpack response
-      // const { id, email } = res.data[0];
+      const user = res.data[0];
+      verifyCreds(user)
+      .then(() => {
+        setLoading(true);
+        loginEvents(user)
+        .then(() =>{
+          setLoading(false);
+          navigate('/dashboard');
+        })
+      })
     })
-    // .then(() => {
-    //   navigate('/dashboard');
-    //   console.log(cookies.email)
-    //   return console.log(`${email} logged in 0-0`);
-    // })
     .catch(err => {
       return console.log("ERROR from get'/login'", err);
     })     
   }
   //either I am reading the info the wrong way or updating at the wrong time
   const handleRegisterClick = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setLoginRegister('register');
   }
   return (
