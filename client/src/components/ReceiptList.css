@@ -103,7 +103,7 @@ div.item-content {
   width: 100%;
 }
 
-section.info-container {
+div.info-container {
   width: 100%;
   height: 45%;
   display: flex;
@@ -111,7 +111,7 @@ section.info-container {
   justify-content: center;
   align-items: center;
 }
-section.info-container > div {
+div.info-container > div {
   position: relative;
   width: 47%;
   height: 100%;
@@ -124,7 +124,7 @@ section.info-container > div {
   border-radius: 7px;
   transition: all 300ms;
 }
-section.info-container > div:hover {
+div.info-container > div:hover {
   border: 2px solid white;
 }
 
@@ -145,7 +145,7 @@ section.info-container > div:hover {
   display: block;
 }
 
-section.thumbnail-container {
+div.thumbnail-container {
   width: 100%;
   height: 45%;
   display: flex;
@@ -154,8 +154,8 @@ section.thumbnail-container {
   align-items: center;
 }
 
-section.thumbnail-container.add,
-section.thumbnail-container > img {
+div.thumbnail-container.add,
+div.thumbnail-container > img {
   width: 4em;
   height: 4em;
   object-fit: cover;
@@ -176,8 +176,8 @@ div.add {
   transition: all 300ms;
 }
 
-section.thumbnail-container > img:hover,
-section.thumbnail-container > .add:hover {
+div.thumbnail-container > img:hover,
+div.thumbnail-container > .add:hover {
   transform: scale(1.1);
   font-weight: bold;
   color: #ffffffff;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
-import "./ReceiptItem.css";
+import "./ReceiptList.css";
 import EditReceipt from "./EditReceipt.jsx";
 import { getReceipts, setReminder, triggerAlerts } from "./helpers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,7 +29,7 @@ export default function ReceiptItem(props) {
   const [lightboxActive, setLightboxActive] = useState(false);
   const [newImgName, setNewImgName] = useState('');
   const [newImgArr, setNewImgArr] = useState([]);
-  const [newReminderArr, setNewReminderArr] = useState('');
+  const [newReminderDate, setNewReminderDate] = useState('');
   
   const purchaseDate = moment.utc(date.toLocaleString()).format("ddd, MMMM Do");
   const returnBy = moment.utc(return_by.toLocaleString()).format("ddd, MMM Do");
@@ -91,7 +91,7 @@ export default function ReceiptItem(props) {
   }
   const handleAddReminderClick = (command) => {
     if(command === 'close') {
-      setNewReminderArr('');
+      setNewReminderDate('');
     }
     editReminderMode ? setEditReminderMode(false) : setEditReminderMode(true);
   }
@@ -175,7 +175,6 @@ export default function ReceiptItem(props) {
               {itemMenuState ? <FontAwesomeIcon icon={faX} /> : <FontAwesomeIcon icon={faBars} /> }
             </div>
             <ul className={itemMenuState ? "item-menu active": "item-menu"}>
-              <li><button onClick={(e) => {handleAlertTriggerClick(e); handleItemMenuClick(e)}} >alert trigger</button></li>
               <li><button onClick={(e) => {handleReminderClick(e); handleItemMenuClick(e)}} >reminders</button></li>
               <li><button onClick={(e) => {handleEditClick(e); handleItemMenuClick(e)}} >edit</button></li>
               <li><button onClick={(e) => {handleDeleteClick(e); handleItemMenuClick(e)}} >delete</button></li>
@@ -205,7 +204,7 @@ export default function ReceiptItem(props) {
             </div>
             <div className="thumbnail-container">
               <img onClick={() => handleImageClick(img)} src={img || "http://source.unsplash.com/400x400?error"} alt="receipt" ></img>
-              <div className="plus" onClick={() => handleAddImgClick('open')}><FontAwesomeIcon icon={faPlus} /></div>
+              <div className="add" onClick={() => handleAddImgClick('open')}><FontAwesomeIcon icon={faPlus} /></div>
             </div>
             <div className={editReminderMode ? "edit-reminders active" : "edit-reminders"}>
               <div className="close" onClick={() => handleAddReminderClick('close')}><FontAwesomeIcon icon={faClose} /></div>
@@ -215,14 +214,14 @@ export default function ReceiptItem(props) {
                   <input
                     type="date"
                     id="new-reminder"
-                    onChange={e => {setNewReminderArr(e.target.value);}}
+                    onChange={e => {setNewReminderDate(e.target.value);}}
                     className="add-input"
                     />
                 </div>
                 <div className="new-reminder-preview">
-                  <div className="reminder-chip">{newReminderArr}</div>
+                  <div className="reminder-chip">{newReminderDate}</div>
                 </div>
-                <button onClick={(e)=> handleReminderSubmit(e, id, newReminderArr)}>Add reminder</button>
+                <button onClick={(e)=> handleReminderSubmit(e, id, newReminderDate)}>Add reminder</button>
               </form>
             </div>
 
