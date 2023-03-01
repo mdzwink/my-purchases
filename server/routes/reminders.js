@@ -11,10 +11,10 @@ module.exports = (db) => {
       return false
     })
     .catch(err => {
-      console.log("ERROR from get'/reminders':", err)
+      throw new Error(err)
     })
   })
-  router.post('/', (req, res) => {
+  router.post('/', (req) => {
     const { receipt_id, date } = req.body;
     db.query("INSERT INTO reminders(receipt_id, date) VALUES($1, $2) RETURNING *;", 
     [receipt_id, date]
@@ -22,19 +22,18 @@ module.exports = (db) => {
       res.json(req.body)
     })
     .catch(err => {
-      console.log('ERROR from POST/reminders:', err)
+      throw new Error(err)
     })
   })
 
-  router.post('/delete', (req, res) => {
+  router.post('/delete', (req) => {
     const { reminder_id } = req.body;
-    db.query("DELETE FROM reminders WHERE id = $1;", 
-    [reminder_id]
-    ).then(d => {
-      return console.log('RECEIPT DELETED!:', d);
+    db.query("DELETE FROM reminders WHERE id = $1;", [reminder_id])
+    .then(d => {
+      console.log('reminder deleted', d)
     })
     .catch(err => {
-      console.log('ERROR from POST/reminders/delete:', err)
+      throw new Error(err)
     })
   })
 

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import './AddForm.css';
+import './AddReceiptForm.css';
 import axios from 'axios';
 
 export default function AddReceiptForm(props) {
-  const { user, setReceipts, setAddReceiptActive } = props;
+  const { user, setAddReceiptMode } = props;
   const user_id = user.id;
   // form values
   const [img, setImg] = useState('');
@@ -14,28 +14,35 @@ export default function AddReceiptForm(props) {
 
   const [formError, setFormError] = useState('')
 
+  const baseFieldError = 'Error, please include';
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    setAddReceiptMode();
+  }
 
   //replaces receipt info and engages box-shadow
-  const handleForm = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setAddReceiptActive(false);
+    // close form
+    setAddReceiptMode(false)
     //resetting formError
     setFormError('');
     //setting form error if not all fields are filled upon submission
     if (!img) {
-      return setFormError('Error, please include image url.');      
+      return setFormError(baseFieldError + ' image url.');      
     }
     if (!store) {
-      return setFormError('Error, please include store name.');      
+      return setFormError(baseFieldError + ' store name.');      
     }
     if (!date) {
-      return setFormError('Error, please include date of purchase.');      
+      return setFormError(baseFieldError + ' date of purchase.');      
     }
     if (!return_by) {
-      return setFormError('Error, please include return expiry date.');      
+      return setFormError(baseFieldError + ' return expiry date.');      
     }
     if (!total) {
-      return setFormError('Error, please include receipt total.');      
+      return setFormError(baseFieldError + ' receipt total.');      
     }
     
     const updateReceipts = (appendReceipt) => {
@@ -60,8 +67,9 @@ export default function AddReceiptForm(props) {
     }
     axios.post('/receipts', newReceipt)
     .then(res => {
-      const appendReceipt = res.data[0];
-      setReceipts(prev => [...prev, appendReceipt]);
+      const receipts = res.data[0]
+      updateReceipts(receipts);
+      //setreceipts(res.data[0])
     })
     .then(res => {
       return clearForm();
@@ -114,8 +122,8 @@ export default function AddReceiptForm(props) {
         ></input>
         {formError && <div className="form-error">{formError}</div>}
         <section className="buttons">
-          <button className="confirm" onClick={(e) => handleForm(e)}>Add receipt</button>
-          <button className="discard" onClick={(e) => handleForm(e)}>Discard</button>
+          <button className="confirm" onClick={e => handleSubmit(e)}>Add receipt</button>
+          <button className="discard" onClick={e => handleCancel(e)}>Discard</button>
         </section>
       </form>
     </>

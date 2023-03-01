@@ -4,14 +4,13 @@ import bcrypt from 'bcryptjs';
 import { useNavigate } from "react-router-dom";
 import './LoginRegister.css';
 import { useCookies } from "react-cookie";
-import { getReceipts } from './helpers'
 import Loading from "./Loading";
 
 
 
 export default function Login(props) {
-  const [cookies, setCookie, removeCookie] = useCookies(['user']);
-  const { setUser, setLoginRegister, user, setReceipts } = props;
+  const [setCookie] = useCookies(['user']);
+  const { setUser, setLoginRegister } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState('');

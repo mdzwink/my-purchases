@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import './AddForm.css';
-import "./ReceiptItem.css";
-import { setDefaultReminders } from "./helpers";
+import './ReceiptItem.css';
 import axios from 'axios';
 
 export default function UploadImages(props) {
@@ -45,7 +44,6 @@ export default function UploadImages(props) {
       const receipt_id = res.data[0].id;
       const return_by = res.data[0].return_by;
       updateReceipts(res.data[0]);
-      setDefaultReminders(receipt_id, return_by);
     })
     .then(res => {
       return clearForm();

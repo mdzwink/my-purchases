@@ -288,7 +288,7 @@ div.receipt-item:hover {
 .new-reminder-preview {
   justify-content: center  
 }
-.new-reminder-preview.reminder-chip {
+.new-reminder-preview.reminder-chips {
   width: 3em;
   height: 1.1em;
   border-radius: 50%;
@@ -300,8 +300,12 @@ section.reminder-chips {
   width: 100%;
   height: 10%;
   padding-bottom: .5em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
 }
-section.reminder-chips > div.add {
+section.reminder-chips > div {
   width: max-content;
   height: 100%;
   border-radius: 9px;
@@ -311,8 +315,6 @@ section.reminder-chips > div.add {
   padding: .2em .3em;
 }
 section.reminder-chips > div:hover {
-  transform: scale(1.07);
-  font-weight: bold;
   color: #ffffffff;
   cursor: pointer;
 }

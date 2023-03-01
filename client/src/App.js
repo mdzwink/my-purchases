@@ -19,7 +19,7 @@ function App() {
   const [loginRegister, setLoginRegister] = useState(false);
   const [searchQuery, setSearchQuery] = useState(''); 
   const [receipts, setReceipts] = useState([]);
-  const [addReceiptActive, setAddReceiptActive] = useState(false);
+  const [addReceiptMode, setAddReceiptMode] = useState(false);
 
 
   useEffect(() => {
@@ -35,10 +35,10 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar darkMode={darkMode} setLoginRegister={setLoginRegister} user={user} handleLogout={handleLogout} setReceipts={setReceipts} addReceiptActive={addReceiptActive} setAddReceiptActive={setAddReceiptActive} />
+      <Navbar darkMode={darkMode} setLoginRegister={setLoginRegister} user={user} handleLogout={handleLogout} setReceipts={setReceipts} addReceiptMode={addReceiptMode} setAddReceiptMode={setAddReceiptMode} />
       <Routes>
-        <Route path="/" element={<Home darkMode={darkMode} user={user} setUser={setUser} loginRegister={loginRegister} setLoginRegister={setLoginRegister} />} />
-        <Route path="/dashboard" element={<Dashboard darkMode={darkMode} user={user} setReceipts handleLogout={handleLogout} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} setUser={setUser} searchQuery={searchQuery} setSearchQuery={setSearchQuery} receipts={receipts} setReceipts={setReceipts} />} />
+        <Route path="/" element={<Home darkMode={darkMode} user={user} loginRegister={loginRegister} setLoginRegister={setLoginRegister} setReceipts={setReceipts} />} />
+        <Route path="/dashboard" element={<Dashboard darkMode={darkMode} user={user} handleLogout={handleLogout} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} setUser={setUser} searchQuery={searchQuery} setSearchQuery={setSearchQuery} receipts={receipts} setReceipts={setReceipts} />} />
         <Route path="/about" element={<About darkMode={darkMode} />} />
       </Routes>
     </BrowserRouter>

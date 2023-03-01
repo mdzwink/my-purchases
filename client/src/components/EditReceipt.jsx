@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './AddForm.css';
+import './AddReceiptForm.css';
 import axios from 'axios';
 import { getReceipts } from "./helpers";
 
@@ -10,17 +10,22 @@ export default function EditReceipt(props) {
 
   const [updatedImg, setImage] = useState(img || 'http://source.unsplash.com/400x400?sunrise');
   const [updatedStore, setStore] = useState(store);
-  const [updatedDate, setPurchase_date] = useState(date);
-  const [updatedReturn_by, setReturn_by] = useState(return_by);
+  const [updatedPurchaseDate, setPurchaseDate] = useState('');
+  const [updatedReturnByDate, setReturnByDate] = useState('');
   const [updatedTotal, setTotal] = useState(total);
   const [formError, setFormError] = useState('')
   
+  // for display of currently set dates or updated dates once user makes change;
+  const receiptDate = updatedPurchaseDate || date.slice(0,10);
+  const returnDate = updatedReturnByDate || return_by.slice(0,10);
   
-  const handleCancel = () => {
+  const handleCancel = (e) => {
+    e.preventDefault();
     setEditReceiptMode(false)
   }
 
-  const handleUpdate = () => {
+  const handleUpdate = (e) => {
+    e.preventDefault();
     //resetting formError
     setFormError('');
     setEditReceiptMode(false);
@@ -32,10 +37,10 @@ export default function EditReceipt(props) {
     if (!updatedStore) {
       return setFormError('Error, please include store name.');      
     }
-    if (!updatedDate) {
+    if (!updatedPurchaseDate) {
       return setFormError('Error, please include date of purchase.');      
     }
-    if (!updatedReturn_by) {
+    if (!updatedReturnByDate) {
       return setFormError('Error, please include return expiry date.');      
     }
     if (!updatedTotal) {
@@ -46,8 +51,8 @@ export default function EditReceipt(props) {
       user_id,
       updatedImg,
       updatedStore,
-      updatedDate,
-      updatedReturn_by,
+      updatedPurchaseDate,
+      updatedReturnByDate,
       updatedTotal
     }
     
@@ -79,14 +84,14 @@ export default function EditReceipt(props) {
         <label>purchase date</label>
         <input
           type="date"
-          onChange={e => setPurchase_date(e.target.value)}
-          value={updatedDate}
+          onChange={e => setPurchaseDate(e.target.value)}
+          value={receiptDate}
           ></input>
         <label>return period ends</label>
         <input
           type="date"
-          onChange={e => setReturn_by(e.target.value)}
-          value={updatedReturn_by}
+          onChange={e => setReturnByDate(e.target.value)}
+          value={returnDate}
           ></input>
         <label>receipt total</label>
         <input
@@ -96,8 +101,8 @@ export default function EditReceipt(props) {
           ></input>
         {formError && <div className="form-error">{formError}</div>}
         <section className="buttons">
-          <button className="confirm" onClick={() => handleUpdate()} >Save</button>
-          <button className="discard" onClick={() => handleCancel()} >Discard</button>
+          <button className="confirm" onClick={(e) => handleUpdate(e)} >Save</button>
+          <button className="discard" onClick={(e) => handleCancel(e)} >Discard</button>
         </section>
       </form>
     </>
