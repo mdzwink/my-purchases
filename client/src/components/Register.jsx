@@ -40,7 +40,7 @@ export default function Register(props) {
           setUser({ email: email, id: id });
           setCookie('user_id', id, { path: '/'});
           setCookie('email', email, { path: '/' });
-          navigate('/');
+          navigate('/login');
           return console.log(`${email}: has been registered!`);
         })
         .catch(err => {

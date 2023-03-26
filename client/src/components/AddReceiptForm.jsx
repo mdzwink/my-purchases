@@ -71,7 +71,7 @@ export default function AddReceiptForm(props) {
       updateReceipts(receipts);
       //setreceipts(res.data[0])
     })
-    .then(res => {
+    .then(() => {
       return clearForm();
     })
     .catch(err => {

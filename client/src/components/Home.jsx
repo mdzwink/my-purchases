@@ -3,7 +3,7 @@ import Register from "./Register";
 import Welcome from "./Welcome";
 
 export default function Home(props) {
-  const { setUser, loginRegister, setLoginRegister} = props;
+  const { setUser, loginRegister, setLoginRegister, setReceipts, handleLogin } = props;
 
   // const navigate = useNavigate();
   // if (user) {
@@ -17,7 +17,7 @@ export default function Home(props) {
           <div className="welcome-fade-in"></div>
           <div className="home-morph">
             {loginRegister === 'login' ? 
-              <Login setUser={() => setUser} loginRegister={loginRegister} setLoginRegister={setLoginRegister} /> 
+              <Login setUser={() => setUser} loginRegister={loginRegister} setLoginRegister={setLoginRegister} setReceipts={setReceipts} handleLogin={handleLogin} /> 
             : 
               loginRegister === 'register' ?
                 <Register setUser={() => setUser} loginRegister={loginRegister} setLoginRegister={setLoginRegister}/>

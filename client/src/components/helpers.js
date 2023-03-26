@@ -3,11 +3,10 @@ import axios from "axios";
 
 // >>>>>>>>>>>>>>>>
 // ReceiptList component helpers:
-export function getReceipts(user, setReceipts) {
+export async function getReceipts(user) {
   axios.get('/receipts', { params: user.id })
   .then(d => {
-    setReceipts(d.data);
-    return d;
+    return d.data;
   })
   .catch(err => {
     console.log("ERROR FROM getReceipts()", err);
@@ -44,7 +43,7 @@ export function getReminders(receipt_id, setReminders) {
     if(!d) {
       return false;
     }
-    setReminders(d.data);
+    setReminders(d.data); // return reminders instead?
   })
   .catch(err => {
     throw new Error(err);
@@ -66,7 +65,7 @@ export function deleteReminder(reminder_id) {
 // GENERAL:
 
 // returns today's date in "yyyy-mm-dd" format. Primarily created for setting form "min" value.
-const calcMinDate = () => {
+export function todayAsYyyymmdd() {
   const today = new Date()
   const year = (today.getFullYear()).toString();
   let month = (today.getMonth() + 1).toString();
@@ -75,7 +74,7 @@ const calcMinDate = () => {
   if(day < 10) day = '0' + day
   return `${year}-${month}-${day}`
 }
-export default calcMinDate;
+
 
 
 

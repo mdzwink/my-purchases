@@ -18,13 +18,16 @@ function App() {
   const [darkMode, setDarkMode] = useState(true);
   const [loginRegister, setLoginRegister] = useState(false);
   const [searchQuery, setSearchQuery] = useState(''); 
-  const [receipts, setReceipts] = useState([]);
   const [addReceiptMode, setAddReceiptMode] = useState(false);
 
 
   useEffect(() => {
+  }, [])
+  
+  const handleLogin = () => {
     setUser({email: cookies.email, id: cookies.user_id });
-  }, [cookies])
+    console.log('app.js',user)
+  }
 
   const handleLogout = () => {
     removeCookie('email');
@@ -35,10 +38,10 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar darkMode={darkMode} setLoginRegister={setLoginRegister} user={user} handleLogout={handleLogout} setReceipts={setReceipts} addReceiptMode={addReceiptMode} setAddReceiptMode={setAddReceiptMode} />
+      <Navbar darkMode={darkMode} setLoginRegister={setLoginRegister} user={user} handleLogout={handleLogout} addReceiptMode={addReceiptMode} setAddReceiptMode={setAddReceiptMode} />
       <Routes>
-        <Route path="/" element={<Home darkMode={darkMode} user={user} loginRegister={loginRegister} setLoginRegister={setLoginRegister} setReceipts={setReceipts} />} />
-        <Route path="/dashboard" element={<Dashboard darkMode={darkMode} user={user} handleLogout={handleLogout} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} setUser={setUser} searchQuery={searchQuery} setSearchQuery={setSearchQuery} receipts={receipts} setReceipts={setReceipts} />} />
+          <Route path="/" element={<Home darkMode={darkMode} user={user} loginRegister={loginRegister} setLoginRegister={setLoginRegister} handleLogin={handleLogin} />} />
+        <Route path="/dashboard" element={<Dashboard darkMode={darkMode} user={user} handleLogout={handleLogout} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} setUser={setUser} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />} />
         <Route path="/about" element={<About darkMode={darkMode} />} />
       </Routes>
     </BrowserRouter>

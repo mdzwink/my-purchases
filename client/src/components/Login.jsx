@@ -9,8 +9,8 @@ import Loading from "./Loading";
 
 
 export default function Login(props) {
-  const [setCookie] = useCookies(['user']);
-  const { setUser, setLoginRegister } = props;
+  const [cookie, setCookie ] = useCookies(['user']);
+  const { setUser, setLoginRegister, handleLogin } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState('');
@@ -22,7 +22,7 @@ export default function Login(props) {
     setPassword('');
   }
 
-  const verifyCreds = async (user) => {
+  const verifyCreds = (user) => {
     const wrongCreds = "Error, user credentials don't match"
     if (!user.email) {
       return setFormError(wrongCreds);
@@ -32,17 +32,18 @@ export default function Login(props) {
     if (!passwordCheck) {
       return setFormError(wrongCreds);
     }
-    return console.log('user varified!');
+    return 'varified';
   }
-  const loginEvents = async (user) => {
+  const loginEvents = (user) => {
     const { id, email } = user;
-    clearForm();
     // set cookies and user
     setUser({ email: email, id: id });
     setCookie('user_id', id, { path: '/'});
     setCookie('email', email, { path: '/' });
+    clearForm();
+    handleLogin();
     return 'login events complete';
-  }
+  };
   
   const handleLoginClick = (e) => {
     e.preventDefault();
@@ -54,22 +55,24 @@ export default function Login(props) {
       return setFormError(wrongCreds);
     }
     //send request to db to confirm that email and (hashed) password match stored user credentials
+    setLoading(true);
     axios.get('/login', {
       params: {
         email: email
       }
     })
-    .then(res => {
+    .then(res=>{
       const user = res.data[0];
-      verifyCreds(user)
-      .then(() => {
-        setLoading(true);
-        loginEvents(user)
-        .then(() =>{
-          setLoading(false);
-          navigate('/dashboard');
-        })
-      })
+      verifyCreds(user);
+      return user;
+    })
+    .then((user)=>{
+      loginEvents(user);
+      setLoading(false);
+      navigate('/dashboard');
+    })
+    .then(()=>{
+
     })
     .catch(err => {
       return console.log("ERROR from get'/login'", err);
@@ -92,12 +95,14 @@ export default function Login(props) {
         type="text"
         onChange={e => setEmail(e.target.value)}
         value={email}
+        required
         ></input>
         <label>*password</label>
         <input 
         type="password"
         onChange={e => setPassword(e.target.value)}
         value={password}
+        required
         ></input>
         {formError && <div className="form-error">{formError}</div>}
         <button className="form-button" onClick={(e) => handleLoginClick(e)}>Login</button>

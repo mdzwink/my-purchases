@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Navbar.css'
 import './Button.css'
@@ -13,6 +13,7 @@ export default function Navbar(props) {
   const { darkMode, user, handleLogout, setLoginRegister, setReceipts, addReceiptMode, setAddReceiptMode} = props;
   const [cookies] = useCookies(['user']);
 
+  const [varified, setVarified] = useState(false)
   const [avatarDropdownMode, setAvatarDropdownMode] = useState(false)
   const navigate = useNavigate();
   let email = '';
@@ -20,6 +21,7 @@ export default function Navbar(props) {
     email = user.email
   }
 
+  const closeMenu = () => setAvatarDropdownMode(false)
   const handleSignOutButton = () => {
     navigate('/');
     handleLogout();
@@ -36,6 +38,10 @@ export default function Navbar(props) {
     addReceiptMode ? setAddReceiptMode(false) : setAddReceiptMode(true);
     handleAvatarClick(true);
   }
+  useEffect(() => {
+    user ? setVarified(true) : setVarified(false)
+    console.log('user change')
+  }, [user])
   return (
     <header>
       <ul className={darkMode ? 'navbar dm' : 'navbar'} >
@@ -44,7 +50,7 @@ export default function Navbar(props) {
         <div className={avatarDropdownMode ? "close-addForm active" : "close-addForm"} onClick={() => handleAddFormClick()}></div> */}
         <li><div className={darkMode ? 'logo dm' : 'logo'} onClick={() => handleLogoClick()} >receipt keeper</div></li>
         <div className={darkMode ? 'menu-items dm' : 'menu-items'} >
-          {email?
+          {varified?
             // showing avatar and username with quick action dropdown when logged in
             <div className={darkMode ? 'menu-items dm' : 'menu-items'} >
               <li><button className={darkMode ? 'nav-btn dm' : 'nav-btn'} onClick={(e) => handleAddFormClick(e)} > Add <FontAwesomeIcon icon={faPlus} /></button></li>
@@ -66,7 +72,7 @@ export default function Navbar(props) {
                     {/* <li><button className={darkMode ? 'nav-btn dm' : 'nav-btn'} onClick={(e) => {setAddReceiptMode(true); handleAddFormClick(e, avatarDropdownMode)}}> Add <FontAwesomeIcon icon={faPlus} /></button></li> */}
                     <li><button className={darkMode ? 'nav-btn dm' : 'nav-btn'}>Profile</button></li>
                     <li><button className={darkMode ? 'nav-btn dm' : 'nav-btn'}><FontAwesomeIcon icon={faCog} />&nbsp;Settings&nbsp;&nbsp;{darkMode ? <FontAwesomeIcon icon={faMoon} className='dm' /> : <FontAwesomeIcon icon={faSun} className='dm' />}</button></li>
-                    <li><button className={darkMode ? 'nav-btn dm' : 'nav-btn'} onClick={() => handleSignOutButton()} >Sign-out</button></li>
+                    <li><button className={darkMode ? 'nav-btn dm' : 'nav-btn'} onClick={() => {handleSignOutButton(); closeMenu()}} >Sign-out</button></li>
                     <li className='connect'>
                       <section>
                         <div><div className='dragon-dungon'><FontAwesomeIcon icon={faDragon} className='dragon' /><FontAwesomeIcon icon={faFire} id='dragon-breath' /></div></div>

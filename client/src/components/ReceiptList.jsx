@@ -1,33 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReceiptItem from "./ReceiptItem";
 import "./ReceiptList.css";
 import { getReceipts } from './helpers'
+import axios from "axios";
 
 
 export default function ReceiptList(props) {
-  const { user, receipts, setReceipts } = props;
+  const { user } = props;
+  const [receipts, setReceipts] = useState([]);
+
+  // useEffect(() => {
+  //   getReceipts(user)
+  //     .then(d => {
+  //       setReceipts(d.data);
+  //     })
+  // }, [])
 
   useEffect(() => {
-    getReceipts(user, setReceipts);
+    console.log(user.id)
+    axios.get('/receipts', { params: user.id })
+    .then(d => {
+      setReceipts(d.data);
+    })
+    .catch(err => {
+      console.log("ERROR FROM getReceipts()", err);
+    });
   }, [])
-
-//   const renderceipts = receipts.map(receipt => (
-//     <li key={receipt.id} className="receipt">
-//       <ReceiptItem 
-//         id={receipt.id}
-//         user_id={receipt.user_id}
-//         img={receipt.img}
-//         store={receipt.store}
-//         date={receipt.date}
-//         return_by={receipt.return_by}
-//         total={receipt.total}
-//         user={user}
-//         receipts={receipts}
-//         setReceipts={setReceipts}
-//         getReceipts={getReceipts}
-//       />
-//     </li>
-// ))
 
   return (
     <section className="receipt-list-container">
