@@ -86,13 +86,14 @@ form > button {
   border: none;
   background-color: #F49D37;
   font-weight: bold;
-  opacity: .7;
 }
 button.confirm:hover,
 button.discard:hover,
 form > button:hover {
   opacity: 1;
   box-shadow: 2px 2px 4px #00000099;
+  color: white;
+
 }
 
 section.buttons > button {
@@ -217,11 +218,9 @@ form .form-label {
 .view.dm {
   background-image: url('../public/images/chiara-f-MI8He1NWPWg-unsplash.jpg');
   background-image: url('https://images.unsplash.com/photo-1560719887-fe3105fa1e55?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1167&q=80');
+  background-image: url('https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80');
   background-size: cover;
   background-position: center;
-}
-.view.dm {
-  background-image: url('https://images.unsplash.com/photo-1560719887-fe3105fa1e55?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1167&q=80');
 }
 
 
@@ -325,3 +324,16 @@ form .form-label {
   color: rgb(79, 22, 22);
 }
 
+.background-glass,
+.background-fade {
+  position: fixed;
+  top: 10vh;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #000000bb;
+  z-index: 999;
+}
+.background-glass {
+  background-color: transparent;
+}

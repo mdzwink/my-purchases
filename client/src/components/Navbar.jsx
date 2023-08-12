@@ -6,22 +6,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faDragon, faFire, faMoon, faPlus, faSun } from '@fortawesome/free-solid-svg-icons';
 import { faGit, faLinkedin, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { useCookies } from 'react-cookie';
-import AddReceiptForm from './AddReceiptForm';
+import BackgroundFade from './BackgroundFade';
 
 
 export default function Navbar(props) {
-  const { darkMode, user, handleLogout, setLoginRegister, setReceipts, addReceiptMode, setAddReceiptMode} = props;
+  const { darkMode, user, handleLogout, setLoginRegister, addFormToggle} = props;
   const [cookies] = useCookies(['user']);
 
   const [varified, setVarified] = useState(false)
   const [avatarDropdownMode, setAvatarDropdownMode] = useState(false)
   const navigate = useNavigate();
   let email = '';
-  if (user) {
-    email = user.email
-  }
+  useEffect(()=>{
+    if (user) {
+      email = user.email
+    } else {
+      navigate('/')
+    }
+  },[user])
 
-  const closeMenu = () => setAvatarDropdownMode(false)
+  const closeMenu = () => setAvatarDropdownMode(false);
   const handleSignOutButton = () => {
     navigate('/');
     handleLogout();
@@ -30,18 +34,20 @@ export default function Navbar(props) {
     user.email? navigate('/dashboard') : navigate('/');
   }
   // either pass true or false if you want it to setAvatarDropdownMode to the opposite, or pass it avatarDropdownMode to toggle based on current state
-  const handleAvatarClick = (setTo) => {
-    setTo ? setAvatarDropdownMode(false) : setAvatarDropdownMode(true);
+  const handleAvatarClick = () => {
+    avatarDropdownMode ? setAvatarDropdownMode(false) : setAvatarDropdownMode(true);
   }
   const handleAddFormClick = (e) => {
     e.preventDefault();
-    addReceiptMode ? setAddReceiptMode(false) : setAddReceiptMode(true);
-    handleAvatarClick(true);
+    addFormToggle();
+    setAvatarDropdownMode(false);
   }
+
   useEffect(() => {
     user ? setVarified(true) : setVarified(false)
     console.log('user change')
   }, [user])
+
   return (
     <header>
       <ul className={darkMode ? 'navbar dm' : 'navbar'} >
@@ -56,14 +62,14 @@ export default function Navbar(props) {
               <li><button className={darkMode ? 'nav-btn dm' : 'nav-btn'} onClick={(e) => handleAddFormClick(e)} > Add <FontAwesomeIcon icon={faPlus} /></button></li>
               {/* <li className={darkMode ? 'nav-btn dm' : 'nav-btn'}>Welcome&nbsp;{ email } </li> */}
               <li>
-                {addReceiptMode?
+                {/* {addReceiptMode?
                   <AddReceiptForm user={user} cookies={cookies} setReceipts={setReceipts} setAddReceiptMode={setAddReceiptMode}/>
                 :
                   <></>
-                }
+                } */}
               </li>
               <li className={darkMode ? 'logged-in-as dm' : 'logged-in-as'} >
-                <div className="avatar" onClick={() => handleAvatarClick(avatarDropdownMode)}>
+                <div className="avatar" onClick={() => handleAvatarClick()}>
                   <img src='/images/avatar-placeholder.jpg' alt='user avatar'/>
                 </div>
                 {/* avatar dropdown menu begins */}

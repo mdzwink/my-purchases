@@ -3,7 +3,6 @@ import axios from "axios";
 import moment from "moment";
 import "./ReceiptList.css";
 import EditReceipt from "./EditReceipt.jsx";
-import { getReceipts, getReminders } from "./helpers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faBars, faX } from '@fortawesome/free-solid-svg-icons';
 import ReminderChip from "./ReminderChip";
@@ -14,14 +13,14 @@ import UploadImages from "./forms/UploadImages";
 
 
 export default function ReceiptItem(props) {
-  const { user, receipts, setReceipts, id, img, store, date, total, return_by } = props;
+  const { user, id, img, store, date, total, return_by, getReceipts } = props;
   const currentInfo = {
     id,
     img,
     store,
     date,
+    return_by,
     total,
-    return_by
   };
 
   // state for conditionally rendered components/elements
@@ -62,7 +61,8 @@ export default function ReceiptItem(props) {
   const deleteReceipt = (receipt_id) => {
     axios.post('/receipts/delete', { receipt_id: receipt_id } )
     .then(() => {
-      return getReceipts(user, setReceipts);
+      console.log('TEST')
+      return getReceipts();
     })
     .catch(err => { 
       console.log('ERROR from deleteReceipt():', err);
@@ -112,7 +112,19 @@ export default function ReceiptItem(props) {
         {/* conditionally displayed lightbox for images in the thumbnail-container below, component is here to position absolutely in relation to receipt-item div/ReceiptItem [**extract into seperate component**] */}
         {lightboxMode && <Lightbox img={img} handleImageClick={handleImageClick} />}
         {/* conditionally displayed EditReceipt component */}
-        {editReceiptMode && <EditReceipt currentInfo={currentInfo} setEditReceiptMode={() => setEditReceiptMode()} user={user} receipts={receipts} setReceipts={setReceipts} />}
+        {editReceiptMode && 
+          <EditReceipt 
+            id={id}
+            img={img}
+            store={store}
+            date={date}
+            return_by={return_by}
+            total={total}
+            setEditReceiptMode={setEditReceiptMode}
+            user={user}
+            getReceipts={getReceipts}
+            purchaseDate={purchaseDate}
+          />}
         <h2>
           {store}
           <div className="menu-button" onClick={(e) => handleItemMenuClick(e)}>
@@ -169,7 +181,7 @@ export default function ReceiptItem(props) {
           {/* conditionally displayed AddReminder form [**extract into seperate component**] */}
           {editReminderMode && <AddReminders receipt_id={id}  setEditReminderMode={setEditReminderMode} setReminders={ setReminders } /> }
 
-          {addImageMode && <UploadImages />}
+          {addImageMode && <UploadImages user receipt updateReceipts handleAddImgClick />}
           {/* conditionally displayed confirmation interface [**extract into seperate component**] */}
           {confirmDeleteMode?
             <div className="confirm-delete">

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import './AddReceiptForm.css';
 import axios from 'axios';
+import BackgroundFade from "./BackgroundFade";
 
 export default function AddReceiptForm(props) {
-  const { user, setAddReceiptMode } = props;
+  const { user, addFormToggle, getReceipts } = props;
   const user_id = user.id;
   // form values
   const [img, setImg] = useState('');
@@ -12,20 +13,18 @@ export default function AddReceiptForm(props) {
   const [return_by, setReturn_by] = useState('');
   const [total, setTotal] = useState('');
 
-  const [formError, setFormError] = useState('')
+  const [formError, setFormError] = useState('');
 
   const baseFieldError = 'Error, please include';
 
   const handleCancel = (e) => {
     e.preventDefault();
-    setAddReceiptMode();
+    addFormToggle();
   }
 
   //replaces receipt info and engages box-shadow
   const handleSubmit = (e) => {
     e.preventDefault();
-    // close form
-    setAddReceiptMode(false)
     //resetting formError
     setFormError('');
     //setting form error if not all fields are filled upon submission
@@ -45,9 +44,6 @@ export default function AddReceiptForm(props) {
       return setFormError(baseFieldError + ' receipt total.');      
     }
     
-    const updateReceipts = (appendReceipt) => {
-      // prevReceipts or just prev??
-    }
     const clearForm = () => {
       setImg('');
       setStore('');
@@ -55,6 +51,9 @@ export default function AddReceiptForm(props) {
       setReturn_by('');
       setTotal('');
     }
+
+    // close form
+    addFormToggle();
 
     // object with current form values ready for submit(state can be found above)
     const newReceipt = {
@@ -68,8 +67,9 @@ export default function AddReceiptForm(props) {
     axios.post('/receipts', newReceipt)
     .then(res => {
       const receipts = res.data[0]
-      updateReceipts(receipts);
-      //setreceipts(res.data[0])
+      if (receipts) {
+        getReceipts();
+      }
     })
     .then(() => {
       return clearForm();
@@ -81,6 +81,7 @@ export default function AddReceiptForm(props) {
 
   return (
     <>
+      <BackgroundFade componentToggle={addFormToggle} transparent={false} />
       <form className="add-form" >
         <label className="form-label" >Add Receipt</label>
         <label>receipt image</label>
@@ -89,28 +90,28 @@ export default function AddReceiptForm(props) {
           onChange={e => setImg(e.target.value)}
           value={img}
           className="add-input"
-        ></input>
+          ></input>
         <label>store</label>
         <input 
           type="text" 
           onChange={e => setStore(e.target.value)}
           value={store}
           className="add-input"
-        ></input>
+          ></input>
         <label>purchase date</label>
         <input 
           type="date" 
           onChange={e => setPurchase_date(e.target.value)}
           value={date}
           className="add-input"
-        ></input>
+          ></input>
         <label>return period ends</label>
         <input 
           type="date" 
           onChange={e => setReturn_by(e.target.value)}
           value={return_by}
           className="add-input"
-        ></input>
+          ></input>
         <label>receipt total</label>
         <input 
           type="number"
@@ -119,7 +120,7 @@ export default function AddReceiptForm(props) {
           onChange={e => setTotal(e.target.value)}
           value={total}
           className="add-input"
-        ></input>
+          ></input>
         {formError && <div className="form-error">{formError}</div>}
         <section className="buttons">
           <button className="confirm" onClick={e => handleSubmit(e)}>Add receipt</button>

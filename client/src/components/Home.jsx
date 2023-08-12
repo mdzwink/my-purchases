@@ -1,14 +1,20 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import Welcome from "./Welcome";
 
 export default function Home(props) {
-  const { setUser, loginRegister, setLoginRegister, setReceipts, handleLogin } = props;
+  const { user, setUser, loginRegister, setLoginRegister, setReceipts, handleLogin } = props;
+
+  const navigate = useNavigate();
 
   // const navigate = useNavigate();
-  // if (user) {
-  //   navigate('/dashboard')
-  // }
+  useEffect(()=>{
+    if (user) {
+      navigate('/dashboard')
+    }
+  },[])
 
   return (
     <>
@@ -20,7 +26,7 @@ export default function Home(props) {
               <Login setUser={() => setUser} loginRegister={loginRegister} setLoginRegister={setLoginRegister} setReceipts={setReceipts} handleLogin={handleLogin} /> 
             : 
               loginRegister === 'register' ?
-                <Register setUser={() => setUser} loginRegister={loginRegister} setLoginRegister={setLoginRegister}/>
+                <Register setUser={() => setUser} loginRegister={loginRegister} setLoginRegister={setLoginRegister} />
               : 
                 <Welcome />
             }

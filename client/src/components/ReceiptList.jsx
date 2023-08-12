@@ -1,44 +1,39 @@
 import React, { useEffect, useState } from "react";
 import ReceiptItem from "./ReceiptItem";
 import "./ReceiptList.css";
-import { getReceipts } from './helpers'
 import axios from "axios";
+import AddReceiptForm from "./AddReceiptForm";
 
 
 export default function ReceiptList(props) {
-  const { user } = props;
+  const { user, addReceiptMode, addFormToggle } = props;
   const [receipts, setReceipts] = useState([]);
-
-  // useEffect(() => {
-  //   getReceipts(user)
-  //     .then(d => {
-  //       setReceipts(d.data);
-  //     })
-  // }, [])
-
-  useEffect(() => {
-    console.log(user.id)
+  
+  const getReceipts = () => {
     axios.get('/receipts', { params: user.id })
     .then(d => {
       setReceipts(d.data);
+      console.log('receipts', d.data)
     })
     .catch(err => {
-      console.log("ERROR FROM getReceipts()", err);
+      throw new Error(err);
     });
+  }
+  useEffect(() => {
+    getReceipts();
   }, [])
 
   return (
     <section className="receipt-list-container">
+      {addReceiptMode && <AddReceiptForm user={user} addFormToggle={addFormToggle} getReceipts={getReceipts}/>}
       <ul className="receipt-list">
         {receipts? receipts.map(receipt => (
             <li key={receipt.id} className="receipt">
               <ReceiptItem
                 key={receipt.id}
                 {...receipt}
-                user
-                receipts
-                setReceipts
-                getReceipts
+                user={user}
+                getReceipts={getReceipts}
               />
             </li>
         ))

@@ -19,14 +19,9 @@ function App() {
   const [loginRegister, setLoginRegister] = useState(false);
   const [searchQuery, setSearchQuery] = useState(''); 
   const [addReceiptMode, setAddReceiptMode] = useState(false);
-
-
-  useEffect(() => {
-  }, [])
   
   const handleLogin = () => {
     setUser({email: cookies.email, id: cookies.user_id });
-    console.log('app.js',user)
   }
 
   const handleLogout = () => {
@@ -35,13 +30,45 @@ function App() {
     setUser('');
   }
 
+  const addFormToggle = () => {
+    addReceiptMode ? setAddReceiptMode(false) : setAddReceiptMode(true);
+  }
 
   return (
     <BrowserRouter>
-      <Navbar darkMode={darkMode} setLoginRegister={setLoginRegister} user={user} handleLogout={handleLogout} addReceiptMode={addReceiptMode} setAddReceiptMode={setAddReceiptMode} />
+      <Navbar 
+        darkMode={darkMode} 
+        setLoginRegister={setLoginRegister} 
+        user={user} 
+        handleLogout={handleLogout} 
+        addFormToggle={addFormToggle} 
+        setAddReceiptMode={setAddReceiptMode} 
+      />
       <Routes>
-          <Route path="/" element={<Home darkMode={darkMode} user={user} loginRegister={loginRegister} setLoginRegister={setLoginRegister} handleLogin={handleLogin} />} />
-        <Route path="/dashboard" element={<Dashboard darkMode={darkMode} user={user} handleLogout={handleLogout} cookies={cookies} setCookie={setCookie} removeCookie={removeCookie} setUser={setUser} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />} />
+        <Route path="/" element={
+          <Home 
+            darkMode={darkMode} 
+            user={user} 
+            loginRegister={loginRegister} 
+            setLoginRegister={setLoginRegister} 
+            handleLogin={handleLogin} 
+          />} 
+        />
+        <Route path="/dashboard" element={
+          <Dashboard 
+            darkMode={darkMode} 
+            user={user}
+            handleLogout={handleLogout}
+            cookies={cookies}
+            setCookie={setCookie}
+            removeCookie={removeCookie}
+            setUser={setUser} 
+            addReceiptMode={addReceiptMode}
+            addFormToggle={addFormToggle}
+            searchQuery={searchQuery} 
+            setSearchQuery={setSearchQuery} 
+          />} 
+        />
         <Route path="/about" element={<About darkMode={darkMode} />} />
       </Routes>
     </BrowserRouter>

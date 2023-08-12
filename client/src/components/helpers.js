@@ -1,19 +1,6 @@
 import axios from "axios";
 
 
-// >>>>>>>>>>>>>>>>
-// ReceiptList component helpers:
-export async function getReceipts(user) {
-  axios.get('/receipts', { params: user.id })
-  .then(d => {
-    return d.data;
-  })
-  .catch(err => {
-    console.log("ERROR FROM getReceipts()", err);
-  });
-}
-
-
 
 // >>>>>>>>>>>>>>>>>>>>
 // ReceiptItem, AddReminder component helpers:

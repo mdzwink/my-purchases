@@ -28,10 +28,10 @@ module.exports = (db) => {
   })
   
   router.post('/update', (req, res) => {
-    const { user_id, updatedImg, updatedStore, updatedDate, updatedReturn_by, updatedTotal, id } = req.body;
+    const { user_id, updatedImg, updatedStore, updatedPurchaseDate, updatedReturnByDate, updatedTotal, id } = req.body;
     db.query(
       `UPDATE receipts SET user_id = $1, img = $2, store = $3, date = $4, return_by = $5, total = $6 WHERE id = $7 RETURNING *;`, 
-      [user_id, updatedImg, updatedStore, updatedDate, updatedReturn_by, updatedTotal, id]
+      [user_id, updatedImg, updatedStore, updatedPurchaseDate, updatedReturnByDate, updatedTotal, id]
     ).then((data) => {
       return res.json(data.rows);
     }).catch(err => {

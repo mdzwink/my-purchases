@@ -5,20 +5,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 
 const UploadImages = (props) => {
-  const { user, receipt, setReceipts, updateReceipts, handleAddImgClick } = props;
+  const { user, updateReceipts, handleAddImgClick } = props;
   const user_id = user.id;
   const [img, setImg] = useState('');
   const [store, setStore] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
   const [newImgName, setNewImgName] = useState('');
-  const [newImgArr, setNewImgArr] = useState('');
+  const [newImgArr, setNewImgArr] = useState([]);
 
 
   const handleImageFormSubmit = (e) => {
     e.preventDefault();
     console.log(newImgName, '\n', newImgArr[0].name)
-        const formData = new FormData()
+    const formData = new FormData()
     formData.append()
   }
 
@@ -60,14 +60,14 @@ const UploadImages = (props) => {
             type="file"
             id="new-image"
             accept="image/png, image/jpeg"
-            onChange={e => {setNewImgName(e.target.value); setNewImgArr([...e.target.files])}}
+            // onChange={e => {setNewImgName(e.target.value); setNewImgArr([...e.target.files])}}
             className="add-input"
             multiple
             />
         </div>
         <div className="new-images-preview">
           <img src={img} alt="receipt" />
-          {newImgArr.forEach(image=>{
+          {newImgArr.map(image=>{
             <p>{image}</p>
           })}
         </div>
